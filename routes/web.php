@@ -24,4 +24,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/admin/{any?}', function () {
     return view('admin/index');
 })/*->namespace('Admin')*/->middleware(/*'can:admin'*/['auth', 'isAdmin'])
-->where('any', '.*');
+->where('any', '.*')->name('admin.dashboard');
+
+/*Route::group(['namespace' => 'Api', 'prefix' => 'api'], function() {
+    Route::resource('api_page', 'PageController');
+});*/
