@@ -13,9 +13,12 @@ Vue.use(VueRouter)
 
 Vue.config.productionTip = false
 
-// These can be imported from other files
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+//import LaravelVuePagination from 'laravel-vue-pagination';
+
+//register component
+//Vue.component('Pagination',LaravelVuePagination);
+
+
 
 const routesWithPrefix = (prefix, routes) => {
     return routes.map(route => {
@@ -38,17 +41,18 @@ const routes = [
         },
         {
             name: "pages",
-            path: '/pages',
+            path: '/page',
             component: () => import("./components/Page/Pages.vue")
+        },
+        {
+            name: 'addpage',
+            path: '/page/add',
+            component: () => import("./components/Page/EditPage.vue")
         },
         {
             name: 'editpage',
             path: '/page/edit/:id',
             component: () => import("./components/Page/EditPage.vue")
-        },
-        {
-            path: '/bar',
-            component: Bar
         }
     ])
 ]

@@ -3,8 +3,9 @@
         <section class="content-header"><div class="container-fluid"><h1>Edit Page</h1></div></section>
         <section class="content">
             <div class="container-fluid">
-                <router-link :to="{name: 'pages'}" class="btn btn-primary">&lt;&lt;&lt; Back to all pages </router-link>
-
+                <p>
+                    <router-link :to="{name: 'pages'}" class="btn btn-primary">&lt;&lt;&lt; Back to all pages </router-link>
+                </p>
                 <div class="card card-primary card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">
                         <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -52,6 +53,14 @@
                                                         <option v-for="choice in tabs" v-bind:value="choice.id">{{ choice.title_ru }}</option>
                                                     </select>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label><input type="checkbox" v-model="page.showComments"> Show comments block</label>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea v-model="page.text_ru" rows="5" cols="60"></textarea>
+                                                    <textarea v-model="page.text_en" rows="5" cols="60"></textarea>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -86,10 +95,90 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-page-blocks" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                                    Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                                    <div class="">
+                                        <div class="col-sm-6">
+                                            <div v-for="(block, index) in page.blocks" :key="index" :row="block">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>Title (ru)</label>
+                                                            <input type="text" class="form-control" v-model="block.title_ru">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>Title (en)</label>
+                                                            <input type="text" class="form-control" v-model="block.title_en">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <button @click.prevent="removeBlock(index)">Delete block</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Order Number</label>
+                                                            <input type="text" class="form-control" v-model="block.orderNumber">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Alias</label>
+                                                            <input type="text" class="form-control" v-model="block.alias">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><input type="checkbox" v-model="block.showInSidebar"> Show in sidebar</label>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea v-model="block.content_ru" rows="5" cols="60"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea v-model="block.content_en" rows="5" cols="60"></textarea>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <button @click.prevent="addBlock" class="btn btn-secondary">Add Block</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-common-sidebar-blocks" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                                    Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                                    <div class="col-sm-6">
+                                        <div v-for="(sidebarBlock, index) in page.sidebarBlocks" :key="index" :row="sidebarBlock">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        {{sidebarBlock.title_ru}}
+<!--                                                        <label>Title (ru)</label>-->
+<!--                                                        <input type="text" class="form-control" v-model="block.title_ru">-->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <button @click.prevent="removeSidebarBlock(index)">Delete block</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control" v-model="sidebarBlock">
+                                                <option v-for="block in allSidebarBlocks" v-bind:value="block.id">{{ block.title_ru }}</option>
+                                            </select>
+                                            <button @click.prevent="addSidebarBlock" class="btn btn-secondary">Add Sidebar Block</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div v-for="(v, k) in errors" :key="k">
+<!--                                    {{k}}:-->
+                                    <p v-for="error in v" :key="error" class="text-sm">
+                                        {{ error }}
+                                    </p>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
@@ -107,38 +196,80 @@
 export default {
     data() {
         return {
-            page: {},
-            tabs: []
+            page: {
+                blocks: []
+            },
+            tabs: [],
+            errors: [],
+            sidebarBlock: null,
+            allSidebarBlocks: []
         }
     },
     created() {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.get('/api/page/options').then(response => {
                     this.tabs = response.data.data.tabs;
+                    this.allSidebarBlocks = response.data.data.sidebarBlocks;
                 })
                 .catch(function (error) {
                     console.error(error);
                 });
-            axios.get(`/api/page/${this.$route.params.id}`)
-                .then(response => {
-                    this.page = response.data.data;
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
+            if (this.$route.params.id) {
+                axios.get(`/api/page/${this.$route.params.id}`)
+                    .then(response => {
+                        this.page = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            }
         })
     },
     methods: {
         updatePage() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.patch(`/api/page/${this.$route.params.id}`, this.page)
-                    .then(response => {
-                        this.$router.push({name: 'pages'});
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
+                if (this.$route.params.id) {
+                    axios.patch(`/api/page/${this.$route.params.id}`, this.page)
+                        .then(response => {
+                            $(document).Toasts('create', {
+                                class: 'bg-success',
+                                title: 'Success',
+                                subtitle: '',
+                                body: 'Page has been updated successfully.',
+                                autohide: true,
+                                delay: 3000,
+                            });
+                            this.$router.push({name: 'pages'});
+
+                        })
+                        .catch(error => {
+                            this.errors = error.response.data.errors;
+                        });
+                } else {
+                    axios.post(`/api/page`, this.page)
+                        .then(response => {
+                            $(document).Toasts('create', {
+                                class: 'bg-success',
+                                title: 'Success',
+                                subtitle: '',
+                                body: 'Page has been created successfully.',
+                                autohide: true,
+                                delay: 3000,
+                            });
+                            this.$router.push({name: 'pages'});
+                        })
+                        .catch(error => {
+                            this.errors = error.response.data.errors;
+                        });
+                }
+
             })
+        },
+        addBlock() {
+            this.page.blocks.push({});
+        },
+        removeBlock: function(index) {
+            this.page.blocks.splice(index, 1);
         }
     },
     /*beforeRouteEnter(to, from, next) {

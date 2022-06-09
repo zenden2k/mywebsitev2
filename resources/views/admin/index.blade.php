@@ -152,7 +152,7 @@
 
                         <li  class="nav-item">
 
-                            <router-link to="/admin/pages" class="nav-link">
+                            <router-link to="/admin/page" class="nav-link">
                                  <i class="far fa-fw fa-file "></i>
 
                                     <p>

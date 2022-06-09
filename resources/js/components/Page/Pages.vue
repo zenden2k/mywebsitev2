@@ -21,8 +21,8 @@
                                 <td>{{ page.id }}</td>
                                 <td>{{ page.title_ru }}</td>
                                 <td>{{ page.alias }}</td>
-                                <td>{{ page.createdAt }}</td>
-                                <td>{{ page.modifiedAt }}</td>
+                                <td>{{ page.created_at }}</td>
+                                <td>{{ page.modified_at }}</td>
                                 <td> </td>
                                 <td>
                                     <div class="btn-group" role="group">
@@ -34,7 +34,10 @@
                             </tr>
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-info" @click="this.$router.push('/page/add')">Add Page</button>
+                        <div style="margin-top: 10px">
+                             <router-link to="/admin/page/add" tag="button" class="btn btn-info">Add Page</router-link>
+                        </div>
+<!--                        <button type="button" class="btn btn-info" @click="this.$router.push('/page/add')">Add Page</button>-->
                     </div>
 
                     <div class="card-footer clearfix">
@@ -54,7 +57,11 @@
 
 <script>
 import axios from 'axios';
+//import LaravelVuePagination from 'laravel-vue-pagination';
 export default {
+    /*components: {
+        'Pagination': LaravelVuePagination
+    },*/
     data() {
         return {
             pages: []
@@ -74,10 +81,18 @@ export default {
     methods: {
         deletePage(id) {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.delete(`/api/page/delete/${id}`)
+                axios.delete(`/api/page/${id}`)
                     .then(response => {
                         let i = this.pages.map(item => item.id).indexOf(id); // find index of your object
                         this.pages.splice(i, 1)
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Success',
+                            subtitle: '',
+                            body: 'Page has been deleted.',
+                            autohide: true,
+                            delay: 3000,
+                        })
                     })
                     .catch(function (error) {
                         console.error(error);
