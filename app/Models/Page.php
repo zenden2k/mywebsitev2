@@ -70,11 +70,15 @@ class Page extends AbstractModel
         'meta_description_en',
         'open_graph_image_ru',
         'open_graph_image_en',
+        'tabId',
+        'showComments'
     ];
 
 
     protected $attributes = [
-        'showComments' => false
+        'showComments' => false,
+        'text_ru' => '',
+        'text_en' => '',
     ];
 
     public function blocks()
@@ -85,5 +89,10 @@ class Page extends AbstractModel
     public function sidebarBlocks()
     {
         return $this->belongsToMany(SidebarBlock::class, 'page_sidebarblocks', 'pageId', 'sidebarBlockId');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'pageId', 'id');
     }
 }

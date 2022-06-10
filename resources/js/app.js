@@ -1,22 +1,22 @@
 require('./bootstrap');
 require('admin-lte');
 
-/*axios.get('/api/page')
-    .then(function (response) {
-        // handle success
-        console.log(response);
-    });*/
-
 import Vue from "vue/dist/vue.js";
 import VueRouter from "vue-router";
 Vue.use(VueRouter)
+
+/*import Editor from '@tinymce/tinymce-vue'
+Vue.use(Editor);
+Vue.component('editor', Editor);*/
+import Vue2Editor from "vue2-editor";
+Vue.use(Vue2Editor);
 
 Vue.config.productionTip = false
 
 //import LaravelVuePagination from 'laravel-vue-pagination';
 
 //register component
-//Vue.component('Pagination',LaravelVuePagination);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 
 

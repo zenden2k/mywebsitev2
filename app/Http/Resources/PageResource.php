@@ -32,6 +32,7 @@ class PageResource extends JsonResource
             'showComments' => (bool) $this->showComments,
             'blocks' => $this->blocks->sortBy('id')->all(),
             'tabId' => $this->tabId,
+            'comments_count' => $this->comments_count ?? null
     ];
     }
 }

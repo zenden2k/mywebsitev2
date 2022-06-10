@@ -29,11 +29,9 @@ class PageController extends BaseController
      */
     public function index()
     {
-        $pages = PageResource::collection(Page::orderBy('id')->paginate(100));
-        //return response()->json($pages);
-
-        return $this->sendResponse(['items' => $pages], 'OK');
-
+        $pages = PageResource::collection(Page::withCount(['comments'])->orderBy('id')->paginate(10));
+        return $pages;
+        //$this->sendResponse(['pagination' => $pages], 'OK');
     }
 
     /**

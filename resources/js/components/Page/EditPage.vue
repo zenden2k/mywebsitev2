@@ -4,7 +4,7 @@
         <section class="content">
             <div class="container-fluid">
                 <p>
-                    <router-link :to="{name: 'pages'}" class="btn btn-primary">&lt;&lt;&lt; Back to all pages </router-link>
+                    <router-link :to="{name: 'pages'}" class="btn btn-primary"><i class="fa-solid fa-angles-left"></i> Back to all pages </router-link>
                 </p>
                 <div class="card card-primary card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">
@@ -58,8 +58,8 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea v-model="page.text_ru" rows="5" cols="60"></textarea>
-                                                    <textarea v-model="page.text_en" rows="5" cols="60"></textarea>
+                                                    <vue-editor v-model="page.text_ru" rows="5" cols="60"/>
+                                                    <vue-editor v-model="page.text_en" rows="5" cols="60"/>
                                                 </div>
                                         </div>
                                     </div>
@@ -227,7 +227,6 @@ export default {
     },
     methods: {
         updatePage() {
-            axios.get('/sanctum/csrf-cookie').then(response => {
                 if (this.$route.params.id) {
                     axios.patch(`/api/page/${this.$route.params.id}`, this.page)
                         .then(response => {
@@ -259,11 +258,10 @@ export default {
                             this.$router.push({name: 'pages'});
                         })
                         .catch(error => {
+                            console.error(error);
                             this.errors = error.response.data.errors;
                         });
                 }
-
-            })
         },
         addBlock() {
             this.page.blocks.push({});

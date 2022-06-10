@@ -22,7 +22,35 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+}
+const onRequest = (config) => {
+    // If http method is `post | put | delete` and XSRF-TOKEN cookie is
+    // not present, call '/sanctum/csrf-cookie' to set CSRF token, then
+    // proceed with the initial response
+    if ((
+            config.method == 'post' ||
+            config.method == 'put' ||
+            config.method == 'delete'
+            /* other methods you want to add here */
+        ) &&
+        !window.getCookie('XSRF-TOKEN')) {
+        return setCSRFToken()
+            .then(response => config);
+    }
+    return config;
+}
 
+// A function that calls '/api/csrf-cookie' to set the CSRF cookies. The
+// default is 'sanctum/csrf-cookie' but you can configure it to be anything.
+const setCSRFToken = () => {
+    return axiosInstance.get('/csrf-cookie'); // resolves to '/api/csrf-cookie'.
+}
+
+
+window.axios.interceptors.request.use(onRequest, null);
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
