@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section class="content-header"><div class="container-fluid"><h1>Pages</h1></div></section>
+        <section class="content-header"><div class="container-fluid"><h1>Comments</h1></div></section>
         <section class="content">
             <div class="container-fluid">
                 <div class="card card-info" style="width: 400px;">
@@ -21,7 +21,7 @@
                     </form>
                 </div>
                 <div class="mb-2">
-                    <router-link :to="{name: 'addpage'}" tag="button" class="btn btn-info"><i class="fa fa-plus"></i> Add Page</router-link>
+                    <router-link :to="{name: 'addcomment'}" tag="button" class="btn btn-info"><i class="fa fa-plus"></i> Add Comment</router-link>
                 </div>
                     <div class="">
                         <div class="card">
@@ -34,27 +34,29 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Alias</th>
+                                        <th>Page</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>IP</th>
+                                        <th>Text</th>
                                         <th>Created At</th>
-                                        <th>Updated At</th>
-                                        <th>Comments</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="page in pages" :key="page.id">
-                                        <td>{{ page.id }}</td>
-                                        <td>{{ page.title_ru }} <a v-bind:href="'/ru/'+page.alias" target="_blank"><i class="icon ion-android-open"></i></a></td>
-                                        <td>{{ page.alias }}</td>
-                                        <td>{{ page.created_at | formatDate }}</td>
-                                        <td>{{ page.modified_at | formatDate}}</td>
-                                        <td><div v-if="page.showComments"> <router-link :to="{name: 'comments', query: { pageId: page.id }}">{{ page.comments_count}}</router-link></div></td>
+                                    <tr v-for="item in laravelData.data" :key="item.id">
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.page.title_ru }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.email }}</td>
+                                        <td>{{ item.ip }}</td>
+                                        <td>{{ item.text | truncate(60) }}</td>
+                                        <td>{{ item.createdAt | formatDate }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <router-link :to="{name: 'editpage', params: { id: page.id }}" class="btn btn-primary">Edit</router-link>
+                                                <router-link :to="{name: 'editcomment', params: { id: item.id }}" class="btn btn-primary">Edit</router-link>
 
-                                                <button class="btn btn-danger" @click="deletePage(page.id)">Delete</button>
+                                                <button class="btn btn-danger" @click="deletePage(item.id)">Delete</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -82,9 +84,9 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            pages: [],
+            //pages: [],
             laravelData: {},
-            searchQuery: ''
+            searchQuery: ""
         }
     },
     created() {
@@ -92,9 +94,10 @@ export default {
     },
     methods: {
         getResults(page = 1) {
-            axios.get('/api/page?page=' + page + "&query=" + encodeURIComponent(this.searchQuery))
+            const pageCondition = this.$route.query.pageId ? '&pageId=' + encodeURIComponent(this.$route.query.pageId) : '';
+            axios.get('/api/comment?page=' + page + "&query=" + encodeURIComponent(this.searchQuery) + pageCondition)
                 .then(response => {
-                    this.pages = response.data.data;
+                   //this.pages = response.data.data;
                     this.laravelData = response.data;
                 })
                 .catch(function (error) {
@@ -102,10 +105,10 @@ export default {
                 });
         },
         deletePage(id) {
-            axios.delete(`/api/page/${id}`)
+            axios.delete(`/api/comment/${id}`)
                 .then(response => {
-                    let i = this.pages.map(item => item.id).indexOf(id); // find index of your object
-                    this.pages.splice(i, 1)
+                    let i = this.laravelData.data.map(item => item.id).indexOf(id); // find index of your object
+                    this.laravelData.data.splice(i, 1)
                     $(document).Toasts('create', {
                         class: 'bg-success',
                         title: 'Success',

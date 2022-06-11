@@ -27,12 +27,13 @@ class PageResource extends JsonResource
             'meta_description_en' => $this->meta_description_en,
             'open_graph_image_ru' => $this->open_graph_image_ru,
             'open_graph_image_en' => $this->open_graph_image_en,
-            'created_at' => (string) $this->createdAt,
-            'modified_at' => (string) $this->modifiedAt,
+            'created_at' => $this->createdAt,
+            'modified_at' => $this->modifiedAt,
             'showComments' => (bool) $this->showComments,
             'blocks' => $this->blocks->sortBy('id')->all(),
             'tabId' => $this->tabId,
-            'comments_count' => $this->comments_count ?? null
+            'comments_count' => $this->comments_count ?? null,
+            'sidebarBlocks' => $this->sidebarBlocks->sortBy('id')->all(),
     ];
     }
 }

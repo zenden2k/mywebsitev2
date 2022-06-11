@@ -6,6 +6,7 @@
                 <p>
                     <router-link :to="{name: 'pages'}" class="btn btn-primary"><i class="fa-solid fa-angles-left"></i> Back to all pages </router-link>
                 </p>
+
                 <div class="card card-primary card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">
                         <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -57,10 +58,13 @@
                                                     <label><input type="checkbox" v-model="page.showComments"> Show comments block</label>
 
                                                 </div>
-                                                <div class="form-group">
-                                                    <vue-editor v-model="page.text_ru" rows="5" cols="60"/>
-                                                    <vue-editor v-model="page.text_en" rows="5" cols="60"/>
-                                                </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <vue-editor v-model="page.text_ru" rows="5" cols="60"/>
+                                            <vue-editor v-model="page.text_en" rows="5" cols="60" class="mt-1"/>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +116,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <button @click.prevent="removeBlock(index)">Delete block</button>
+                                                        <button @click.prevent="removeBlock(index)" class="btn btn-secondary">Delete block</button>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -148,27 +152,22 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-common-sidebar-blocks" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                                    <div class="col-sm-6">
-                                        <div v-for="(sidebarBlock, index) in page.sidebarBlocks" :key="index" :row="sidebarBlock">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        {{sidebarBlock.title_ru}}
-<!--                                                        <label>Title (ru)</label>-->
-<!--                                                        <input type="text" class="form-control" v-model="block.title_ru">-->
-                                                    </div>
+                                    <div class="" style="width: 300px">
+                                        <div v-for="(sidebarBlock, index) in page.sidebarBlocks" :key="index" :row="sidebarBlock" style="display: flex" >
+                                            <div class="p-2">
+                                                {{sidebarBlock.title_ru}}
+                                            </div>
+
+                                                <div>
+                                                    <button @click.prevent="removeSidebarBlock(index)" class="btn btn-secondary">Delete block</button>
                                                 </div>
 
-                                                <div class="col-sm-3">
-                                                    <button @click.prevent="removeSidebarBlock(index)">Delete block</button>
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <select class="form-control" v-model="sidebarBlock">
+                                        <div class="form-group my-2">
+                                            <select class="form-control " v-model="sidebarBlock">
                                                 <option v-for="block in allSidebarBlocks" v-bind:value="block.id">{{ block.title_ru }}</option>
                                             </select>
-                                            <button @click.prevent="addSidebarBlock" class="btn btn-secondary">Add Sidebar Block</button>
+                                            <button @click.prevent="addSidebarBlock" class="btn btn-secondary my-2">Add Sidebar Block</button>
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +196,8 @@ export default {
     data() {
         return {
             page: {
-                blocks: []
+                blocks: [],
+                sidebarBlocks: [],
             },
             tabs: [],
             errors: [],
@@ -258,7 +258,6 @@ export default {
                             this.$router.push({name: 'pages'});
                         })
                         .catch(error => {
-                            console.error(error);
                             this.errors = error.response.data.errors;
                         });
                 }
@@ -268,13 +267,18 @@ export default {
         },
         removeBlock: function(index) {
             this.page.blocks.splice(index, 1);
+        },
+        addSidebarBlock() {
+            if (this.sidebarBlock) {
+                const selectedSidebarBlock = this.allSidebarBlocks.filter(el => {
+                    return el.id === this.sidebarBlock;
+                })[0];
+                this.page.sidebarBlocks.push(selectedSidebarBlock);
+            }
+        },
+        removeSidebarBlock(index) {
+            this.page.sidebarBlocks.splice(index, 1);
         }
     },
-    /*beforeRouteEnter(to, from, next) {
-        if (!window.Laravel.isLoggedin) {
-            window.location.href = "/";
-        }
-        next();
-    }*/
 }
 </script>

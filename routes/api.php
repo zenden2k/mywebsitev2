@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controllers\Api'/*, 'prefix' => 'api'*/], function() {
     Route::get('page/options', 'PageController@options');
     Route::apiResource('page', 'PageController');
+    Route::get('comment/options', 'CommentController@options');
+    Route::apiResource('comment', 'CommentController');
 });
 
 Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');

@@ -95,4 +95,18 @@ class Page extends AbstractModel
     {
         return $this->hasMany(Comment::class, 'pageId', 'id');
     }
+
+    public function saveBlocks($blocks)
+    {
+        $blockObjects = [];
+        foreach ($blocks as $block) {
+            unset($block['id']);
+            $blockObj = new PageBlock($block);
+            $blockObj->page_id = $this->id;
+            $blockObjects[] = $blockObj;
+        }
+        $this->blocks()->delete();
+        $this->blocks()->saveMany($blockObjects);
+    }
+
 }

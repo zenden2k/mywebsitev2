@@ -5,20 +5,32 @@ import Vue from "vue/dist/vue.js";
 import VueRouter from "vue-router";
 Vue.use(VueRouter)
 
-/*import Editor from '@tinymce/tinymce-vue'
-Vue.use(Editor);
-Vue.component('editor', Editor);*/
 import Vue2Editor from "vue2-editor";
 Vue.use(Vue2Editor);
 
 Vue.config.productionTip = false
 
-//import LaravelVuePagination from 'laravel-vue-pagination';
-
 //register component
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 
+Vue.filter('truncate', function (value, size) {
+    if (!value) return '';
+    value = value.toString();
+
+    if (value.length <= size) {
+        return value;
+    }
+    return value.substr(0, size) + '...';
+});
+
+import moment from 'moment'
+
+Vue.filter('formatDate', function(value) {
+    if (value) {
+        return moment(String(value)).format('MM.DD.YYYY HH:mm')
+    }
+});
 
 const routesWithPrefix = (prefix, routes) => {
     return routes.map(route => {
@@ -34,7 +46,7 @@ const routesWithPrefix = (prefix, routes) => {
 // `Vue.extend()`, or just a component options object.
 // We'll talk about nested routes later.
 const routes = [
-    ...routesWithPrefix('/admin', [
+    ...routesWithPrefix('/vt', [
         {
             path: '/',
             component: () => import("./components/Dashboard.vue")
@@ -53,6 +65,21 @@ const routes = [
             name: 'editpage',
             path: '/page/edit/:id',
             component: () => import("./components/Page/EditPage.vue")
+        },
+        {
+            name: "comments",
+            path: '/comment',
+            component: () => import("./components/Comment/Comments.vue")
+        },
+        {
+            name: 'addcomment',
+            path: '/comment/add',
+            component: () => import("./components/Comment/EditComment.vue")
+        },
+        {
+            name: 'editcomment',
+            path: '/comment/edit/:id',
+            component: () => import("./components/Comment/EditComment.vue")
         }
     ])
 ]
@@ -62,7 +89,7 @@ const routes = [
 // keep it simple for now.
 const router = new VueRouter({
     routes, // short for `routes: routes
-    prefix: "admin",
+    prefix: "vt",
     mode: 'history',// `
 })
 

@@ -10,6 +10,7 @@ use App\Models\SidebarBlock;
 use App\Models\Tab;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends BaseController
 {
@@ -27,9 +28,16 @@ class PageController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pages = PageResource::collection(Page::withCount(['comments'])->orderBy('id')->paginate(10));
+        $model = Page::withCount(['comments'])->orderBy('id');
+        $searchQuery = $request->get('query');
+        if (strlen($searchQuery)) {
+            $model->where('title_ru', "like", "%$searchQuery%");
+            $model->orWhere('alias', "like", "%$searchQuery%");
+        }
+
+        $pages = PageResource::collection($model->paginate(20));
         return $pages;
         //$this->sendResponse(['pagination' => $pages], 'OK');
     }
@@ -42,8 +50,23 @@ class PageController extends BaseController
      */
     public function store(EditPageRequest $request)
     {
-        $page = new Page($request->validated());
-        $page->save();
+        DB::transaction(function() use ($request) {
+            $page = new Page($request->validated());
+            $page->save();
+            $blocks = $request->post('blocks');
+            if ($blocks !== null) {
+                $page->saveBlocks($blocks);
+            }
+            $sidebarBlocks = $request->post('sidebarBlocks');
+            if ($sidebarBlocks !== null) {
+                $blockIds = [];
+                foreach ($sidebarBlocks as $block) {
+                    $blockIds[] = $block['id'];
+                }
+                $page->sidebarBlocks()->sync($blockIds);
+            }
+
+        });
     }
 
     /**
@@ -67,18 +90,21 @@ class PageController extends BaseController
      */
     public function update(EditPageRequest $request, Page $page)
     {
-        $page->update($request->validated());
-        $blocks = $request->post('blocks');
-        if ($blocks) {
-            $blockObjects = [];
-            foreach ($blocks as $block) {
-                unset($block['id']);
-                $blockObjects[] = new PageBlock($block);
+        DB::transaction(function() use ($page, $request) {
+            $page->update($request->validated());
+            $blocks = $request->post('blocks');
+            if ($blocks !== null) {
+                $page->saveBlocks($blocks);
             }
-            $page->blocks()->delete();
-            $page->blocks()->saveMany($blockObjects);
-        }
-
+            $sidebarBlocks = $request->post('sidebarBlocks');
+            if ($sidebarBlocks !== null) {
+                $blockIds = [];
+                foreach ($sidebarBlocks as $block) {
+                    $blockIds[] = $block['id'];
+                }
+                $page->sidebarBlocks()->sync($blockIds);
+            }
+        });
         return $this->sendResponse(true, 'success');
     }
 

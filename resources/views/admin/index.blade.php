@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{csrf_token()}}">
 
-    <title>Dashboard</title>
+    <title>Admin Panel</title>
 
-    <link rel="stylesheet" href="{{ asset('/vendor/fontawesome-free/css/all.min.css')}}">
+{{--    <link rel="stylesheet" href="{{ asset('/vendor/fontawesome-free/css/all.min.css')}}">--}}
     <link rel="stylesheet" href="{{ asset('/vendor/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
 
     <link rel="stylesheet" href="{{ asset('/vendor/adminlte/dist/css/adminlte.min.css') }}">
@@ -20,14 +20,8 @@
 
 <div id="app">
     <div class="wrapper">
-
-        <nav class="main-header navbar
-    navbar-expand
-    navbar-white navbar-light">
-
-
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <ul class="navbar-nav">
-
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"
                     >
@@ -35,7 +29,6 @@
                         <span class="sr-only">Toggle navigation</span>
                     </a>
                 </li>
-
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -79,15 +72,9 @@
                     </a>
                 </li>
 
-
-
                 <li class="nav-item dropdown user-menu">
-
-
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                <span >
-            Sergey Svistunov
-        </span>
+                        <span>Sergey Svistunov</span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -105,12 +92,8 @@
                     </ul>
 
                 </li>
-
-
             </ul>
-
         </nav>
-
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <router-link to="/admin" class="brand-link">
@@ -121,7 +104,7 @@
                      style="opacity:.8">
 
                 <span class="brand-text font-weight-light ">
-        <b>Admin</b>LTE
+        <b>Admin Panel</b>
     </span>
             </router-link>
 
@@ -151,254 +134,255 @@
                         </li>
 
                         <li  class="nav-item">
-
-                            <router-link to="/admin/page" class="nav-link">
+                            <router-link to="/vt/page" class="nav-link">
                                  <i class="far fa-fw fa-file "></i>
+                                    <p>Pages
 
-                                    <p>
-                                        Pages
-
-                                        <span class="badge badge-success right">
-                    4
-                </span>
+{{--                                        <span class="badge badge-success right">--}}
+{{--                    4--}}
+{{--                </span>--}}
                                     </p>
 
                                 </router-link>
-
                         </li>
-
-                        <li  class="nav-header ">
-
-                            ACCOUNT SETTINGS
-
-                        </li>
-
                         <li  class="nav-item">
-
-                            <a class="nav-link  "
-                               href="http://mywebsitev2.test/admin/settings"        >
-
-                                <i class="fas fa-fw fa-user "></i>
-
-                                <p>
-                                    Profile
-
-                                </p>
-
-                            </a>
-
+                            <router-link :to="{name: 'comments'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Comments</p>
+                            </router-link>
                         </li>
+{{--                        <li  class="nav-header ">--}}
 
-                        <li  class="nav-item">
+{{--                            ACCOUNT SETTINGS--}}
 
-                            <a class="nav-link  "
-                               href="http://mywebsitev2.test/admin/settings"        >
-                                <i class="fas fa-fw fa-lock "></i>
+{{--                        </li>--}}
 
-                                <p>
-                                    Change Password
+{{--                        <li  class="nav-item">--}}
 
-                                </p>
-                            </a>
-                        </li>
+{{--                            <a class="nav-link  "--}}
+{{--                               href="/vt/settings"        >--}}
 
-                        <li  class="nav-item has-treeview ">
+{{--                                <i class="fas fa-fw fa-user "></i>--}}
 
+{{--                                <p>--}}
+{{--                                    Profile--}}
 
-                            <a class="nav-link  "
-                               href="" >
+{{--                                </p>--}}
 
-                                <i class="fas fa-fw fa-share "></i>
+{{--                            </a>--}}
 
-                                <p>
-                                    Multi Level
-                                    <i class="fas fa-angle-left right"></i>
+{{--                        </li>--}}
 
-                                </p>
+{{--                        <li  class="nav-item">--}}
 
-                            </a>
+{{--                            <a class="nav-link  "--}}
+{{--                               href="/vt/settings"        >--}}
+{{--                                <i class="fas fa-fw fa-lock "></i>--}}
 
+{{--                                <p>--}}
+{{--                                    Change Password--}}
 
-                            <ul class="nav nav-treeview">
-                                <li  class="nav-item">
+{{--                                </p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
 
-                                    <a class="nav-link  "
-                                       href="#"        >
+{{--                        <li  class="nav-item has-treeview ">--}}
 
-                                        <i class="far fa-fw fa-circle "></i>
 
-                                        <p>
-                                            Level 1
+{{--                            <a class="nav-link  "--}}
+{{--                               href="" >--}}
 
-                                        </p>
+{{--                                <i class="fas fa-fw fa-share "></i>--}}
 
-                                    </a>
+{{--                                <p>--}}
+{{--                                    Multi Level--}}
+{{--                                    <i class="fas fa-angle-left right"></i>--}}
 
-                                </li>
+{{--                                </p>--}}
 
-                                <li  class="nav-item has-treeview ">
-                                    <a class="nav-link  "
-                                       href="" >
+{{--                            </a>--}}
 
-                                        <i class="far fa-fw fa-circle "></i>
 
-                                        <p>
-                                            Level 1
-                                            <i class="fas fa-angle-left right"></i>
+{{--                            <ul class="nav nav-treeview">--}}
+{{--                                <li  class="nav-item">--}}
 
-                                        </p>
+{{--                                    <a class="nav-link  "--}}
+{{--                                       href="#"        >--}}
 
-                                    </a>
+{{--                                        <i class="far fa-fw fa-circle "></i>--}}
 
+{{--                                        <p>--}}
+{{--                                            Level 1--}}
 
-                                    <ul class="nav nav-treeview">
-                                        <li  class="nav-item">
+{{--                                        </p>--}}
 
-                                            <a class="nav-link  "
-                                               href="#"        >
+{{--                                    </a>--}}
 
-                                                <i class="far fa-fw fa-circle "></i>
+{{--                                </li>--}}
 
-                                                <p>
-                                                    Level 2
+{{--                                <li  class="nav-item has-treeview ">--}}
+{{--                                    <a class="nav-link  "--}}
+{{--                                       href="" >--}}
 
-                                                </p>
+{{--                                        <i class="far fa-fw fa-circle "></i>--}}
 
-                                            </a>
+{{--                                        <p>--}}
+{{--                                            Level 1--}}
+{{--                                            <i class="fas fa-angle-left right"></i>--}}
 
-                                        </li>
+{{--                                        </p>--}}
 
-                                        <li  class="nav-item has-treeview ">
+{{--                                    </a>--}}
 
 
-                                            <a class="nav-link  "
-                                               href="" >
+{{--                                    <ul class="nav nav-treeview">--}}
+{{--                                        <li  class="nav-item">--}}
 
-                                                <i class="far fa-fw fa-circle "></i>
+{{--                                            <a class="nav-link  "--}}
+{{--                                               href="#"        >--}}
 
-                                                <p>
-                                                    Level 2
-                                                    <i class="fas fa-angle-left right"></i>
+{{--                                                <i class="far fa-fw fa-circle "></i>--}}
 
-                                                </p>
+{{--                                                <p>--}}
+{{--                                                    Level 2--}}
 
-                                            </a>
+{{--                                                </p>--}}
 
+{{--                                            </a>--}}
 
-                                            <ul class="nav nav-treeview">
-                                                <li  class="nav-item">
+{{--                                        </li>--}}
 
-                                                    <a class="nav-link  "
-                                                       href="#"        >
+{{--                                        <li  class="nav-item has-treeview ">--}}
 
-                                                        <i class="far fa-fw fa-circle "></i>
 
-                                                        <p>
-                                                            Level 3
+{{--                                            <a class="nav-link  "--}}
+{{--                                               href="" >--}}
 
-                                                        </p>
+{{--                                                <i class="far fa-fw fa-circle "></i>--}}
 
-                                                    </a>
+{{--                                                <p>--}}
+{{--                                                    Level 2--}}
+{{--                                                    <i class="fas fa-angle-left right"></i>--}}
 
-                                                </li>
+{{--                                                </p>--}}
 
-                                                <li  class="nav-item">
+{{--                                            </a>--}}
 
-                                                    <a class="nav-link  "
-                                                       href="#"        >
 
-                                                        <i class="far fa-fw fa-circle "></i>
+{{--                                            <ul class="nav nav-treeview">--}}
+{{--                                                <li  class="nav-item">--}}
 
-                                                        <p>
-                                                            Level 3
+{{--                                                    <a class="nav-link  "--}}
+{{--                                                       href="#"        >--}}
 
-                                                        </p>
+{{--                                                        <i class="far fa-fw fa-circle "></i>--}}
 
-                                                    </a>
+{{--                                                        <p>--}}
+{{--                                                            Level 3--}}
 
-                                                </li>
+{{--                                                        </p>--}}
 
-                                            </ul>
+{{--                                                    </a>--}}
 
-                                        </li>
+{{--                                                </li>--}}
 
-                                    </ul>
+{{--                                                <li  class="nav-item">--}}
 
-                                </li>
+{{--                                                    <a class="nav-link  "--}}
+{{--                                                       href="#"        >--}}
 
-                                <li  class="nav-item">
+{{--                                                        <i class="far fa-fw fa-circle "></i>--}}
 
-                                    <a class="nav-link  "
-                                       href="#"        >
+{{--                                                        <p>--}}
+{{--                                                            Level 3--}}
 
-                                        <i class="far fa-fw fa-circle "></i>
+{{--                                                        </p>--}}
 
-                                        <p>
-                                            Level 1
+{{--                                                    </a>--}}
 
-                                        </p>
+{{--                                                </li>--}}
 
-                                    </a>
+{{--                                            </ul>--}}
 
-                                </li>
+{{--                                        </li>--}}
 
-                            </ul>
+{{--                                    </ul>--}}
 
-                        </li>
+{{--                                </li>--}}
 
-                        <li  class="nav-header ">
+{{--                                <li  class="nav-item">--}}
 
-                            LABELS
+{{--                                    <a class="nav-link  "--}}
+{{--                                       href="#"        >--}}
 
-                        </li>
+{{--                                        <i class="far fa-fw fa-circle "></i>--}}
 
-                        <li  class="nav-item">
+{{--                                        <p>--}}
+{{--                                            Level 1--}}
 
-                            <a class="nav-link  "
-                               href="#"        >
+{{--                                        </p>--}}
 
-                                <i class="far fa-fw fa-circle text-red"></i>
+{{--                                    </a>--}}
 
-                                <p>
-                                    Important
+{{--                                </li>--}}
 
-                                </p>
+{{--                            </ul>--}}
 
-                            </a>
+{{--                        </li>--}}
 
-                        </li>
+{{--                        <li  class="nav-header ">--}}
 
-                        <li  class="nav-item">
+{{--                            LABELS--}}
 
-                            <a class="nav-link  "
-                               href="#"        >
+{{--                        </li>--}}
 
-                                <i class="far fa-fw fa-circle text-yellow"></i>
+{{--                        <li  class="nav-item">--}}
 
-                                <p>
-                                    Warning
+{{--                            <a class="nav-link  "--}}
+{{--                               href="#"        >--}}
 
-                                </p>
+{{--                                <i class="far fa-fw fa-circle text-red"></i>--}}
 
-                            </a>
+{{--                                <p>--}}
+{{--                                    Important--}}
 
-                        </li>
+{{--                                </p>--}}
 
-                        <li  class="nav-item">
+{{--                            </a>--}}
 
-                            <a class="nav-link  "
-                               href="#"        >
+{{--                        </li>--}}
 
-                                <i class="far fa-fw fa-circle text-cyan"></i>
+{{--                        <li  class="nav-item">--}}
 
-                                <p>
-                                    Information
+{{--                            <a class="nav-link  "--}}
+{{--                               href="#"        >--}}
 
-                                </p>
+{{--                                <i class="far fa-fw fa-circle text-yellow"></i>--}}
 
-                            </a>
+{{--                                <p>--}}
+{{--                                    Warning--}}
 
-                        </li>
+{{--                                </p>--}}
+
+{{--                            </a>--}}
+
+{{--                        </li>--}}
+
+{{--                        <li  class="nav-item">--}}
+
+{{--                            <a class="nav-link  "--}}
+{{--                               href="#"        >--}}
+
+{{--                                <i class="far fa-fw fa-circle text-cyan"></i>--}}
+
+{{--                                <p>--}}
+{{--                                    Information--}}
+
+{{--                                </p>--}}
+
+{{--                            </a>--}}
+
+{{--                        </li>--}}
 
                     </ul>
                 </nav>
@@ -407,29 +391,14 @@
         </aside>
 
         <div class="content-wrapper ">
-
             <router-view></router-view>
-{{--            <div class="content-header">--}}
-{{--                <div class="container-fluid">--}}
-{{--                    <h1>Dashboard</h1>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-
-{{--            <div class="content">--}}
-{{--                <div class="container-fluid">--}}
-{{--                    <p>Welcome to this beautiful admin panel.</p>--}}
-{{--                    --}}
-{{--                </div>--}}
-{{--            </div>--}}
-
         </div>
     </div>
 </div>
-<script src="{{ asset('/vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<script src="{{ asset('/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+{{--<script src="{{ asset('/vendor/jquery/jquery.min.js') }}"></script>--}}
+{{--<script src="{{ asset('/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>--}}
+{{--<script src="{{ asset('/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>--}}
+{{--<script src="{{ asset('/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>--}}
 
 <script src="{{ asset('js/app.js') }}" defer></script>
 

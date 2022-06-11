@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //die(phpinfo());
     return view('welcome');
 });
 
@@ -22,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/{any?}', function () {
+Route::get('/vt/{any?}', function () {
     return view('admin/index');
 })/*->namespace('Admin')*/->middleware(/*'can:admin'*/['auth', 'isAdmin'])
 ->where('any', '.*')->name('admin.dashboard');
