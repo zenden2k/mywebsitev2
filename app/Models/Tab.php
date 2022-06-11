@@ -30,4 +30,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tab extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+    protected $fillable = [
+        'title_ru',
+        'title_en',
+        'url',
+        'orderNumber',
+        'alias',
+        'active'
+    ];
+
 }

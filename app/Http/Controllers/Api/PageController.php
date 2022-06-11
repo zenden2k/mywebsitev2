@@ -37,9 +37,8 @@ class PageController extends BaseController
             $model->orWhere('alias', "like", "%$searchQuery%");
         }
 
-        $pages = PageResource::collection($model->paginate(20));
+        $pages = PageResource::collection($model->paginate(config('app.pagesize', 20)));
         return $pages;
-        //$this->sendResponse(['pagination' => $pages], 'OK');
     }
 
     /**

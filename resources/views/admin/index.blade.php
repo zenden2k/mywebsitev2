@@ -96,7 +96,7 @@
         </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <router-link to="/admin" class="brand-link">
+            <router-link to="/vt" class="brand-link">
 
                 <img src="/vendor/adminlte/dist/img/AdminLTELogo.png"
                      alt="AdminLTE"
@@ -149,6 +149,20 @@
                             <router-link :to="{name: 'comments'}" class="nav-link">
                                 <i class="far fa-fw fa-file "></i>
                                 <p>Comments</p>
+                            </router-link>
+                        </li>
+
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'tabs'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Tabs</p>
+                            </router-link>
+                        </li>
+
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'sidebarblocks'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Sidebar Blocks</p>
                             </router-link>
                         </li>
 {{--                        <li  class="nav-header ">--}}

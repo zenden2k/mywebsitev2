@@ -29,4 +29,14 @@ class SidebarBlock extends Model
 {
     use HasFactory;
     protected $table = 'sidebarblocks';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'title_ru',
+        'title_en',
+        'content_ru',
+        'content_en',
+        'alias',
+    ];
 }

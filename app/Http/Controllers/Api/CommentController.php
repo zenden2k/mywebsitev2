@@ -36,7 +36,7 @@ class CommentController extends BaseController
             $model->where('pageId', '=', $pageId);
         }
 
-        return CommentResource::collection($model->paginate(20));
+        return CommentResource::collection($model->paginate(config('app.pagesize', 20)));
     }
 
     /**
@@ -49,6 +49,9 @@ class CommentController extends BaseController
     {
         $page = new Comment($request->validated());
         $page->save();
+        return $this->sendResponse([
+            'item' => $page,
+        ], 'OK');
     }
 
     /**
@@ -72,7 +75,7 @@ class CommentController extends BaseController
      */
     public function update(EditCommentRequest $request, Comment $comment)
     {
-        $vals =$request->validated();
+        $vals = $request->validated();
         $comment->update($vals);
         return $this->sendResponse(true, 'success');
     }

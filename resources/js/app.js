@@ -80,6 +80,36 @@ const routes = [
             name: 'editcomment',
             path: '/comment/edit/:id',
             component: () => import("./components/Comment/EditComment.vue")
+        },
+        {
+            name: "tabs",
+            path: '/tab',
+            component: () => import("./components/Tab/Tabs.vue")
+        },
+        {
+            name: 'addtab',
+            path: '/tab/add',
+            component: () => import("./components/Tab/EditTab.vue")
+        },
+        {
+            name: 'edittab',
+            path: '/tab/edit/:id',
+            component: () => import("./components/Tab/EditTab.vue")
+        },
+        {
+            name: "sidebarblocks",
+            path: '/sidebarblock',
+            component: () => import("./components/SidebarBlock/SidebarBlocks.vue")
+        },
+        {
+            name: 'addsidebarblock',
+            path: '/sidebarblock/add',
+            component: () => import("./components/SidebarBlock/EditSidebarBlock.vue")
+        },
+        {
+            name: 'editsidebarblock',
+            path: '/sidebarblock/edit/:id',
+            component: () => import("./components/SidebarBlock/EditSidebarBlock.vue")
         }
     ])
 ]

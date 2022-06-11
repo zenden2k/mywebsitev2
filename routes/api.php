@@ -23,6 +23,10 @@ Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controlle
     Route::apiResource('page', 'PageController');
     Route::get('comment/options', 'CommentController@options');
     Route::apiResource('comment', 'CommentController');
+    Route::get('tab/options', 'TabController@options');
+    Route::apiResource('tab', 'TabController');
+    Route::get('sidebarblock/options', 'SidebarBlockController@options');
+    Route::apiResource('sidebarblock', 'SidebarBlockController');
 });
 
 Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');

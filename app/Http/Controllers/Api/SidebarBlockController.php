@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\EditSidebarBlockRequest;
 use App\Http\Requests\EditTabRequest;
+use App\Models\SidebarBlock;
 use App\Models\Tab;
 use Illuminate\Http\Request;
 
-class TabController extends BaseController
+class SidebarBlockController extends BaseController
 {
     public function options()
     {
@@ -20,12 +22,12 @@ class TabController extends BaseController
      */
     public function index(Request $request)
     {
-        $tabs = Tab::orderBy('id', 'asc');
+        $items = SidebarBlock::orderBy('id', 'asc');
         $searchQuery = $request->get('query');
         if (strlen($searchQuery)) {
-            $tabs->where('title_ru', "like", "%$searchQuery%");
+            $items->where('title_ru', "like", "%$searchQuery%");
         }
-        return $tabs->paginate(config('app.pagesize', 20));
+        return $items->paginate(config('app.pagesize', 20));
     }
 
     /**
@@ -34,9 +36,9 @@ class TabController extends BaseController
      * @param EditTabRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(EditTabRequest $request)
+    public function store(EditSidebarBlockRequest $request)
     {
-        $tab = new Tab($request->validated());
+        $tab = new SidebarBlock($request->validated());
         $tab->save();
         return $this->sendResponse([
             'item' => $tab,
@@ -46,36 +48,36 @@ class TabController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param SidebarBlock $sidebarblock
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Tab $tab)
+    public function show(SidebarBlock $sidebarblock)
     {
-        return $this->sendResponse($tab, 'success');
+        return $this->sendResponse($sidebarblock, 'success');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\EditTabRequest $request
-     * @param \App\Models\Tab $tab
+     * @param EditSidebarBlockRequest $request
+     * @param SidebarBlock $sidebarblock
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(EditTabRequest $request, Tab $tab)
+    public function update(EditSidebarBlockRequest $request, SidebarBlock $sidebarblock)
     {
-        $tab->update($request->validated());
+        $sidebarblock->update($request->validated());
         return $this->sendResponse(true, 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Tab $tab
+     * @param \App\Models\Tab $sidebarblock
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Tab $tab)
+    public function destroy(SidebarBlock $sidebarblock)
     {
-        $tab->delete();
+        $sidebarblock->delete();
         return $this->sendResponse(true, 'success');
     }
 }
