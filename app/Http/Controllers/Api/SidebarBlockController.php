@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\EditSidebarBlockRequest;
 use App\Http\Requests\EditTabRequest;
 use App\Models\SidebarBlock;
-use App\Models\Tab;
 use Illuminate\Http\Request;
 
 class SidebarBlockController extends BaseController
@@ -18,7 +17,7 @@ class SidebarBlockController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -27,7 +26,7 @@ class SidebarBlockController extends BaseController
         if (strlen($searchQuery)) {
             $items->where('title_ru', "like", "%$searchQuery%");
         }
-        return $items->paginate(config('app.pagesize', 20));
+        return $this->sendResponse($items->paginate(config('app.pagesize', 20)), 'OK');
     }
 
     /**

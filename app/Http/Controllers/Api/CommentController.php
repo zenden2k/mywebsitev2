@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\EditCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
@@ -11,6 +12,9 @@ use Illuminate\Http\Request;
 
 class CommentController extends BaseController
 {
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function options()
     {
         $pages = Page::orderBy('title_ru')->get();
@@ -36,14 +40,16 @@ class CommentController extends BaseController
             $model->where('pageId', '=', $pageId);
         }
 
-        return CommentResource::collection($model->paginate(config('app.pagesize', 20)));
+        $data = ArrayHelper::prepareCollectionPagination(CommentResource::collection($model->paginate(20)));
+
+        return $this->sendResponse($data, 'success');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param EditCommentRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(EditCommentRequest $request)
     {

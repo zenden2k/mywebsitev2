@@ -56,7 +56,7 @@
                                             <div class="btn-group" role="group">
                                                 <router-link :to="{name: 'editcomment', params: { id: item.id }}" class="btn btn-primary">Edit</router-link>
 
-                                                <button class="btn btn-danger" @click="deletePage(item.id)">Delete</button>
+                                                <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -97,14 +97,13 @@ export default {
             const pageCondition = this.$route.query.pageId ? '&pageId=' + encodeURIComponent(this.$route.query.pageId) : '';
             axios.get('/api/comment?page=' + page + "&query=" + encodeURIComponent(this.searchQuery) + pageCondition)
                 .then(response => {
-                   //this.pages = response.data.data;
-                    this.laravelData = response.data;
+                    this.laravelData = response.data.data;
                 })
                 .catch(function (error) {
                     console.error(error);
                 });
         },
-        deletePage(id) {
+        deleteItem(id) {
             axios.delete(`/api/comment/${id}`)
                 .then(response => {
                     let i = this.laravelData.data.map(item => item.id).indexOf(id); // find index of your object

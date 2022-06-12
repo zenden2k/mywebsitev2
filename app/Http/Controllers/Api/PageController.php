@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\EditPageRequest;
 use App\Http\Resources\PageResource;
 use App\Models\Page;
@@ -37,8 +38,7 @@ class PageController extends BaseController
             $model->orWhere('alias', "like", "%$searchQuery%");
         }
 
-        $pages = PageResource::collection($model->paginate(config('app.pagesize', 20)));
-        return $pages;
+        return $this->sendResponse($model->paginate(config('app.pagesize', 20)), 'success');
     }
 
     /**

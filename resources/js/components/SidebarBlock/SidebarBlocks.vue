@@ -90,7 +90,7 @@ export default {
             axios.get('/api/sidebarblock?page=' + page + "&query=" + encodeURIComponent(this.searchQuery) + pageCondition)
                 .then(response => {
                    //this.pages = response.data.data;
-                    this.laravelData = response.data;
+                    this.laravelData = response.data.data;
                 })
                 .catch(function (error) {
                     console.error(error);

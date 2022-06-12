@@ -58,6 +58,7 @@ class Page extends AbstractModel
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'modifiedAt';
+
     protected $fillable = [
         'title_ru',
         'title_en',

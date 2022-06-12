@@ -43,12 +43,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="page in pages" :key="page.id">
+                                    <tr v-for="page in laravelData.data" :key="page.id">
                                         <td>{{ page.id }}</td>
                                         <td>{{ page.title_ru }} <a v-bind:href="'/ru/'+page.alias" target="_blank"><i class="icon ion-android-open"></i></a></td>
                                         <td>{{ page.alias }}</td>
-                                        <td>{{ page.created_at | formatDate }}</td>
-                                        <td>{{ page.modified_at | formatDate}}</td>
+                                        <td>{{ page.createdAt | formatDate }}</td>
+                                        <td>{{ page.modifiedAt | formatDate}}</td>
                                         <td><div v-if="page.showComments"> <router-link :to="{name: 'comments', query: { pageId: page.id }}">{{ page.comments_count}}</router-link></div></td>
                                         <td>
                                             <div class="btn-group" role="group">
@@ -94,8 +94,8 @@ export default {
         getResults(page = 1) {
             axios.get('/api/page?page=' + page + "&query=" + encodeURIComponent(this.searchQuery))
                 .then(response => {
-                    this.pages = response.data.data;
-                    this.laravelData = response.data;
+                    //this.pages = response.data.data;
+                    this.laravelData = response.data.data;
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -104,8 +104,8 @@ export default {
         deletePage(id) {
             axios.delete(`/api/page/${id}`)
                 .then(response => {
-                    let i = this.pages.map(item => item.id).indexOf(id); // find index of your object
-                    this.pages.splice(i, 1)
+                    let i = this.laravelData.data.map(item => item.id).indexOf(id); // find index of your object
+                    this.laravelData.data.splice(i, 1)
                     $(document).Toasts('create', {
                         class: 'bg-success',
                         title: 'Success',

@@ -28,7 +28,7 @@ import moment from 'moment'
 
 Vue.filter('formatDate', function(value) {
     if (value) {
-        return moment(String(value)).format('MM.DD.YYYY HH:mm')
+        return moment(String(value)).format('DD.MM.YYYY HH:mm')
     }
 });
 
@@ -120,7 +120,14 @@ const routes = [
 const router = new VueRouter({
     routes, // short for `routes: routes
     prefix: "vt",
-    mode: 'history',// `
+    mode: 'history',
+    scrollBehavior (to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { x: 0, y: 0 }
+        }
+    }
 })
 
 const app = new Vue({

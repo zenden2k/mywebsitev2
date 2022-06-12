@@ -13,10 +13,11 @@ class TabController extends BaseController
         return $this->sendResponse([
         ], 'OK');
     }
+    
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -25,7 +26,7 @@ class TabController extends BaseController
         if (strlen($searchQuery)) {
             $tabs->where('title_ru', "like", "%$searchQuery%");
         }
-        return $tabs->paginate(config('app.pagesize', 20));
+        return $this->sendResponse($tabs->paginate(config('app.pagesize', 20)), 'success');
     }
 
     /**
