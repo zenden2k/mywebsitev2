@@ -165,6 +165,18 @@
                                 <p>Sidebar Blocks</p>
                             </router-link>
                         </li>
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'menuitems'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Menu Items</p>
+                            </router-link>
+                        </li>
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'blogcategories'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Blog Categories</p>
+                            </router-link>
+                        </li>
 {{--                        <li  class="nav-header ">--}}
 
 {{--                            ACCOUNT SETTINGS--}}

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section class="content-header"><div class="container-fluid"><h1>Comments</h1></div></section>
+        <section class="content-header"><div class="container-fluid"><h1>Blog Categories</h1></div></section>
         <section class="content">
             <div class="container-fluid">
                 <div class="card card-info" style="width: 400px;">
@@ -21,7 +21,7 @@
                     </form>
                 </div>
                 <div class="mb-2">
-                    <router-link :to="{name: 'addcomment'}" tag="button" class="btn btn-info"><i class="fa fa-plus"></i> Add Comment</router-link>
+                    <router-link :to="{name: 'addblogcategory'}" tag="button" class="btn btn-info"><i class="fa fa-plus"></i> Add Blog Category</router-link>
                 </div>
                     <div class="">
                         <div class="card">
@@ -34,27 +34,25 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Page</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>IP</th>
-                                        <th>Text</th>
-                                        <th>Created At</th>
+                                        <th>Title (ru)</th>
+                                        <th>Title (en) </th>
+                                        <th>Alias</th>
+                                        <th>URL</th>
+                                        <th>Active</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="item in laravelData.data" :key="item.id">
                                         <td>{{ item.id }}</td>
-                                        <td>{{ item.page.title_ru }}</td>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.email }}</td>
-                                        <td>{{ item.ip }}</td>
-                                        <td>{{ item.text | truncate(60) }}</td>
-                                        <td>{{ item.createdAt | formatDate }}</td>
+                                        <td>{{ item.title_ru }}</td>
+                                        <td>{{ item.title_en }}</td>
+                                        <td>{{ item.alias }}</td>
+                                        <td><a :href="'/blog/category/'+ item.alias" target="_blank">View posts on site</a></td>
+                                        <td><span :class="item.active ? 'badge bg-success' : 'badge bg-danger'"><span v-if="item.active">Active</span><span v-else>Inactive</span></span></td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <router-link :to="{name: 'editcomment', params: { id: item.id }}" class="btn btn-primary">Edit</router-link>
+                                                <router-link :to="{name: 'editblogcategory', params: { id: item.id }}" class="btn btn-primary">Edit</router-link>
 
                                                 <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
                                             </div>
@@ -84,7 +82,6 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            //pages: [],
             laravelData: {},
             searchQuery: ""
         }
@@ -95,7 +92,7 @@ export default {
     methods: {
         getResults(page = 1) {
             const pageCondition = this.$route.query.pageId ? '&pageId=' + encodeURIComponent(this.$route.query.pageId) : '';
-            axios.get('/api/comment?page=' + page + "&query=" + encodeURIComponent(this.searchQuery) + pageCondition)
+            axios.get('/api/blogcategory?page=' + page + "&query=" + encodeURIComponent(this.searchQuery) + pageCondition)
                 .then(response => {
                     this.laravelData = response.data.data;
                 })
@@ -104,7 +101,7 @@ export default {
                 });
         },
         deleteItem(id) {
-            axios.delete(`/api/comment/${id}`)
+            axios.delete(`/api/blogcategory/${id}`)
                 .then(response => {
                     let i = this.laravelData.data.map(item => item.id).indexOf(id); // find index of your object
                     this.laravelData.data.splice(i, 1)
@@ -112,7 +109,7 @@ export default {
                         class: 'bg-success',
                         title: 'Success',
                         subtitle: '',
-                        body: 'Comment has been deleted.',
+                        body: 'Blog category item has been deleted.',
                         autohide: true,
                         delay: 3000,
                     })

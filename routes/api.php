@@ -27,6 +27,9 @@ Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controlle
     Route::apiResource('tab', 'TabController');
     Route::get('sidebarblock/options', 'SidebarBlockController@options');
     Route::apiResource('sidebarblock', 'SidebarBlockController');
+    Route::get('menuitem/options', 'MenuItemController@options');
+    Route::apiResource('menuitem', 'MenuItemController');
+    Route::apiResource('blogcategory', 'BlogCategoryController');
 });
 
 Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
