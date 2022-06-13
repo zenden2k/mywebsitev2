@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\EditMenuItemRequest;
-use App\Models\MenuItem;
-use App\Models\Page;
-use App\Models\Tab;
+use App\Http\Requests\EditBlogPostRequest;
+use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 
-class MenuItemController extends BaseController
+class BlogPostController extends BaseController
 {
     /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function options()
     {
-        $pages = Page::orderBy('title_ru')->get();
-        $tabs = Tab::orderBy('title_ru')->get();
+        $categories = BlogCategory::orderBy('title_ru')->get();
         return $this->sendResponse([
-            'pages' => $pages,
-            'tabs' => $tabs
+            'categories' => $categories,
         ], 'OK');
     }
     /**
@@ -30,69 +27,70 @@ class MenuItemController extends BaseController
      */
     public function index(Request $request)
     {
-        $model = MenuItem::with(['targetPage'])->orderBy('id');
+        $model = BlogPost::withCount(['comments'])->with(['category'])->orderBy('id',);
         $searchQuery = $request->get('query');
         if (strlen($searchQuery)) {
             $model->where('title_ru', "like", "%$searchQuery%");
         }
-        /*$pageId = (int)$request->get('pageId');
+        $pageId = (int)$request->get('pageId');
         if ($pageId) {
             $model->where('pageId', '=', $pageId);
-        }*/
+        }
 
-        return $this->sendResponse($model->paginate(config('app.pagesize', 20)), 'success');
+        $data = $model->paginate(20);
+
+        return $this->sendResponse($data, 'success');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param EditMenuItemRequest $request
+     * @param EditBlogPostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(EditMenuItemRequest $request)
+    public function store(EditBlogPostRequest $request)
     {
-        $page = new MenuItem($request->validated());
-        $page->save();
+        $blogPost = new BlogPost($request->validated());
+        $blogPost->save();
         return $this->sendResponse([
-            'item' => $page,
+            'item' => $blogPost,
         ], 'OK');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $menuitemId
+     * @param int $postId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($menuitemId)
+    public function show($postId)
     {
-        $page = MenuItem::with(['targetPage'])->findOrFail($menuitemId);
-        return $this->sendResponse($page, '');
+        $blogPost = BlogPost::findOrFail($postId);
+        return $this->sendResponse($blogPost, '');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param EditMenuItemRequest $request
-     * @param MenuItem $menuitem
+     * @param EditBlogPostRequest $request
+     * @param BlogPost $blogpost
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(EditMenuItemRequest $request, MenuItem $menuitem)
+    public function update(EditBlogPostRequest $request, BlogPost $blogpost)
     {
-        $vals = $request->validated();
-        $menuitem->update($vals);
+        $blogpost->update($request->validated());
         return $this->sendResponse(true, 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param MenuItem $menuitem
+     * @param BlogPost $blogpost
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(MenuItem $menuitem)
+    public function destroy(BlogPost $blogpost)
     {
-        $menuitem->delete();
+        $blogpost->delete();
         return $this->sendResponse(true, 'success');
     }
 }

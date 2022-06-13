@@ -177,6 +177,19 @@
                                 <p>Blog Categories</p>
                             </router-link>
                         </li>
+
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'blogposts'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Blog Posts</p>
+                            </router-link>
+                        </li>
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'blogcomments'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Blog Comments</p>
+                            </router-link>
+                        </li>
 {{--                        <li  class="nav-header ">--}}
 
 {{--                            ACCOUNT SETTINGS--}}

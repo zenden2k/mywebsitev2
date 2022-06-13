@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\ArrayHelper;
-use App\Http\Requests\EditCommentRequest;
-use App\Http\Resources\CommentResource;
-use App\Models\Comment;
-use App\Models\Page;
+use App\Http\Requests\EditBlogCommentRequest;
+use App\Http\Resources\BlogCommentResource;
+use App\Models\BlogComment;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 
-class CommentController extends BaseController
+class BlogCommentController extends BaseController
 {
     /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function options()
     {
-        $pages = Page::orderBy('title_ru')->get();
+        $posts = BlogPost::orderBy('title_ru')->get();
         return $this->sendResponse([
-            'pages' => $pages,
+            'posts' => $posts,
         ], 'OK');
     }
     /**
@@ -29,18 +29,18 @@ class CommentController extends BaseController
      */
     public function index(Request $request)
     {
-        $model = Comment::with(['page'])->orderBy('id', 'desc');
+        $model = BlogComment::with(['post'])->orderBy('id', 'desc');
         $searchQuery = $request->get('query');
         if (strlen($searchQuery)) {
             $model->where('text', "like", "%$searchQuery%");
             $model->orWhere('name', "like", "%$searchQuery%");
         }
-        $pageId = (int)$request->get('pageId');
-        if ($pageId) {
-            $model->where('pageId', '=', $pageId);
+        $postId = (int)$request->get('post_id');
+        if ($postId) {
+            $model->where('blog_post_id', '=', $postId);
         }
 
-        $data = ArrayHelper::prepareCollectionPagination(CommentResource::collection($model->paginate(20)));
+        $data = ArrayHelper::prepareCollectionPagination(BlogCommentResource::collection($model->paginate(20)));
 
         return $this->sendResponse($data, 'success');
     }
@@ -48,16 +48,16 @@ class CommentController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param EditCommentRequest $request
+     * @param EditBlogCommentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(EditCommentRequest $request)
+    public function store(EditBlogCommentRequest $request)
     {
-        $page = new Comment($request->validated());
-        $page->ip = ip2long($request->ip());
-        $page->save();
+        $blogComment = new BlogComment($request->validated());
+        $blogComment->ip = ip2long($request->ip());
+        $blogComment->save();
         return $this->sendResponse([
-            'item' => $page,
+            'item' => $blogComment,
         ], 'OK');
     }
 
@@ -69,33 +69,32 @@ class CommentController extends BaseController
      */
     public function show($commentId)
     {
-        $page = Comment::with(['page'])->findOrFail($commentId);
+        $page = BlogComment::with(['post'])->findOrFail($commentId);
         return $this->sendResponse($page, '');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param EditCommentRequest $request
-     * @param Comment $comment
+     * @param EditBlogCommentRequest $request
+     * @param BlogComment $blogcomment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(EditCommentRequest $request, Comment $comment)
+    public function update(EditBlogCommentRequest $request, BlogComment $blogcomment)
     {
-        $vals = $request->validated();
-        $comment->update($vals);
+        $blogcomment->update($request->validated());
         return $this->sendResponse(true, 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Comment $comment
+     * @param BlogComment $blogcomment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Comment $comment)
+    public function destroy(BlogComment $blogcomment)
     {
-        $comment->delete();
+        $blogcomment->delete();
         return $this->sendResponse(true, 'success');
     }
 }

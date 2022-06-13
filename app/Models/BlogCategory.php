@@ -17,5 +17,4 @@ class BlogCategory extends Model
         'alias',
         'active'
     ];
-
 }

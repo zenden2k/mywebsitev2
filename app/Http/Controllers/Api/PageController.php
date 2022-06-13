@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\ArrayHelper;
 use App\Http\Requests\EditPageRequest;
 use App\Http\Resources\PageResource;
 use App\Models\Page;
-use App\Models\PageBlock;
 use App\Models\SidebarBlock;
 use App\Models\Tab;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

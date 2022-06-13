@@ -30,6 +30,10 @@ Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controlle
     Route::get('menuitem/options', 'MenuItemController@options');
     Route::apiResource('menuitem', 'MenuItemController');
     Route::apiResource('blogcategory', 'BlogCategoryController');
+    Route::get('blogpost/options', 'BlogPostController@options');
+    Route::apiResource('blogpost', 'BlogPostController');
+    Route::get('blogcomment/options', 'BlogCommentController@options');
+    Route::apiResource('blogcomment', 'BlogCommentController');
 });
 
 Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');

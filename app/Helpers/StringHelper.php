@@ -12,7 +12,7 @@ class StringHelper
      */
     public static function ipToString($ip)
     {
-        if ( $ip === null) {
+        if (!$ip) {
             return '';
         }
         $long = 4294967295 - ($ip - 1);

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditCommentRequest extends FormRequest
+class EditBlogCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class EditCommentRequest extends FormRequest
             'name' => 'required|max:255',
             'text' => 'required|string',
             'answer' => 'nullable',
-            'pageId' => 'required|exists:\App\Models\Page,id'
+            'blog_post_id' => 'required|exists:\App\Models\BlogPost,id'
         ];
     }
 }

@@ -109,6 +109,36 @@ const routes = [
             path: '/blogcategory/edit/:id',
             component: () => import("../components/BlogCategory/EditBlogCategory.vue")
         },
+        {
+            name: "blogposts",
+            path: '/blogpost',
+            component: () => import("../components/BlogPost/BlogPosts.vue")
+        },
+        {
+            name: 'addblogpost',
+            path: '/blogpost/add',
+            component: () => import("../components/BlogPost/EditBlogPost.vue")
+        },
+        {
+            name: 'editblogpost',
+            path: '/blogpost/edit/:id',
+            component: () => import("../components/BlogPost/EditBlogPost.vue")
+        },
+        {
+            name: "blogcomments",
+            path: '/blogcomment',
+            component: () => import("../components/BlogComment/BlogComments.vue")
+        },
+        {
+            name: 'addblogcomment',
+            path: '/blogcomment/add',
+            component: () => import("../components/BlogComment/EditBlogComment.vue")
+        },
+        {
+            name: 'editblogcomment',
+            path: '/blogcomment/edit/:id',
+            component: () => import("../components/BlogComment/EditBlogComment.vue")
+        },
     ])
 ]
 
