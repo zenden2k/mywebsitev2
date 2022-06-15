@@ -36,6 +36,6 @@ Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controlle
     Route::apiResource('blogcomment', 'BlogCommentController');
 });
 
-Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
+//Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
 Route::post('login', 'App\Http\Controllers\Api\RegisterController@login');
 Route::post('logout', 'App\Http\Controllers\Api\RegisterController@logout')->middleware('auth:sanctum');
