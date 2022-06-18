@@ -51,19 +51,87 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label>Foreword (ru)</label>
-                                            <vue-editor v-model="post.foreword_ru" />
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="post.foreword_ru"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
+<!--                                            <vue-editor v-model="post.foreword_ru" />-->
                                         </div>
                                         <div class="form-group">
                                             <label>Foreword (en)</label>
-                                            <vue-editor v-model="post.foreword_en" class="mt-1"/>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="post.foreword_en"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
+<!--                                            <vue-editor v-model="post.foreword_en" class="mt-1"/>-->
                                         </div>
                                         <div class="form-group">
                                             <label>Content (ru)</label>
-                                            <vue-editor v-model="post.content_ru" />
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="post.content_ru"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help'
+       }"
+                                            />
+<!--                                            <vue-editor v-model="post.content_ru" />-->
                                         </div>
                                         <div class="form-group">
                                             <label>Content (en)</label>
-                                            <vue-editor v-model="post.content_en" class="mt-1"/>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="post.content_en"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help'
+       }"
+                                            />
+<!--                                            <vue-editor v-model="post.content_en" class="mt-1"/>-->
                                         </div>
                                     </div>
                                         <div class="form-group">
@@ -95,7 +163,11 @@
 </template>
 
 <script>
+import Editor from '@tinymce/tinymce-vue'
 export default {
+    components: {
+        'editor': Editor
+    },
     data() {
         return {
             post: {

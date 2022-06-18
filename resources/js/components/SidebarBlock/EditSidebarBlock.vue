@@ -29,14 +29,49 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
+
                                         <div class="form-group">
-                                            <vue-editor v-model="item.content_ru" rows="5" cols="60"/>
-                                            <vue-editor v-model="item.content_en" rows="5" cols="60" class="mt-1"/>
+                                            <label>Content (ru)</label>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="item.content_ru"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
+                                        </div>
+                                    <div class="form-group">
+                                        <label>Content (en)</label>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="item.content_en" class="mt-1"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div>
                                 <div v-for="(v, k) in errors" :key="k">
                                     <p v-for="error in v" :key="error" class="text-sm">
@@ -56,7 +91,12 @@
 </template>
 
 <script>
+import Editor from '@tinymce/tinymce-vue'
+
 export default {
+    components: {
+        'editor': Editor
+    },
     data() {
         return {
             item: {

@@ -61,11 +61,48 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <vue-editor v-model="page.text_ru" rows="5" cols="60"/>
-                                            <vue-editor v-model="page.text_en" rows="5" cols="60" class="mt-1"/>
-                                        </div>
+                                    <div class="form-group">
+                                            <label>Content (ru)</label>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="page.text_ru"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Content (en)</label>
+                                            <editor
+                                                api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
+                                                v-model="page.text_en"
+                                                :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent image | removeformat | help'
+       }"
+                                            />
+<!--                                            <vue-editor v-model="page.text_ru" rows="5" cols="60"/>-->
+<!--                                            <vue-editor v-model="page.text_en" rows="5" cols="60" class="mt-1"/>-->
+
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-meta-information" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
@@ -192,7 +229,11 @@
 </template>
 
 <script>
+import Editor from '@tinymce/tinymce-vue'
 export default {
+    components: {
+        'editor': Editor
+    },
     data() {
         return {
             page: {
