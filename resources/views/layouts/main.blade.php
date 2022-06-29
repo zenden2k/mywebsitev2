@@ -1,0 +1,98 @@
+<!doctype html>
+<html prefix="og: https://ogp.me/ns#" lang="{{ $__lang }}">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if($meta_description)<meta name="Description" content="{{ $meta_description }}" />@endif
+    @if($meta_keywords)<meta name="Keywords" content="{{ $meta_keywords }}" />@endif
+    <meta property="og:title" content="@if($title){{ $title }}@else Sergey Svistunov's blog @endif" />
+    @if($meta_description)<meta property="og:description" content="{{ $meta_description }}" />@endif
+    <meta property="og:url" content="{{ $__canonical_url }}" />
+    @if($open_graph_image)
+    <meta property="og:image" content="{{ $open_graph_image }}" />
+    @endif
+    <link rel="stylesheet" type="text/css" href="/css/styles.css?v={%$__revision%}24" />
+    <link id="favicon" rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/prettify/prettify.css" rel="stylesheet" type="text/css" />
+    <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
+    <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
+    <title>@if($title){{ $title }} - Sergey Svistunov's blog @else Sergey Svistunov's blog @endif</title>
+    @section('head')
+    @endsection
+</head>
+<body onload="prettyPrint()">
+
+<header id="header">
+    <div class="wrapper2">
+        <a href="{{ $url_prefix }}/" id="logo" class="{%$__lang%}"></a>
+        <div class="languages"><a href="{{ $__en_link }}" id="lang_en" rel="nofollow">English</a> <a href="{{ $__ru_link }}" id="lang_ru" rel="nofollow">Русский</a></div>
+        <div class="clearfix"></div>
+    </div>
+</header>
+<div class="page-wrapper">
+        <nav id="navbar">
+            @foreach($__tabs as $tab)
+            <div class="tab @if ((!empty($staticPage) && ( $staticPage->tabId == $tab->id )) || ($currentTab && $currentTab==$tab->alias)) active @endif"  >
+                <a href="{{ $url_prefix }}{{ $tab->url }}">{{ $tab->title }}</a>
+            </div>
+            @endforeach
+        </nav>
+        <div class="navbar_bottom">
+            <div></div>
+            <p></p>
+        </div>
+        <div class="navbar_bottom_shadow"></div>
+            <aside  id="sidebar">
+                @yield('sidebar')
+                @if(!empty($menuItems))
+                <div class="sidebar_block">
+                    <div class="sidebar_block_header"><span></span><div>{{ $menuTitle }}</div></div>
+                    <div class="sidebar_block_content">
+                        <p>
+                            @foreach($menuItems as $menuItem)
+                            <a href="{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif">{{ $menuItem->title }}</a> <br/>
+                            @endforeach
+                        </p>
+                    </div>
+                </div>
+                @endif
+                @foreach($leftPageBlocks as $pageBlock)
+                <div class="sidebar_block">
+                    <div class="sidebar_block_header"><span></span><div>{{ $pageBlock->title }}</div></div>
+                    <div class="sidebar_block_content">
+                        {!! $pageBlock->content !!}
+                    </div>
+                </div>
+                    @endforeach
+{{--                @endsection--}}
+            </aside>
+            <main id="content" >
+                <div class="abner-under2" ></div>
+                @yield('content')
+
+            </main>
+        </div>
+    <footer  id="footer">@if($__lang==='ru')Сайт в строю 2006 - {{date('Y')}}. Тексты на сайте опубликованы под лицензией Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); исходные коды опубликованы под лицензией Apache Software License 2.0, если не указано иначе. @else Site is online 2006-{{date('Y')}}. Text is available under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); code is available under the Apache Software License, Version 2.0 or other appropriate open source licenses.@endif</footer>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/prettify/prettify.js"></script>
+    <script src="/js/main.js?v=6"></script>
+    <script src="/js/galleria/galleria-1.4.2.min.js"></script>
+
+    @section('js')
+
+    @endsection
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-32288104-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-32288104-1');
+    </script>
+
+
+</body>
+</html>

@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('content')
+    {{$__domain_name}}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

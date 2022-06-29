@@ -54,7 +54,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Page extends AbstractModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Translatable;
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'modifiedAt';
@@ -95,6 +95,11 @@ class Page extends AbstractModel
     public function comments()
     {
         return $this->hasMany(Comment::class, 'pageId', 'id');
+    }
+
+    public function tab()
+    {
+        return $this->belongsTo(Tab::class, 'tabId');
     }
 
     public function saveBlocks($blocks)

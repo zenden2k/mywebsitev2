@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'menuitems';
     public $timestamps = false;
 
@@ -30,5 +30,16 @@ class MenuItem extends Model
     public function tab()
     {
         return $this->belongsTo(Tab::class, 'tab_id');
+    }
+
+    public function isExternalUrl() {
+        return empty($this->target_page_id);
+    }
+
+    public function url() {
+        if (!empty($this->targetPage)) {
+            return $this->targetPage->alias;
+        }
+        return $this->url;
     }
 }

@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SidebarBlock extends Model
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'sidebarblocks';
 
     public $timestamps = false;

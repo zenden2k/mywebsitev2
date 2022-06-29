@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tab extends Model
 {
-    use HasFactory;
+    use HasFactory, Translatable;
 
     public $timestamps = false;
     protected $fillable = [

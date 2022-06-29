@@ -70,14 +70,14 @@
          height: 500,
          menubar: false,
          plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
+           'advlist autolink lists link image charmap print preview anchor code',
            'searchreplace visualblocks code fullscreen',
            'insertdatetime media table paste code help wordcount'
          ],
          toolbar:
            'undo redo | formatselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
+           bullist numlist outdent indent image code | removeformat | help'
        }"
                                             />
                                     </div>
@@ -90,14 +90,14 @@
          height: 500,
          menubar: false,
          plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
+           'advlist autolink lists link image charmap print preview anchor code',
            'searchreplace visualblocks code fullscreen',
            'insertdatetime media table paste code help wordcount'
          ],
          toolbar:
            'undo redo | formatselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
+           bullist numlist outdent indent image code | removeformat | help'
        }"
                                             />
 <!--                                            <vue-editor v-model="page.text_ru" rows="5" cols="60"/>-->

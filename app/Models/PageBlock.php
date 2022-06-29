@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PageBlock extends Model
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'pageblocks';
     protected $fillable = [
         'page_id',

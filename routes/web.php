@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Auth::routes([
     'register' => false,
@@ -23,13 +23,23 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/vt/{any?}', function () {
     return view('admin/index');
 })/*->namespace('Admin')*/->middleware(/*'can:admin'*/['auth', 'isAdmin'])
 ->where('any', '.*')->name('admin.dashboard');
 
+$optionalLanguageRoutes = function() {
+    Route::get('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
+};
+
+Route::group(
+    ['prefix' => '/{lang}/', 'where' => ['lang' => 'ru|en']],
+    $optionalLanguageRoutes
+);
+
+$optionalLanguageRoutes();
 /*Route::group(['namespace' => 'Api', 'prefix' => 'api'], function() {
     Route::resource('api_page', 'PageController');
 });*/
