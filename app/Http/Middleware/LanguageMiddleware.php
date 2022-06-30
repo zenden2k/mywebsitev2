@@ -16,9 +16,23 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $lang =
-            $request->route('lang');
-           // $request->get('lang');
+        $path = $request->path();
+
+        if (strpos($path, 'vt') === 0) {
+            return $next($request);
+        }
+
+        // Redirect to an URI without last slash
+        if (preg_match('/.+\/$/', $request->getRequestUri())) {
+            return \Redirect::to(rtrim($request->getRequestUri(), '/'), 301);
+        }
+
+        $route = $request->route();
+        if (!$route) {
+            return $next($request);
+        }
+        $lang = $request->route('lang');
+
         if ($lang !== 'ru') {
             $lang = 'en';
         }
@@ -39,12 +53,19 @@ class LanguageMiddleware
             && strpos($referer, $hostName . '/') === false &&
             (!$cookieLang || $cookieLang != $lang)
         ) {
-            //return redirect($this->generateCurrentPageUrlForLang($request, $detectedLang));
+            return redirect($this->generateCurrentPageUrlForLang($request, $detectedLang));
         }
 
-        \App::setLocale($detectedLang);
+        \App::setLocale($lang);
+
+        if ($lang !== 'en') {
+            $prefix = '/'.$lang;
+        } else {
+            $prefix = '';
+        }
         $data = [
-            '__lang' => $detectedLang,
+            '__prefix' => $prefix,
+            '__lang' => $lang,
             '__canonical_url' =>  'https://' . $hostName .'/'.$request->path(),
             '__domain_name' => $hostName,
             '__ru_link' => $this->generateCurrentPageUrlForLang($request, 'ru'),
@@ -57,20 +78,18 @@ class LanguageMiddleware
 
 
     private function generateCurrentPageUrlForLang(Request $request, string $lang): string {
-        /*$route = app()->router->getCurrentRoute();
-        if (!$route) {
-            return '/ru/'.$request->path();
-        }*/
-        $route = app()->router->getCurrentRoute();
-        if($route) {
-            return app('url')->toRoute(
-                $route,
-                array_merge($route->parameters(), ['prefix' => $lang]),
-                true
-            );
+        $path = $request->getRequestUri();
+        if ($path[0] !== '/') {
+            $path = '/'.$path;
+        }
+        $languages = ['ru', 'en'];
+        foreach ($languages as $item) {
+            $path = preg_replace('|^/'.$item.'/|', '/', $path);
         }
 
-        // TODO:
-        return '/'.$lang.'/'.$request->url();
+        if ($lang !== 'en') {
+            $path = '/'.$lang.$path;
+        }
+        return $path;
     }
 }

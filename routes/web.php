@@ -25,6 +25,8 @@ Auth::routes([
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/downloads/{filename}', [\App\Http\Controllers\DownloadController::class, 'index'])->where('filename', '[a-zA-Z0-9\.\-_]+');
+
 Route::get('/vt/{any?}', function () {
     return view('admin/index');
 })/*->namespace('Admin')*/->middleware(/*'can:admin'*/['auth', 'isAdmin'])
@@ -32,14 +34,12 @@ Route::get('/vt/{any?}', function () {
 
 $optionalLanguageRoutes = function() {
     Route::get('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
+    Route::post('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
 };
 
 Route::group(
-    ['prefix' => '/{lang}/', 'where' => ['lang' => 'ru|en']],
+    ['prefix' => '/{lang}/', 'where' => ['lang' => 'ru']],
     $optionalLanguageRoutes
 );
 
 $optionalLanguageRoutes();
-/*Route::group(['namespace' => 'Api', 'prefix' => 'api'], function() {
-    Route::resource('api_page', 'PageController');
-});*/

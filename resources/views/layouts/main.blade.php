@@ -3,17 +3,17 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @if($meta_description)<meta name="Description" content="{{ $meta_description }}" />@endif
-    @if($meta_keywords)<meta name="Keywords" content="{{ $meta_keywords }}" />@endif
+    @if($metaDescription)<meta name="Description" content="{{ $metaDescription }}" />@endif
+    @if($metaKeywords)<meta name="Keywords" content="{{ $metaKeywords }}" />@endif
     <meta property="og:title" content="@if($title){{ $title }}@else Sergey Svistunov's blog @endif" />
-    @if($meta_description)<meta property="og:description" content="{{ $meta_description }}" />@endif
+    @if($metaDescription)<meta property="og:description" content="{{ $metaDescription }}" />@endif
     <meta property="og:url" content="{{ $__canonical_url }}" />
-    @if($open_graph_image)
-    <meta property="og:image" content="{{ $open_graph_image }}" />
+    @if($openGraphImage)
+    <meta property="og:image" content="{{ $openGraphImage }}" />
     @endif
-    <link rel="stylesheet" type="text/css" href="/css/styles.css?v={%$__revision%}24" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css?v={{$__revision}}" />
     <link id="favicon" rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
-    <link href="/prettify/prettify.css" rel="stylesheet" type="text/css" />
+    <link href="/js/prettify/prettify.css" rel="stylesheet" type="text/css" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
     <title>@if($title){{ $title }} - Sergey Svistunov's blog @else Sergey Svistunov's blog @endif</title>
@@ -24,7 +24,7 @@
 
 <header id="header">
     <div class="wrapper2">
-        <a href="{{ $url_prefix }}/" id="logo" class="{%$__lang%}"></a>
+        <a href="{{ $__prefix }}/" id="logo" class="{{$__lang}}"></a>
         <div class="languages"><a href="{{ $__en_link }}" id="lang_en" rel="nofollow">English</a> <a href="{{ $__ru_link }}" id="lang_ru" rel="nofollow">Русский</a></div>
         <div class="clearfix"></div>
     </div>
@@ -33,7 +33,7 @@
         <nav id="navbar">
             @foreach($__tabs as $tab)
             <div class="tab @if ((!empty($staticPage) && ( $staticPage->tabId == $tab->id )) || ($currentTab && $currentTab==$tab->alias)) active @endif"  >
-                <a href="{{ $url_prefix }}{{ $tab->url }}">{{ $tab->title }}</a>
+                <a href="{{ $__prefix }}{{ $tab->url }}">{{ $tab->title }}</a>
             </div>
             @endforeach
         </nav>
@@ -50,7 +50,7 @@
                     <div class="sidebar_block_content">
                         <p>
                             @foreach($menuItems as $menuItem)
-                            <a href="{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif">{{ $menuItem->title }}</a> <br/>
+                            <a href="@if(!$menuItem->isExternalUrl()){{$__prefix}}/@endif{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif">{{ $menuItem->title }}</a> <br/>
                             @endforeach
                         </p>
                     </div>
@@ -75,8 +75,8 @@
     <footer  id="footer">@if($__lang==='ru')Сайт в строю 2006 - {{date('Y')}}. Тексты на сайте опубликованы под лицензией Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); исходные коды опубликованы под лицензией Apache Software License 2.0, если не указано иначе. @else Site is online 2006-{{date('Y')}}. Text is available under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); code is available under the Apache Software License, Version 2.0 or other appropriate open source licenses.@endif</footer>
 
     <script src="/js/jquery.min.js"></script>
-    <script src="/prettify/prettify.js"></script>
-    <script src="/js/main.js?v=6"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script src="/js/main.js?v={{$__revision}}"></script>
     <script src="/js/galleria/galleria-1.4.2.min.js"></script>
 
     @section('js')

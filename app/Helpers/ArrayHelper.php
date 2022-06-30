@@ -27,6 +27,11 @@ class ArrayHelper
         );
     }
 
+    public static function coalesce() {
+        $ar = array_filter(func_get_args());
+        return array_shift($ar);
+    }
+
     /**
      * Подготавливает пагинацию resource collection для отдачи в json
      * Это нужно, потому что Laravel теряет мета-информацию при вложении пагинатора в массив
