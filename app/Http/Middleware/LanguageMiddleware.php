@@ -18,7 +18,7 @@ class LanguageMiddleware
     {
         $path = $request->path();
 
-        if (strpos($path, 'vt') === 0) {
+        if (strpos($path, 'vt') === 0 || strpos($path, 'login') === 0) {
             return $next($request);
         }
 
