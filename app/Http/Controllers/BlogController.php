@@ -32,7 +32,7 @@ class BlogController extends SiteController
 
         $archives = [];
         $lang_ins = $lang === 'en'? 'and `content_en`!="" ':'';
-        $months = \DB::select('SELECT COUNT(id) as cnt,CONCAT(YEAR(created_at),"-",MONTH(created_at)) as mon from blog_posts where `status`=1 '.$lang_ins.' group by mon');
+        $months = \DB::select('SELECT COUNT(id) as cnt,CONCAT(YEAR(created_at),"-",MONTH(created_at)) as mon from blog_posts where `status`=1 '.$lang_ins.' group by mon order by mon');
 
         setlocale(LC_ALL, 'ru_RU.utf-8');
 
