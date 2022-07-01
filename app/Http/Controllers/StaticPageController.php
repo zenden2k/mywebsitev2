@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LocaleHelper;
 use App\Models\Comment;
 use App\Models\MenuItem;
 use App\Models\Page;
@@ -69,10 +70,7 @@ class StaticPageController extends SiteController
 
         $leftPageBlocks = array_merge( $sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks );
 
-        $lang = substr(\App::getLocale(),0,2);
-        if (!$lang) {
-            $lang = 'en';
-        }
+        $lang = LocaleHelper::getCurrentLanguage();
 
         if ($page->tabId) {
             $menuItems = MenuItem::with('targetPage')
@@ -87,6 +85,9 @@ class StaticPageController extends SiteController
 
 
         if ($request->isMethod('POST') && $page->showComments) {
+            if ($request->post('name') != '' || $request->post('checkB') !== 'checkA') {
+                return abort(400);
+            }
             $validated = $request->validate([
                 'eman' => 'required|max:255',
                 'email' => 'email',

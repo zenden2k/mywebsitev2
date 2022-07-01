@@ -33,6 +33,19 @@ Route::get('/vt/{any?}', function () {
 ->where('any', '.*')->name('admin.dashboard');
 
 $optionalLanguageRoutes = function() {
+    Route::get('/blog', '\App\Http\Controllers\BlogController@index');
+    Route::get('/blog/category/{category}', '\App\Http\Controllers\BlogController@index')->where('category', '[a-zA-Z_\-0-9]+');
+    $req = [
+        'year' => '\d+',
+        'month' => '\d+',
+        'day' => '\d+',
+        'alias' => '[a-zA-Z_\-0-9]+',
+    ];
+    Route::get('/blog/{year}/{month}','\App\Http\Controllers\BlogController@index')->where(['year'=> '[0-9]+','month' => '[0-9]{1,2}']);
+
+    Route::get('/blog/{year}/{month}/{day}/{alias}','\App\Http\Controllers\BlogController@show')->where($req);
+    Route::post('/blog/{year}/{month}/{day}/{alias}','\App\Http\Controllers\BlogController@show')->where($req);
+
     Route::get('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
     Route::post('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
 };

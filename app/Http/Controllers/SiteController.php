@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LocaleHelper;
 use App\Models\Tab;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -13,7 +14,9 @@ class SiteController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
+    protected string $urlPrefix;
+
+    public function callAction($method, $parameters)
     {
         $tabs = Tab::where('active', '=', 1)->orderBy('orderNumber')->get();
 
@@ -24,20 +27,22 @@ class SiteController extends BaseController
             $revision = trim( $revision );
         }
 
+        $lang = LocaleHelper::getCurrentLanguage();
+
+        $this->urlPrefix = $lang === 'en' ? '' : '/ru';
+
         View::share ([
-            '__lang' => 'ru',
+            '__lang' => $lang,
             'metaDescription' => '',
             'metaKeywords' => '',
             'openGraphImage' => '',
             'title' => '',
             '__canonical_url' => '',
-            'url_prefix' => '',
-            '__en_link' => '',
-            '__ru_link' => '',
+            'url_prefix' => $this->urlPrefix,
             '__domain_name' => request()->getHost(),
             '__tabs' => $tabs,
             '__revision' => $revision
         ]);
-
+        return parent::callAction($method, $parameters);
     }
 }

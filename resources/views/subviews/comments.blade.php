@@ -29,10 +29,10 @@
 <script type="text/javascript">
     document.getElementById('checkB').value = 'checkA';
 </script>
-@if(!empty($comments))
+
 <div class="div_comments" id="comments">
 
-    @foreach($comments as $item)
+    @forelse($comments as $item)
     <div class="virtualpage hidepiece item" style="margin-bottom:4px;" id="comment_{{$item->id}}">
         <div class="div_header"><span class="msglabel">{{$item->name}}</span> ({{$item->createdAt }})</div>
         <div class="div_bottom">{!! nl2br(e($item->text))!!}
@@ -42,10 +42,9 @@
             </div>@endif
         </div>
     </div>
-    @endforeach
+        @empty
+            <div style="font-weight: bold; margin-bottom: 15px;margin-top: 20px;">{{__('There are no comments yet.')}}</div>
+            @endforelse
     {{ $comments->fragment('comments')->links('vendor.pagination.default') }}
 
 </div>
-@else
-<div style="font-weight: bold; margin-bottom: 15px;margin-top: 20px;">{{__('There are no comments yet.')}}</div>
-@endif

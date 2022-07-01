@@ -2,5 +2,8 @@
     "Write your comment": "Оставьте ваш комментарий",
     "Name": "Имя",
     "Send": "Отправить",
-    "your e-mail will not be published": "ваш e-mail не будет опубликован"
+    "your e-mail will not be published": "ваш e-mail не будет опубликован",
+    "Published": "Опубликовано",
+    "There are no comments yet." : "Пока никто не оставил ни одного комментария. Не хотите стать первым?",
+    "Comments": "Комментарии"
 }

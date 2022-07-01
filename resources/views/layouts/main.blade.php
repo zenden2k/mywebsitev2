@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @if($metaDescription)<meta name="Description" content="{{ $metaDescription }}" />@endif
     @if($metaKeywords)<meta name="Keywords" content="{{ $metaKeywords }}" />@endif
-    <meta property="og:title" content="@if($title){{ $title }}@else Sergey Svistunov's blog @endif" />
+    <meta property="og:title" content="{{$title?$title:'Sergey Svistunov\'s blog' }}" />
     @if($metaDescription)<meta property="og:description" content="{{ $metaDescription }}" />@endif
     <meta property="og:url" content="{{ $__canonical_url }}" />
     @if($openGraphImage)

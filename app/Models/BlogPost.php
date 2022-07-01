@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\LocaleHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
@@ -9,7 +10,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class BlogPost extends Model
 {
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, Translatable;
 
     protected $table = 'blog_posts';
 
@@ -57,5 +58,17 @@ class BlogPost extends Model
             ->saveSlugsTo('alias')
             ->slugsShouldBeNoLongerThan(60)
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    public function getUrl($with_host=true, $lang = null): string {
+        if ($lang === null) {
+            $lang = LocaleHelper::getCurrentLanguage();
+        }
+        $url = ($lang === 'ru' ? '/ru' : '').'/blog/'.date("Y/m/d", strtotime($this->created_at)).'/'.$this->alias . '-'.$this->id;
+        if ( $with_host ) {
+            return url($url).((substr( $this->alias ,-1) == '-')?'/':'');
+        } else {
+            return $url;
+        }
     }
 }

@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use App\Helpers\LocaleHelper;
+use App\Models\BlogCategory;
+use App\Models\BlogComment;
+use App\Models\BlogPost;
+use App\Models\Page;
+use App\Models\SidebarBlock;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+
+class BlogController extends SiteController
+{
+    private $currentCategoryAlias, $selectedMonth;
+
+    private function getCommonViewData(): array
+    {
+        $lang = LocaleHelper::getCurrentLanguage();
+
+        $db_query = \DB::table('blog_posts')->selectRaw('COUNT(id) as cnt, category_id');
+        if ( $lang === 'en' ) {
+            $db_query->where('content_en','!=','');
+        }
+        $db_query->where('status','=',1);
+        $categories_post_count = $db_query->groupBy('category_id')->get()->all();
+        $categories_post_count = \Arr::pluck($categories_post_count, 'cnt', 'category_id');
+
+        $categories = BlogCategory::where('active','=','1')->orderBy('title_'.$lang)->get();
+
+        $archives = [];
+        $lang_ins = $lang === 'en'? 'and `content_en`!="" ':'';
+        $months = \DB::select('SELECT COUNT(id) as cnt,CONCAT(YEAR(created_at),"-",MONTH(created_at)) as mon from blog_posts where `status`=1 '.$lang_ins.' group by mon');
+
+        setlocale(LC_ALL, 'ru_RU.utf-8');
+
+        if ( !empty( $months ) ) {
+            foreach ( $months as  $month_arr ) {
+                $month_str = $month_arr->mon;
+                $time = strtotime($month_str.'-01');
+                list($year,$month) = explode('-',$month_str);
+                $archives[] = array(
+                    'title' => /*date("F Y",$time)*/strftime('%B %Y', $time),
+                    'month' => "$year/$month",
+                    'url' => $this->urlPrefix."/blog/$year/$month/",
+                    'count' => $month_arr->cnt
+                );
+            }
+        } else {
+            $time = strtotime(date("01.m.y"));
+            for ( $i=0; $i < 12; $i++){
+                $archives[] = array(
+                    'title' => date("F Y",$time),
+                    'url' => $this->urlPrefix.'/blog/'.date("Y/m/",$time),
+                    'month' =>  date("Y/m",$time),
+                    'count' => 0
+                );
+                $time = strtotime("-1 month",$time);
+            }
+
+        }
+
+        $res = setlocale(LC_ALL, 'ru_RU.utf-8');
+
+        $leftPageBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'])->get()->all();
+
+        return [
+            '__blog_categories' => $categories,
+            '__categories_post_count' => $categories_post_count,
+            'archives' => array_reverse($archives),
+            'currentTab' => 'blog',
+            'leftPageBlocks' => $leftPageBlocks
+        ];
+    }
+    public function index(Request $request)
+    {
+        $category = $request->route('category');
+
+        $postsOrm = BlogPost::with('category');
+        $postsOrm->where('status','=','1');
+        //$db = \DB::table('blog_posts')->selectRaw('COUNT(blog_posts.id) as cnt')->join('blog_categories', 'category_id','=','category.id');
+        $this->postFilter($request, $postsOrm);
+        $title = '';
+        if ($this->currentCategoryAlias ) {
+            $category = BlogCategory::where('alias', '=', $this->currentCategoryAlias)->first();
+            if ($category) {
+                $title = $category->title;
+            }
+
+        }
+        $data = [
+            'current_category_alias' => $this->currentCategoryAlias,
+            'title' => $title,
+            'selected_month' => $this->selectedMonth,
+            'posts' => $postsOrm->orderBy('id', 'desc')->paginate(6)
+        ];
+        $data = array_merge($this->getCommonViewData(),$data);
+        return view('blog.post_list', $data);
+    }
+
+    private function postFilter(Request $req, Builder $obj)
+    {
+        $lang = LocaleHelper::getCurrentLanguage();
+        $category = $req->route('category');
+
+        $year = $req->route('year');
+        $month = $req->route('month');
+
+        if ( !empty( $category ) ) {
+            $obj->whereHas('category', function($q) use($category) {
+                $q->where('alias','=',$category);
+            });
+            $this->currentCategoryAlias = $category;
+        }
+
+        if ( !empty( $year ) && !empty( $month ) ) {
+            $obj->where(\DB::raw('MONTH(created_at)'),'=',$month)
+                ->where(\DB::raw('YEAR(created_at)'),'=',$year);
+            $this->selectedMonth = $year.'/'.$month;
+        }
+        $obj->where('status','=','1');
+        $obj->whereNotNull('category_id');
+        if ( $lang === 'en' ) {
+            $obj->where('content_en','!=','');
+        }
+    }
+
+    public function show(Request $request)
+    {
+        $alias =  $request->route('alias');
+        $postId = substr($alias, strrpos($alias, '-') + 1);
+        $post = BlogPost::where('id', '=', $postId)->where('status','=',1)->firstOrFail();
+        if ( $post->alias .'-'.$postId !== $alias ) {
+            abort(404);
+        }
+
+        if ($request->isMethod('POST') && $post->enable_comments) {
+            if ($request->post('name') != '' || $request->post('checkB') !== 'checkA') {
+                return abort(400);
+            }
+            $validated = $request->validate([
+                'eman' => 'required|max:255',
+                'email' => 'email',
+                'text' => 'required|max:2000'
+            ]);
+
+            $validated['name'] = $validated['eman'];
+
+            $comment = new BlogComment($validated);
+            $comment->blog_post_id = $postId;
+            $comment->ip = sprintf('%u', ip2long($request->ip()));
+            $comment->save();
+        }
+
+        $comments = $post->comments()->orderBy('createdAt', 'desc')->paginate(10);
+        $data = [
+            'post' => $post,
+            'comments' => $comments,
+            'title' => $post->title
+        ];
+        $data = array_merge($this->getCommonViewData(),$data);
+        return view('blog.post_details', $data);
+
+    }
+}

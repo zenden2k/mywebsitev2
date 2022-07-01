@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'blog_categories';
     public $timestamps = false;
 
