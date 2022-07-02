@@ -139,6 +139,16 @@ const routes = [
             path: '/blogcomment/edit/:id',
             component: () => import("../components/BlogComment/EditBlogComment.vue")
         },
+        {
+            name: "downloads",
+            path: '/download',
+            component: () => import("../components/Download/Downloads.vue")
+        },
+        {
+            name: "downloadchart",
+            path: '/download/chart/:id',
+            component: () => import("../components/Download/DownloadChart.vue")
+        },
     ])
 ]
 

@@ -190,6 +190,12 @@
                                 <p>Blog Comments</p>
                             </router-link>
                         </li>
+                        <li  class="nav-item">
+                            <router-link :to="{name: 'downloads'}" class="nav-link">
+                                <i class="far fa-fw fa-file "></i>
+                                <p>Downloads</p>
+                            </router-link>
+                        </li>
 {{--                        <li  class="nav-header ">--}}
 
 {{--                            ACCOUNT SETTINGS--}}

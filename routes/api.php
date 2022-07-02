@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'App\Http\Controlle
     Route::apiResource('blogpost', 'BlogPostController');
     Route::get('blogcomment/options', 'BlogCommentController@options');
     Route::apiResource('blogcomment', 'BlogCommentController');
+    Route::get('download/options', 'DownloadsController@options');
+    Route::apiResource('download', 'DownloadsController');
 });
 
 //Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
