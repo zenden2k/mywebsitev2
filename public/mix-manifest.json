@@ -1,4 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/polyfills-dom.js": "/js/polyfills-dom.js",
+    "/js/polyfills-core-js.js": "/js/polyfills-core-js.js"
 }

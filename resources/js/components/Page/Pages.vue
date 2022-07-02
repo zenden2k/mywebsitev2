@@ -45,7 +45,7 @@
                                     <tbody>
                                     <tr v-for="page in laravelData.data" :key="page.id">
                                         <td>{{ page.id }}</td>
-                                        <td>{{ page.title_ru }} <a v-bind:href="'/ru/'+page.alias" target="_blank"><i class="icon ion-android-open"></i></a></td>
+                                        <td>{{ page.title_ru }} <a v-bind:href="'/ru/'+page.alias" target="_blank"><i class="ion-md-open"></i></a></td>
                                         <td>{{ page.alias }}</td>
                                         <td>{{ page.createdAt | formatDate }}</td>
                                         <td>{{ page.modifiedAt | formatDate}}</td>

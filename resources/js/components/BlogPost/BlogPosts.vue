@@ -45,7 +45,7 @@
                                     <tbody>
                                     <tr v-for="post in laravelData.data" :key="post.id">
                                         <td>{{ post.id }}</td>
-                                        <td>{{ post.title_ru }} <a v-bind:href="'/ru/'+post.alias" target="_blank"><i class="icon ion-android-open"></i></a></td>
+                                        <td>{{ post.title_ru }} <a v-bind:href="post.url" v-if="post.status" target="_blank"><i class="ion-md-open"></i></a></td>
                                         <td>{{ post.category.title_ru }}</td>
                                         <td>{{ post.created_at | formatDate }}</td>
                                         <td><span :class="post.status ? 'badge bg-success' : 'badge bg-danger'"><span v-if="post.status">Active</span><span v-else>Inactive</span></span></td>

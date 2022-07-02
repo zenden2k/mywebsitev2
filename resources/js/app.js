@@ -1,12 +1,13 @@
 require('./bootstrap');
 require('admin-lte');
 
+
 import Vue from "vue/dist/vue.js";
 import VueRouter from "vue-router";
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
-
+Vue.config.ignoredElements = [/^ion-/]
 //register component
 Vue.component('pagination', require('laravel-vue-pagination'));
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\EditBlogPostRequest;
+use App\Http\Resources\BlogPostResource;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ class BlogPostController extends BaseController
      */
     public function index(Request $request)
     {
-        $model = BlogPost::withCount(['comments'])->with(['category'])->orderBy('id',);
+        $model = BlogPost::withCount(['comments'])->with(['category'])->orderBy('id');
         $searchQuery = $request->get('query');
         if (strlen($searchQuery)) {
             $model->where('title_ru', "like", "%$searchQuery%");
@@ -37,7 +39,7 @@ class BlogPostController extends BaseController
             $model->where('pageId', '=', $pageId);
         }
 
-        $data = $model->paginate(20);
+        $data = ArrayHelper::prepareCollectionPagination(BlogPostResource::collection($model->paginate(20)));
 
         return $this->sendResponse($data, 'success');
     }

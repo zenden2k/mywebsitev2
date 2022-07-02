@@ -7,7 +7,6 @@ use App\Helpers\LocaleHelper;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\BlogPost;
-use App\Models\Page;
 use App\Models\SidebarBlock;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -162,6 +161,5 @@ class BlogController extends SiteController
         ];
         $data = array_merge($this->getCommonViewData(),$data);
         return view('blog.post_details', $data);
-
     }
 }
