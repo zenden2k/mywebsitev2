@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import {showToast} from "../../utils/admin";
 export default {
     data() {
         return {
@@ -109,14 +110,7 @@ export default {
             if (this.$route.params.id) {
                 axios.patch(`/api/tab/${this.$route.params.id}`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Tab has been updated successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Tab has been updated successfully.');
                         this.$router.push({name: 'tabs'});
 
                     })
@@ -126,14 +120,7 @@ export default {
             } else {
                 axios.post(`/api/tab`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Tab has been created successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Tab has been created successfully.');
                         this.$router.push({name: 'tabs'});
                     })
                     .catch(error => {

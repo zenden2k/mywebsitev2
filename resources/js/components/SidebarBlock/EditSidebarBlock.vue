@@ -35,19 +35,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="item.content_ru"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
                                         </div>
                                     <div class="form-group">
@@ -55,19 +43,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="item.content_en" class="mt-1"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
                                         </div>
                                     </div>
@@ -92,10 +68,14 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue'
+import editorOptions, {showToast} from "../../utils/admin";
 
 export default {
     components: {
         'editor': Editor
+    },
+    props: {
+        editorOptions: editorOptions
     },
     data() {
         return {
@@ -128,14 +108,7 @@ export default {
             if (this.$route.params.id) {
                 axios.patch(`/api/sidebarblock/${this.$route.params.id}`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Sidebar block has been updated successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Sidebar block has been updated successfully.');
                         this.$router.push({name: 'sidebarblocks'});
 
                     })
@@ -145,14 +118,7 @@ export default {
             } else {
                 axios.post(`/api/sidebarblock`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Sidebar block has been created successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Sidebar block has been created successfully.');
                         this.$router.push({name: 'sidebarblocks'});
                     })
                     .catch(error => {

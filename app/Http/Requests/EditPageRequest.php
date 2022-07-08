@@ -36,6 +36,7 @@ class EditPageRequest extends FormRequest
             'meta_description_en' => 'max:255',
             'open_graph_image_ru' => 'max:255',
             'open_graph_image_en' => 'max:255',
+            'showComments' => 'boolean'
         ];
     }
 }

@@ -53,10 +53,12 @@
 </template>
 
 <script>
+import {showToast} from "../../utils/admin";
 export default {
     data() {
         return {
             item: {
+                active: true
             },
             pages: [],
             tabs: [],
@@ -79,16 +81,8 @@ export default {
             if (this.$route.params.id) {
                 axios.patch(`/api/blogcategory/${this.$route.params.id}`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Blog category has been updated successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Blog category has been updated successfully.');
                         this.$router.push({name: 'blogcategories'});
-
                     })
                     .catch(error => {
                         this.errors = error.response.data.errors;
@@ -96,14 +90,7 @@ export default {
             } else {
                 axios.post(`/api/blogcategory`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Blog category has been created successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Blog category has been created successfully.');
                         this.$router.push({name: 'blogcategories'});
                     })
                     .catch(error => {

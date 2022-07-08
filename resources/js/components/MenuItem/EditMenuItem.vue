@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import {showToast} from "../../utils/admin";
 export default {
     data() {
         return {
@@ -108,14 +109,7 @@ export default {
             if (this.$route.params.id) {
                 axios.patch(`/api/menuitem/${this.$route.params.id}`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Menu item has been updated successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Menu item has been updated successfully.');
                         this.$router.push({name: 'menuitems'});
 
                     })
@@ -125,14 +119,7 @@ export default {
             } else {
                 axios.post(`/api/menuitem`, this.item)
                     .then(response => {
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Success',
-                            subtitle: '',
-                            body: 'Menu item has been created successfully.',
-                            autohide: true,
-                            delay: 3000,
-                        });
+                        showToast(response.data.success, 'Menu item has been created successfully.');
                         this.$router.push({name: 'menuitems'});
                     })
                     .catch(error => {

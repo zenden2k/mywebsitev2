@@ -9,9 +9,11 @@
 
                 <div class="card card-primary card-outline card-tabs">
 
-                    <div class="card-body">
+                    <div class="card-body" style="width:60vw">
+
                             <MyChart v-if="loaded" :chart-data="chartData" :width="width"
                                   :height="height" :chart-options="chartOptions"/>
+
                     </div>
 
                 </div>
@@ -50,7 +52,7 @@ export default {
         },
         height: {
             type: Number,
-            default: 400
+            default: 250
         },
         /*cssClasses: {
             default: '',

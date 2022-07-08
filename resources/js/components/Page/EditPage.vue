@@ -66,19 +66,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="page.text_ru"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor code',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image code | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
                                     </div>
                                     <div class="form-group">
@@ -86,19 +74,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="page.text_en"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor code',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image code | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
 <!--                                            <vue-editor v-model="page.text_ru" rows="5" cols="60"/>-->
 <!--                                            <vue-editor v-model="page.text_en" rows="5" cols="60" class="mt-1"/>-->
@@ -230,13 +206,18 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue'
+import editorOptions, {showToast} from "../../utils/admin";
 export default {
     components: {
         'editor': Editor
     },
+    props: {
+        editorOptions: editorOptions
+    },
     data() {
         return {
             page: {
+                showComments: true,
                 blocks: [],
                 sidebarBlocks: [],
             },
@@ -247,40 +228,30 @@ export default {
         }
     },
     created() {
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.get('/api/page/options').then(response => {
-                    this.tabs = response.data.data.tabs;
-                    this.allSidebarBlocks = response.data.data.sidebarBlocks;
+        axios.get('/api/page/options').then(response => {
+            this.tabs = response.data.data.tabs;
+            this.allSidebarBlocks = response.data.data.sidebarBlocks;
+        })
+            .catch(function (error) {
+                console.error(error);
+            });
+        if (this.$route.params.id) {
+            axios.get(`/api/page/${this.$route.params.id}`)
+                .then(response => {
+                    this.page = response.data.data;
                 })
                 .catch(function (error) {
                     console.error(error);
                 });
-            if (this.$route.params.id) {
-                axios.get(`/api/page/${this.$route.params.id}`)
-                    .then(response => {
-                        this.page = response.data.data;
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
-            }
-        })
+        }
     },
     methods: {
         updatePage() {
                 if (this.$route.params.id) {
                     axios.patch(`/api/page/${this.$route.params.id}`, this.page)
                         .then(response => {
-                            $(document).Toasts('create', {
-                                class: 'bg-success',
-                                title: 'Success',
-                                subtitle: '',
-                                body: 'Page has been updated successfully.',
-                                autohide: true,
-                                delay: 3000,
-                            });
+                            showToast(response.data.success, 'Page has been updated successfully.');
                             this.$router.push({name: 'pages'});
-
                         })
                         .catch(error => {
                             this.errors = error.response.data.errors;
@@ -288,14 +259,7 @@ export default {
                 } else {
                     axios.post(`/api/page`, this.page)
                         .then(response => {
-                            $(document).Toasts('create', {
-                                class: 'bg-success',
-                                title: 'Success',
-                                subtitle: '',
-                                body: 'Page has been created successfully.',
-                                autohide: true,
-                                delay: 3000,
-                            });
+                            showToast(response.data.success, 'Page has been created successfully.');
                             this.$router.push({name: 'pages'});
                         })
                         .catch(error => {

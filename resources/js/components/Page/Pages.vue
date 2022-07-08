@@ -78,6 +78,7 @@
 
 <script>
 import axios from 'axios';
+import {showToast} from "../../utils/admin";
 
 export default {
     data() {
@@ -106,14 +107,7 @@ export default {
                 .then(response => {
                     let i = this.laravelData.data.map(item => item.id).indexOf(id); // find index of your object
                     this.laravelData.data.splice(i, 1)
-                    $(document).Toasts('create', {
-                        class: 'bg-success',
-                        title: 'Success',
-                        subtitle: '',
-                        body: 'Page has been deleted.',
-                        autohide: true,
-                        delay: 3000,
-                    })
+                    showToast(response.data.success, 'Page has been deleted.');
                 })
                 .catch(function (error) {
                     console.error(error);

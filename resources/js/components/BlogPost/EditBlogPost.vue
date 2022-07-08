@@ -54,19 +54,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="post.foreword_ru"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
 <!--                                            <vue-editor v-model="post.foreword_ru" />-->
                                         </div>
@@ -75,19 +63,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="post.foreword_en"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent image | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
 <!--                                            <vue-editor v-model="post.foreword_en" class="mt-1"/>-->
                                         </div>
@@ -96,19 +72,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="post.content_ru"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
 <!--                                            <vue-editor v-model="post.content_ru" />-->
                                         </div>
@@ -117,19 +81,7 @@
                                             <editor
                                                 api-key="pxz4k1qpydqkj97lp1sb2qctqa2uc4acsa7xsermn9k5rrga"
                                                 v-model="post.content_en"
-                                                :init="{
-         height: 500,
-         menubar: false,
-         plugins: [
-           'advlist autolink lists link image charmap print preview anchor',
-           'searchreplace visualblocks code fullscreen',
-           'insertdatetime media table paste code help wordcount'
-         ],
-         toolbar:
-           'undo redo | formatselect | bold italic backcolor | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent | removeformat | help'
-       }"
+                                                :init="editorOptions"
                                             />
 <!--                                            <vue-editor v-model="post.content_en" class="mt-1"/>-->
                                         </div>
@@ -164,9 +116,13 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue'
+import editorOptions from "../../utils/admin";
 export default {
     components: {
         'editor': Editor
+    },
+    props: {
+        editorOptions: editorOptions
     },
     data() {
         return {
