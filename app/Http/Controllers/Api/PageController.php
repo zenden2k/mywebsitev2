@@ -42,11 +42,12 @@ class PageController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(EditPageRequest $request)
     {
-        DB::transaction(function() use ($request) {
+        $page = null;
+        DB::transaction(function() use ($request, &$page) {
             $page = new Page($request->validated());
             $page->save();
             $blocks = $request->post('blocks');
@@ -63,6 +64,10 @@ class PageController extends BaseController
             }
 
         });
+
+        return $this->sendResponse([
+            'item' => $page,
+        ], 'OK');
     }
 
     /**

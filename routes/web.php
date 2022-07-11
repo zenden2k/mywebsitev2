@@ -23,13 +23,12 @@ Auth::routes([
     'verify' => false,
 ]);
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/downloads/{filename}', [\App\Http\Controllers\DownloadController::class, 'index'])->where('filename', '[a-zA-Z0-9\.\-_]+');
 
 Route::get('/vt/{any?}', function () {
     return view('admin/index');
-})/*->namespace('Admin')*/->middleware(/*'can:admin'*/['auth', 'isAdmin'])
+})->middleware(['auth', 'isAdmin'])
 ->where('any', '.*')->name('admin.dashboard');
 
 $optionalLanguageRoutes = function() {

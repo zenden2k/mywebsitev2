@@ -12,7 +12,10 @@ const editorOptions = {
         toolbar:
             'undo redo | formatselect | bold italic backcolor | \
             alignleft aligncenter alignright alignjustify | \
-            bullist numlist outdent indent image code | removeformat | help'
+            bullist numlist outdent indent image code | removeformat | help',
+        relative_urls : false,
+        remove_script_host : true,
+        document_base_url: '/'
     }}
 }
 
