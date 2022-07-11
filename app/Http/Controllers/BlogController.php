@@ -85,9 +85,11 @@ class BlogController extends SiteController
         if ($this->currentCategoryAlias ) {
             $category = BlogCategory::where('alias', '=', $this->currentCategoryAlias)->first();
             if ($category) {
-                $title = $category->title;
+                $title = __("Blog posts in the category"). ' ' .$category->title;
             }
-
+        }
+        if($this->selectedMonth) {
+            $title = __("Blog posts in"). ' ' .$this->selectedMonth;
         }
         $data = [
             'current_category_alias' => $this->currentCategoryAlias,
