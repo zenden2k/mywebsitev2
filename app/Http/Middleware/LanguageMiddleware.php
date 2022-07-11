@@ -85,10 +85,15 @@ class LanguageMiddleware
         $languages = ['ru', 'en'];
         foreach ($languages as $item) {
             $path = preg_replace('|^/'.$item.'/|', '/', $path);
+            $path = preg_replace('|^/'.$item.'$|', '/', $path);
         }
 
         if ($lang !== 'en') {
-            $path = '/'.$lang.$path;
+            if ($path === '/'){
+                $path = '/'.$lang;
+            } else {
+                $path = '/'.$lang.$path;
+            }
         }
         return $path;
     }
