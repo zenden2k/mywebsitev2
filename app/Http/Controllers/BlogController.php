@@ -43,7 +43,7 @@ class BlogController extends SiteController
                 $archives[] = array(
                     'title' => /*date("F Y",$time)*/strftime('%B %Y', $time),
                     'month' => "$year/$month",
-                    'url' => $this->urlPrefix."/blog/$year/$month/",
+                    'url' => $this->urlPrefix."/blog/$year/$month",
                     'count' => $month_arr->cnt
                 );
             }
@@ -52,7 +52,7 @@ class BlogController extends SiteController
             for ( $i=0; $i < 12; $i++){
                 $archives[] = array(
                     'title' => date("F Y",$time),
-                    'url' => $this->urlPrefix.'/blog/'.date("Y/m/",$time),
+                    'url' => $this->urlPrefix.'/blog/'.date("Y/m",$time),
                     'month' =>  date("Y/m",$time),
                     'count' => 0
                 );
@@ -86,6 +86,8 @@ class BlogController extends SiteController
             $category = BlogCategory::where('alias', '=', $this->currentCategoryAlias)->first();
             if ($category) {
                 $title = __("Blog posts in the category"). ' ' .$category->title;
+            } else {
+                abort(404);
             }
         }
         if($this->selectedMonth) {
