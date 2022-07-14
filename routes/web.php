@@ -45,6 +45,7 @@ $optionalLanguageRoutes = function() {
     Route::get('/blog/{year}/{month}/{day}/{alias}','\App\Http\Controllers\BlogController@show')->where($req);
     Route::post('/blog/{year}/{month}/{day}/{alias}','\App\Http\Controllers\BlogController@show')->where($req);
 
+    Route::get('/callback','\App\Http\Controllers\CallbackController@index');
     Route::get('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
     Route::post('/{any?}', [\App\Http\Controllers\StaticPageController::class, 'index'])->where('any', '.*');
 };

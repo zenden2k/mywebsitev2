@@ -79,9 +79,7 @@
     <script src="/js/main.js?v={{$__revision}}"></script>
     <script src="/js/galleria/galleria-1.4.2.min.js"></script>
 
-    @section('js')
-
-    @endsection
+    @yield("js")
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-32288104-1"></script>
