@@ -33,6 +33,7 @@ Route::get('/vt/{any?}', function () {
 
 $optionalLanguageRoutes = function() {
     Route::get('/blog', '\App\Http\Controllers\BlogController@index');
+    Route::get('/blog/rss', '\App\Http\Controllers\BlogController@rss');
     Route::get('/blog/category/{category}', '\App\Http\Controllers\BlogController@index')->where('category', '[a-zA-Z_\-0-9]+');
     $req = [
         'year' => '\d+',

@@ -18,31 +18,33 @@ class SiteController extends BaseController
 
     public function callAction($method, $parameters)
     {
-        $tabs = Tab::where('active', '=', 1)->orderBy('orderNumber')->get();
+        if ($method !== 'rss') {
+            $tabs = Tab::where('active', '=', 1)->orderBy('orderNumber')->get();
 
-        $revision = @file_get_contents( base_path().'/revision' );
-        if ( $revision === false ) {
-            $revision = 1;
-        } else {
-            $revision = trim( $revision );
+            $revision = @file_get_contents( base_path().'/revision' );
+            if ( $revision === false ) {
+                $revision = 1;
+            } else {
+                $revision = trim( $revision );
+            }
+
+            $lang = LocaleHelper::getCurrentLanguage();
+
+            $this->urlPrefix = $lang === 'en' ? '' : '/ru';
+
+            View::share ([
+                '__lang' => $lang,
+                'metaDescription' => '',
+                'metaKeywords' => '',
+                'openGraphImage' => '',
+                'title' => '',
+                'url_prefix' => $this->urlPrefix,
+                '__domain_name' => request()->getHost(),
+                '__tabs' => $tabs,
+                '__revision' => $revision
+            ]);
         }
-
-        $lang = LocaleHelper::getCurrentLanguage();
-
-        $this->urlPrefix = $lang === 'en' ? '' : '/ru';
-
-        View::share ([
-            '__lang' => $lang,
-            'metaDescription' => '',
-            'metaKeywords' => '',
-            'openGraphImage' => '',
-            'title' => '',
-            '__canonical_url' => '',
-            'url_prefix' => $this->urlPrefix,
-            '__domain_name' => request()->getHost(),
-            '__tabs' => $tabs,
-            '__revision' => $revision
-        ]);
         return parent::callAction($method, $parameters);
+
     }
 }

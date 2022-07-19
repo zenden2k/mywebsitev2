@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('head')
+    <link href="{{$url_prefix}}/blog/rss" rel="alternate" type="application/rss+xml" title="Svistunov Sergey's blog" />
+@endsection
+
 @section('sidebar')
     <div class="sidebar_block">
         <div class="sidebar_block_header">

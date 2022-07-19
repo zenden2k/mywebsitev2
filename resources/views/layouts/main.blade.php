@@ -3,10 +3,16 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @if($metaDescription)<meta name="Description" content="{{ $metaDescription }}" />@endif
-    @if($metaKeywords)<meta name="Keywords" content="{{ $metaKeywords }}" />@endif
+    @if($metaDescription)
+        <meta name="Description" content="{{ $metaDescription }}" />
+    @endif
+    @if($metaKeywords)
+        <meta name="Keywords" content="{{ $metaKeywords }}" />
+    @endif
     <meta property="og:title" content="{{$title?$title:'Sergey Svistunov\'s blog' }}" />
-    @if($metaDescription)<meta property="og:description" content="{{ $metaDescription }}" />@endif
+    @if($metaDescription)
+        <meta property="og:description" content="{{ $metaDescription }}" />
+    @endif
     <meta property="og:url" content="{{ $__canonical_url }}" />
     @if($openGraphImage)
     <meta property="og:image" content="{{ $openGraphImage }}" />
@@ -17,8 +23,7 @@
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
     <title>@if($title){{ $title }} - Sergey Svistunov's blog @else Sergey Svistunov's blog @endif</title>
-    @section('head')
-    @endsection
+    @yield('head')
 </head>
 <body onload="prettyPrint()">
 

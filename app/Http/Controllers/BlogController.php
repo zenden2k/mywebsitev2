@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 
 use App\Helpers\LocaleHelper;
+use App\Helpers\StringHelper;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\BlogPost;
 use App\Models\SidebarBlock;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BlogController extends SiteController
 {
@@ -165,5 +167,50 @@ class BlogController extends SiteController
         ];
         $data = array_merge($this->getCommonViewData(),$data);
         return view('blog.post_details', $data);
+    }
+
+    public function rss()
+    {
+        $orm = BlogPost::with('category')->where('status','=','1')
+            ->where('alias','!=','about');
+
+        $lang = LocaleHelper::getCurrentLanguage();
+        if ( $lang === 'en' ) {
+            $orm->andWhere('content_en','!=','');
+        }
+        $posts = $orm->orderBy('created_at', 'DESC')->get();
+        $info = [
+            'title' => 'Sergey Svistunov\'s blog',
+            'pubDate' => date("D, d M Y H:i:s T"),
+            'description' => 'Sergey Svistunov\'s blog',
+            'link' => $lang === 'en' ? url('/blog/') : url('/ru/blog/'),
+            'language' => $lang === 'en' ? 'en-en' : 'ru-ru',
+            'ttl' => '7200',
+        ];
+        $items = [];
+        foreach ($posts as $post) {
+            $title = $post->title;
+            $descr = $post->content;
+            // item description must not contain relative urls
+            $descr = str_replace( 'src="/', 'src="'.url('/').'/', $descr );
+            $descr = trim( html_entity_decode( $descr, null, 'UTF-8' ) );
+            $descr  = StringHelper::autoP(StringHelper::widont(Str::words(strip_tags($descr),50)));
+            $url = $post->getUrl(true);
+            $items[] = array(
+                'title' => $title,
+                'link' => $url,
+                'description' => $descr,
+                'category' => $post->category?->title,
+                'pubdate' => date( 'r', strtotime($post->created_at)),
+                'guid' => $url
+            );
+        }
+
+        return response(view('blog.rss_feed', [
+            'posts' => $items,
+            'info' => $info
+        ]), 200, [
+            'Content-Type' => 'text/xml; charset=utf-8'
+        ]);
     }
 }
