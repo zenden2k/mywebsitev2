@@ -1,4 +1,5 @@
 <?php
+ini_set( 'default_charset', '' );
 //phpinfo();
 //die();
 if (!function_exists('getallheaders')) {
@@ -50,7 +51,7 @@ if (!function_exists('getallheaders')) {
 	}
 	
 	
-	if(preg_match('/[0-9A-Za-z_]/',$name))
+	if(preg_match('/^[0-9A-Za-z_]+$/',$name))
 	{
         /*if ( (strpos($version, '1.2.5') !== FALSE || strpos($version, '1.2.6.3771') !== FALSE ) && $name == 'iu_core') {
             $filename ='iu_core_old.xml';
@@ -60,6 +61,10 @@ if (!function_exists('getallheaders')) {
         if ( strpos($version, '1.3.2') !== FALSE && $name != 'iu_ffmpeg') {
             $name = $name .'_beta';
         }
+        else if ( strpos($version, '1.3.3') !== FALSE && $name != 'iu_ffmpeg') {
+            $name = $name .'_nightly';
+        }
+
         {
             $filename = $name . ".xml";
         }
@@ -71,7 +76,7 @@ if (!function_exists('getallheaders')) {
 
 
        file_put_contents('log.txt', "IP: ".$_SERVER['REMOTE_ADDR']." ".json_encode($_GET)."\r\n", FILE_APPEND);
-		header("Content-Type: text/xml");
+		header("Content-Type: text/xml", true);
 		echo file_get_contents($filename);
 	}
 	else abort();
