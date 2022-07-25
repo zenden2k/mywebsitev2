@@ -76,7 +76,7 @@
 
             </main>
         </div>
-    <footer id="footer">@if($__lang==='ru')Сайт в строю 2006 - {{date('Y')}}. Тексты на сайте опубликованы под лицензией Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); исходные коды опубликованы под лицензией Apache Software License 2.0, если не указано иначе. @else Site is online 2006-{{date('Y')}}. Text is available under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); code is available under the Apache Software License, Version 2.0 or other appropriate open source licenses.@endif</footer>
+    <footer id="footer">{{ __("messages.footer", [ "year" => date('Y') ]) }}</footer>
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/prettify/prettify.js"></script>

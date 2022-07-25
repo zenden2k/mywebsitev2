@@ -103,6 +103,7 @@ class StaticPageController extends SiteController
 
         $comments = $page->comments()->orderBy('createdAt', 'desc')->paginate(10);
 
+        $pageNumber = (int)$request->get('page');
         return view('static_page', [
             'staticPage' => $page,
             'leftPageBlocks' => $leftPageBlocks,
@@ -112,7 +113,7 @@ class StaticPageController extends SiteController
             'menuTitle' => $page->tab ? $page->tab->title: '',
             'currentTab' => '',
             'comments' => $comments,
-            'title' => $page->title,
+            'title' => $pageNumber ? __("messages.comments_title", ['pagename' => $page->title, 'page' => $pageNumber]) : $page->title,
             'metaKeywords' => $page->meta_keywords,
             'metaDescription' => $page->meta_description,
             'openGraphImage' => $page->open_graph_image
