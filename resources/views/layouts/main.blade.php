@@ -55,7 +55,7 @@
                     <div class="sidebar_block_content">
                         <p>
                             @foreach($menuItems as $menuItem)
-                            <a href="@if(!$menuItem->isExternalUrl()){{$__prefix}}/@endif{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif">{{ $menuItem->title }}</a> <br/>
+                            <a href="@if(!$menuItem->isExternalUrl()){{$__prefix}}/@endif{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif" @if($currentPageId == $menuItem->target_page_id)aria-current="page" @endif>{{ $menuItem->title }}</a> <br/>
                             @endforeach
                         </p>
                     </div>
@@ -68,8 +68,7 @@
                         {!! $pageBlock->content !!}
                     </div>
                 </div>
-                    @endforeach
-{{--                @endsection--}}
+                @endforeach
             </aside>
             <main id="content" >
                 <div class="abner-under2" ></div>
@@ -77,12 +76,13 @@
 
             </main>
         </div>
-    <footer  id="footer">@if($__lang==='ru')Сайт в строю 2006 - {{date('Y')}}. Тексты на сайте опубликованы под лицензией Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); исходные коды опубликованы под лицензией Apache Software License 2.0, если не указано иначе. @else Site is online 2006-{{date('Y')}}. Text is available under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); code is available under the Apache Software License, Version 2.0 or other appropriate open source licenses.@endif</footer>
+    <footer id="footer">@if($__lang==='ru')Сайт в строю 2006 - {{date('Y')}}. Тексты на сайте опубликованы под лицензией Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); исходные коды опубликованы под лицензией Apache Software License 2.0, если не указано иначе. @else Site is online 2006-{{date('Y')}}. Text is available under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA); code is available under the Apache Software License, Version 2.0 or other appropriate open source licenses.@endif</footer>
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/prettify/prettify.js"></script>
+    <script src="/js/galleria/galleria.min.js"></script>
     <script src="/js/main.js?v={{$__revision}}"></script>
-    <script src="/js/galleria/galleria-1.4.2.min.js"></script>
+
 
     @yield("js")
 

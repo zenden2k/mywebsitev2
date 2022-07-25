@@ -1,13 +1,30 @@
 /**
- * Galleria v 1.4.2 2014-08-07
- * http://galleria.io
+ * Galleria v1.6.1
  *
+ * Copyright (c) 2010 - 2019 worse is better UG
  * Licensed under the MIT license
- * https://raw.github.com/aino/galleria/master/LICENSE
  *
  */
 
-(function( $, window, Galleria, undef ) {
+( function( window, factory ) {
+    if ( typeof define == 'function' && define.amd ) {
+        define( [ 'jquery' ], function( jQuery ) {
+            return factory( window, jQuery );
+        });
+    } else if ( typeof module == 'object' && module.exports ) {
+        module.exports = factory(
+            window,
+            require('jquery')
+        );
+    } else {
+        // browser global
+        window.Galleria = factory(
+            window,
+            window.jQuery
+        );
+    }
+
+}( window, function factory( window, $, Galleria, undef ) {
 
 /*global jQuery, navigator, Image, module, define */
 
@@ -15,21 +32,26 @@
 var doc    = window.document,
     $doc   = $( doc ),
     $win   = $( window ),
+    jQuery = $,
 
 // native prototypes
     protoArray = Array.prototype,
 
 // internal constants
-    VERSION = 1.41,
+    VERSION = 1.61,
     DEBUG = true,
     TIMEOUT = 30000,
     DUMMY = false,
     NAV = navigator.userAgent.toLowerCase(),
     HASH = window.location.hash.replace(/#\//, ''),
-    PROT = window.location.protocol,
+    PROT = window.location.protocol == "file:" ? "http:" : window.location.protocol,
     M = Math,
     F = function(){},
     FALSE = function() { return false; },
+    MOBILE = !(
+        ( window.screen.width > 1279 && window.devicePixelRatio == 1 ) || // there are not so many mobile devices with more than 1280px and pixelRatio equal to 1 (i.e. retina displays are equal to 2...)
+        ( window.screen.width > 1000 && window.innerWidth < (window.screen.width * .9) ) // this checks in the end if a user is using a resized browser window which is not common on mobile devices
+    ),
     IE = (function() {
 
         var v = 3,
@@ -117,25 +139,18 @@ var doc    = window.document,
         youtube: {
             reg: /https?:\/\/(?:[a-zA_Z]{2,3}.)?(?:youtube\.com\/watch\?)((?:[\w\d\-\_\=]+&amp;(?:amp;)?)*v(?:&lt;[A-Z]+&gt;)?=([0-9a-zA-Z\-\_]+))/i,
             embed: function() {
-                return 'http://www.youtube.com/embed/' + this.id;
+                return PROT + '//www.youtube.com/embed/' + this.id;
             },
-            getUrl: function() {
-                return PROT + '//gdata.youtube.com/feeds/api/videos/' + this.id + '?v=2&alt=json-in-script&callback=?';
+            get_thumb: function( data ) {
+                return PROT + '//img.youtube.com/vi/'+this.id+'/default.jpg';
             },
-            get_thumb: function(data) {
-                return data.entry.media$group.media$thumbnail[2].url;
-            },
-            get_image: function(data) {
-                if ( data.entry.yt$hd ) {
-                    return PROT + '//img.youtube.com/vi/'+this.id+'/maxresdefault.jpg';
-                }
-                return data.entry.media$group.media$thumbnail[3].url;
-            }
+            get_image: function( data ) {
+                return PROT + '//img.youtube.com/vi/'+this.id+'/maxresdefault.jpg';            }
         },
         vimeo: {
             reg: /https?:\/\/(?:www\.)?(vimeo\.com)\/(?:hd#)?([0-9]+)/i,
             embed: function() {
-                return 'http://player.vimeo.com/video/' + this.id;
+                return PROT + '//player.vimeo.com/video/' + this.id;
             },
             getUrl: function() {
                 return PROT + '//vimeo.com/api/v2/video/' + this.id + '.json?callback=?';
@@ -182,13 +197,19 @@ var doc    = window.document,
 
         $.extend( this, _video[type] );
 
-        $.getJSON( this.getUrl(), function(data) {
+        _videoThumbs = function(data) {
             self.data = data;
             $.each( self.readys, function( i, fn ) {
                 fn( self.data );
             });
             self.readys = [];
-        });
+        };
+
+        if ( this.hasOwnProperty('getUrl') ) {
+            $.getJSON( this.getUrl(), _videoThumbs);
+        } else {
+            window.setTimeout(_videoThumbs, 400);
+        }
 
         this.getMedia = function( type, callback, fail ) {
             fail = fail || F;
@@ -869,7 +890,7 @@ var doc    = window.document,
 
                     Utils.wait({
                         until: function() {
-                            return $loader.height() == 1;
+                            return $loader.height() > 0;
                         },
                         success: function() {
                             $loader.remove();
@@ -881,7 +902,7 @@ var doc    = window.document,
                             // If failed, tell the dev to download the latest theme
                             Galleria.raise( 'Theme CSS could not load after 20 sec. ' + ( Galleria.QUIRK ?
                                 'Your browser is in Quirks Mode, please add a correct doctype.' :
-                                'Please download the latest theme at http://galleria.io/customer/.' ), true );
+                                'Please download the latest theme.' ), true );
                         },
                         timeout: 5000
                     });
@@ -1088,7 +1109,7 @@ $.event.special['click:fast'] = {
         }).on('touchstart.fast', function(e) {
             window.clearTimeout($(this).data('timer'));
             $(this).data('clickstate', {
-                touched: true, 
+                touched: true,
                 touchdown: true,
                 coords: getCoords(e.originalEvent),
                 evObj: e
@@ -1096,9 +1117,9 @@ $.event.special['click:fast'] = {
         }).on('touchmove.fast', function(e) {
             var coords = getCoords(e.originalEvent),
                 state = $(this).data('clickstate'),
-                distance = Math.max( 
-                    Math.abs(state.coords.x - coords.x), 
-                    Math.abs(state.coords.y - coords.y) 
+                distance = Math.max(
+                    Math.abs(state.coords.x - coords.x),
+                    Math.abs(state.coords.y - coords.y)
                 );
             if ( distance > 6 ) {
                 $(this).data('clickstate', $.extend(state, {
@@ -1141,7 +1162,7 @@ $win.on( 'orientationchange', function() {
 
     @example var gallery = new Galleria();
 
-    @author http://aino.se
+    @author http://wib.io
 
     @requires jQuery
 
@@ -1862,8 +1883,14 @@ Galleria = function() {
                             var image = self._controls.getActive().image;
                             if ( image ) {
                                 $( image ).width( big.image.width ).height( big.image.height )
-                                    .attr( 'style', $( big.image ).attr('style') )
-                                    .attr( 'src', big.image.src );
+                                    .attr( 'style', $( big.image ).attr('style') );
+                                if (big.image.src.srcset) {
+                                    $( image ).attr( 'srcset', big.image.src.srcset );
+                                }
+                                if (big.image.src.sizes) {
+                                    $( image ).attr( 'sizes', big.image.src.sizes );
+                                }
+                                $( image ).attr( 'src', big.image.src );
                             }
                         }
                     });
@@ -2758,7 +2785,7 @@ Galleria.prototype = {
 
             // legacy patch
             if( s === false || s == 'disabled' ) { return false; }
-            
+
             return !!Galleria.TOUCH;
 
         }( options.swipe ));
@@ -3566,12 +3593,14 @@ Galleria.prototype = {
                     }
                 },
                 thumbload = $( thumb.container ).data( 'thumbload' );
-            if ( thumb.video ) {
-                thumbload.call( self, thumb, callback );
-            } else {
-                thumb.load( data.src , function( thumb ) {
-                    thumbload.call( self, thumb, callback );
-                });
+            if (thumbload) {
+              if ( thumb.video ) {
+                  thumbload.call( self, thumb, callback );
+              } else {
+                  thumb.load( data.src , function( thumb ) {
+                      thumbload.call( self, thumb, callback );
+                  });
+              }
             }
         });
 
@@ -3867,22 +3896,37 @@ Galleria.prototype = {
                 } else if( href && elem.hasClass('iframe') ) {
                     data.iframe = href;
                 } else {
-                    data.image = data.big = href;
+                    data.image = href;
                 }
 
                 if ( rel ) {
                     data.big = rel;
                 }
 
-                // alternative extraction from HTML5 data attribute, added in 1.2.7
-                $.each( 'big title description link layer image'.split(' '), function( i, val ) {
+                data.imagesrcset = parent.data( 'srcset' );
+                data.imagesizes = parent.data( 'sizes' );
+                data.thumbsizes = elem.attr( 'sizes' );
+                data.thumbsrcset = elem.attr( 'srcset' );
+
+                // alternative extraction from HTML5 data attribute
+                $.each( 'big bigsrcset bigsizes title description link layer image imagesrcset imagesizes'.split(' '), function( i, val ) {
                     if ( elem.data(val) ) {
                         data[ val ] = elem.data(val).toString();
                     }
                 });
 
+                if (elem.data('srcset')) {
+                    data.imagesrcset = elem.data('srcset');
+                }
+
+                if (elem.data('sizes')) {
+                    data.imagesizes = elem.data('sizes');
+                }
+
                 if ( !data.big ) {
                     data.big = data.image;
+                    data.bigsrcset = data.imagesrcset;
+                    data.bigsizes = data.imagesizes;
                 }
 
                 // mix default extractions with the hrefs and config
@@ -3943,6 +3987,15 @@ Galleria.prototype = {
         $.each( this._data, function( i, data ) {
 
             current = self._data[ i ];
+
+            // q&d hack to attach srcset & sizes to src
+            $.each( 'big image thumb'.split(' '), function( i, val ) {
+                if ( data[ val] ) {
+                    data[val] = new String(data[val]);
+                    data[val].srcset = data [val + 'srcset'];
+                    data[val].sizes = data [val + 'sizes'];
+                }
+            });
 
             // copy image as thumb if no thumb exists
             if ( 'thumb' in data === false ) {
@@ -4023,7 +4076,8 @@ Galleria.prototype = {
         this.clearTimer();
         Utils.removeFromArray( _instances, this );
         Utils.removeFromArray( _galleries, this );
-        if ( Galleria._waiters.length ) {
+        _video._inst = [];
+        if ( Galleria._waiters !== undefined && Galleria._waiters.length ) {
             $.each( Galleria._waiters, function( i, w ) {
                 if ( w ) window.clearTimeout( w );
             });
@@ -5655,7 +5709,7 @@ $.extend( Galleria, {
     IPHONE:  /iphone/.test( NAV ),
     IPAD:    /ipad/.test( NAV ),
     ANDROID: /android/.test( NAV ),
-    TOUCH:   ('ontouchstart' in doc)
+    TOUCH:   ( 'ontouchstart' in doc ) && MOBILE // rule out false positives on Win10
 
 });
 
@@ -5683,6 +5737,11 @@ Galleria.addTheme = function( theme ) {
         Galleria.raise('No theme name specified');
     }
 
+    // make sure it's compatible
+    if ( !theme.version || parseInt(Galleria.version*10) > parseInt(theme.version*10) ) {
+        Galleria.raise('This version of Galleria requires '+theme.name+' theme version '+parseInt(Galleria.version*10)/10+' or later', true);
+    }
+
     if ( typeof theme.defaults !== 'object' ) {
         theme.defaults = {};
     } else {
@@ -5690,7 +5749,7 @@ Galleria.addTheme = function( theme ) {
     }
 
     var css = false,
-        reg;
+        reg, reg2;
 
     if ( typeof theme.css === 'string' ) {
 
@@ -5724,8 +5783,8 @@ Galleria.addTheme = function( theme ) {
                     $('script').each(function (i, script) {
                         // look for the theme script
                         reg = new RegExp('galleria\\.' + theme.name.toLowerCase() + '\\.');
-                        if (reg.test(script.src)) {
-
+                        reg2 = new RegExp('galleria\\.io\\/theme\\/' + theme.name.toLowerCase() + '\\/(\\d*\\.*)?(\\d*\\.*)?(\\d*\\/)?js');
+                        if (reg.test(script.src) || reg2.test(script.src)) {
                             // we have a match
                             css = script.src.replace(/[^\/]*$/, '') + theme.css;
 
@@ -5780,7 +5839,7 @@ Galleria.loadTheme = function( src, options ) {
         err;
 
     // start listening for the timeout onload
-    $( window ).load( function() {
+    $( window ).on('load', function() {
         if ( !loaded ) {
             // give it another 20 seconds
             err = window.setTimeout(function() {
@@ -6157,11 +6216,22 @@ Galleria.Picture.prototype = {
     */
 
     preload: function( src ) {
-        $( new Image() ).load((function(src, cache) {
+        var $image = $( new Image() ).on( 'load', (function(src, cache) {
             return function() {
                 cache[ src ] = src;
             };
-        }( src, this.cache ))).attr( 'src', src );
+        }( src, this.cache )));
+
+        // due to a bug in safari, need to set srcset first
+        if (src.srcset) {
+            $image.attr( 'srcset', src.srcset );
+        }
+
+        if (src.sizes) {
+            $image.attr( 'sizes', src.sizes );
+        }
+
+        $image.attr( 'src', src );
     },
 
     /**
@@ -6201,7 +6271,7 @@ Galleria.Picture.prototype = {
 
             this.container.appendChild( this.image );
 
-            $('#'+id).load( (function( self, callback ) {
+            $('#'+id).on( 'load', (function( self, callback ) {
                 return function() {
                     window.setTimeout(function() {
                         $( self.image ).css( 'visibility', 'visible' );
@@ -6298,7 +6368,7 @@ Galleria.Picture.prototype = {
                                 },
                                 error: function() {
                                     if ( !resort ) {
-                                        $(new Image()).load( onload ).attr( 'src', img.src );
+                                        $(new Image()).on( 'load', onload ).attr( 'src', img.src );
                                         resort = true;
                                     } else {
                                         Galleria.raise('Could not extract width/height from image: ' + img.src +
@@ -6329,7 +6399,14 @@ Galleria.Picture.prototype = {
         });
 
         // begin load and insert in cache when done
-        $image.load( onload ).on( 'error', onerror ).attr( 'src', src );
+        $image.on( 'load', onload ).on( 'error', onerror );
+        if (src.srcset) {
+            $image.attr( 'srcset', src.srcset );
+        }
+        if (src.sizes) {
+            $image.attr( 'sizes', src.sizes );
+        }
+        $image.attr( 'src', src );
 
         // return the container
         return this.container;
@@ -6904,16 +6981,7 @@ $.fn.galleria = function( options ) {
 
 };
 
-// export as AMD or CommonJS
-if ( typeof module === "object" && module && typeof module.exports === "object" ) {
-    module.exports = Galleria;
-} else {
-    window.Galleria = Galleria;
-    if ( typeof define === "function" && define.amd ) {
-        define( "galleria", ['jquery'], function() { return Galleria; } );
-    }
-}
-
 // phew
+return Galleria;
 
-}( jQuery, this ) );
+}));
