@@ -83,7 +83,7 @@ $(function() {
     }
     if ($('#galleria').length) {
         // Load the classic theme
-        Galleria.loadTheme('/js/galleria/themes/classic/galleria.classic.min.js');
+        Galleria.loadTheme('/js/galleria/themes/classic/galleria.classic.min.js?v=1');
 
         Galleria.configure({
             autoplay: true
