@@ -9,9 +9,9 @@
         @csrf
 {{--        <input type="hidden" value="{%$csrf_token%}" name="token"/>--}}
         <table width="100%">
-            <tr class="saveMe"><td>{{__('Name')}}:</td><td style="padding-left: 20px"><input type="text" name="name" value="" size="40"/></td></tr>
-            <tr><td>{{__('Name')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" size="40"/></td></tr>
-            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" size="40" /></td></tr>
+            <tr class="saveMe"><td>{{__('Name')}}:</td><td style="padding-left: 20px"><input type="text" name="name" value="" /></td></tr>
+            <tr><td>{{__('Name')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" style="min-width: 200px" /></td></tr>
+            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" style="min-width: 200px" /></td></tr>
             <tr><td></td><td style="padding-left: 20px">({{__('your e-mail will not be published')}})</td></tr>
             <tr><td colspan="2"><input type="hidden" name="checkB" id="checkB" value="become" />
                     <textarea name="text" rows="8"  style="width: 100%">{{old('text')}}</textarea></td></tr>
