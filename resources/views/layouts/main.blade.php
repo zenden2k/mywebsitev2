@@ -9,7 +9,7 @@
     @if($metaKeywords)
         <meta name="Keywords" content="{{ $metaKeywords }}" />
     @endif
-    <meta property="og:title" content="{{$title?:'Sergey Svistunov\'s blog' }}" />
+    <meta property="og:title" content="{{$title?:__('messages.site_title')}}" />
     @if($metaDescription)
         <meta property="og:description" content="{{ $metaDescription }}" />
     @endif
@@ -22,7 +22,7 @@
     <link href="{{asset('js/prettify/prettify.css')}}" rel="stylesheet" type="text/css" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
-    <title>@if($title){{ $title }} - {{__('messages.site_title')}} @else Sergey Svistunov's blog @endif</title>
+    <title>@if($title){{ $title }} - {{__('messages.site_title')}} @else {{__('messages.site_title')}} @endif</title>
     @yield('head')
 </head>
 <body onload="prettyPrint()">
