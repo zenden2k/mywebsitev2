@@ -102,4 +102,18 @@ $(function() {
     checkAd();
     setTimeout(checkAd, 1000);
     //}, 100);
+
+    $(".open-panel").click(function(){
+
+        $("html").toggleClass("openNav");
+
+    });
+
+    $(".close-panel, #content").click(function(){
+
+        $("html").removeClass("openNav");
+
+    });
+
+
 });

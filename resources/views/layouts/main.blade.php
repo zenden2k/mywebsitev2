@@ -34,7 +34,8 @@
         <div class="clearfix"></div>
     </div>
 </header>
-<div class="page-wrapper">
+<div class="page-wrapper" id="page_wrapper">
+        <a href="#" class="open-panel"><img alt="" src="/images/menu-bar.png"></a>
         <nav id="navbar">
             @foreach($__tabs as $tab)
             <div class="tab @if ((!empty($staticPage) && ( $staticPage->tabId == $tab->id )) || ($currentTab && $currentTab==$tab->alias)) active @endif"  >
@@ -47,7 +48,8 @@
             <p></p>
         </div>
         <div class="navbar_bottom_shadow"></div>
-            <aside  id="sidebar">
+        <div class="row-wrapper">
+            <aside id="sidebar">
                 @yield('sidebar')
                 @if(!empty($menuItems))
                 <div class="sidebar_block">
@@ -76,6 +78,7 @@
 
             </main>
         </div>
+</div>
     <footer id="footer">{{ __("messages.footer", [ "year" => date('Y') ]) }}</footer>
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
