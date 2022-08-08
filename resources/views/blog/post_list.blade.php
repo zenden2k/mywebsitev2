@@ -13,7 +13,7 @@
                     <div class="b-item-footer-read-more"><a href="{{$post->getUrl(false)}}">{{__('Read more')}}...</a>
                     </div>
                 @endif
-                <span>{{__('Published')}} {{$post->created_at}}</span>
+                <span>{{__('Published')}} {{$post->created_at->format('Y-m-d')}}</span>
             </div>
         </div>
 

@@ -29,6 +29,8 @@ class BlogPost extends Model
         'alias',
     ];
 
+    protected $dates = ['created_at'];
+
     public static function boot()
     {
         parent::boot();

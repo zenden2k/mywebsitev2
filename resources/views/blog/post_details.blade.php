@@ -17,7 +17,7 @@
                 <div class="fb-like" data-href="{%$post->get_url()%}" data-send="false" data-width="450" data-show-faces="false" style="margin-top: 8px"></div>
                 <div class="clearfix"></div>
                 <div class="b-item-footer-border"></div>
-                <p class="b-item-details">{{__('Published')}} {{$post->created_at}}</p>
+                <p class="b-item-details">{{__('Published')}} {{$post->created_at->format('Y-m-d')}}</p>
                 <script src="https://yastatic.net/share2/share.js"></script>
                 <div class="ya-share2" data-curtain data-shape="round" data-services="vkontakte,facebook,telegram,twitter,viber"></div>
                 <div class="clearfix"></div>
