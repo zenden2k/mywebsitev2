@@ -37,8 +37,8 @@
         <div class="div_header"><span class="msglabel">{{$item->name}}</span> ({{$item->createdAt }})</div>
         <div class="div_bottom">{!! nl2br(e($item->text))!!}
             @if($item->answer)<div class="answer">
-                <b>zenden2k {{__('answered')}}:</b><br/>
-                {!! nl2br(e($item->answer)) !!}
+                <b>Sergey Svistunov {{__('answered')}}:</b><br/>
+                {!! nl2br($item->answer) !!}
             </div>@endif
         </div>
     </div>
