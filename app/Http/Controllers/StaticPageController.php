@@ -106,6 +106,7 @@ class StaticPageController extends SiteController
         $pageNumber = (int)$request->get('page');
         return view('static_page', [
             'staticPage' => $page,
+            'showPage' => $pageNumber == 0,
             'leftPageBlocks' => $leftPageBlocks,
             'bottomPageBlocks' => $bottomPageBlocks,
             'menuItems' => $menuItems,
