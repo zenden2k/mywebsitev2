@@ -286,7 +286,8 @@ body {
 }
 
 #sidebar {
-    width: 220px;
+    flex-basis: 220px;
+    min-width: 220px;
     /*min-height: 700px;*/
     background: url(/images/menu_bg.gif) repeat-y;
     padding: 11px;
@@ -642,7 +643,6 @@ nav {
 
 .row-wrapper {
     display: flex;
-    align-items: stretch;
 }
 
 .pagination li {
@@ -687,9 +687,9 @@ a.open-panel img {
 @media only screen and (max-width: 55em) {
     /* Move nav off screen, setup transitions */
     #navbar {
-        width: 70%;
+        width: 60%;
         position: absolute;
-        left: -70%;
+        left: -60%;
         top: 30px;
         height: 100%;
         background: #d7d6d6;
@@ -698,9 +698,9 @@ a.open-panel img {
     }
 
     #sidebar {
-        width: 70%;
+        width: 60%;
         position: absolute;
-        left: -70%;
+        left: -60%;
         top: 225px;
         height: 100%;
         background: #d7d6d6;
@@ -742,11 +742,11 @@ a.open-panel img {
 
     .openNav #page_wrapper {
         left: 0;
-        -webkit-transform: translate3d(70%, 0, 0);
-        -moz-transform: translate3d(70%, 0, 0);
-        -ms-transform: translate3d(70%, 0, 0);
-        -o-transform: translate3d(70%, 0, 0);
-        transform: translate3d(70%, 0, 0);
+        -webkit-transform: translate3d(60%, 0, 0);
+        -moz-transform: translate3d(60%, 0, 0);
+        -ms-transform: translate3d(60%, 0, 0);
+        -o-transform: translate3d(60%, 0, 0);
+        transform: translate3d(60%, 0, 0);
         -webkit-transition: -webkit-transform 500ms ease;
         -moz-transition: -moz-transform 500ms ease;
         -o-transition: -o-transform 500ms ease;
