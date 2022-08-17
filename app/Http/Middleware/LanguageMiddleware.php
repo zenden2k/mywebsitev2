@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LanguageMiddleware
 {
@@ -49,13 +50,6 @@ class LanguageMiddleware
 
         $referer = $request->server('HTTP_REFERER');
 
-        if ( $detectedLang != $lang && $detectedLang === 'ru'
-            && strpos($referer, $hostName . '/') === false &&
-            (!$cookieLang || $cookieLang != $lang)
-        ) {
-            return redirect($this->generateCurrentPageUrlForLang($request, $detectedLang));
-        }
-
         \App::setLocale($lang);
 
         if ($lang !== 'en') {
@@ -73,7 +67,16 @@ class LanguageMiddleware
         ];
         \View::share($data);
 
-        return $next($request);
+        /** @var Response $res */
+        $res = $next($request);
+
+        if ( $res->getStatusCode() != 404 && $detectedLang != $lang && $detectedLang === 'ru'
+            && strpos($referer, $hostName . '/') === false &&
+            (!$cookieLang || $cookieLang != $lang)
+        ) {
+            return redirect($this->generateCurrentPageUrlForLang($request, $detectedLang));
+        }
+        return $res;
     }
 
 
