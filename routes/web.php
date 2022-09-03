@@ -25,6 +25,7 @@ Auth::routes([
 
 
 Route::get('/downloads/{filename}', [\App\Http\Controllers\DownloadController::class, 'index'])->where('filename', '[a-zA-Z0-9\.\-_]+');
+Route::get('/parser-dead-people', [\App\Http\Controllers\ParserController::class, 'index']);
 
 Route::get('/vt/{any?}', function () {
     return view('admin/index');
