@@ -53,8 +53,12 @@ $optionalLanguageRoutes = function() {
 };
 
 Route::group(
-    ['prefix' => '/{lang}/', 'where' => ['lang' => 'ru']],
+    ['prefix' => '/{lang}/', 'where' => ['lang' => 'ru'], 'middleware' => 'language'],
     $optionalLanguageRoutes
 );
 
-$optionalLanguageRoutes();
+Route::group(['middleware' => 'language'],
+    $optionalLanguageRoutes
+);
+
+

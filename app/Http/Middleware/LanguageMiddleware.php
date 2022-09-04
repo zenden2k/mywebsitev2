@@ -19,10 +19,6 @@ class LanguageMiddleware
     {
         $path = $request->path();
 
-        if (strpos($path, 'vt') === 0 || strpos($path, 'login') === 0|| strpos($path, 'parser') === 0) {
-            return $next($request);
-        }
-
         // Redirect to an URI without last slash
         if (preg_match('/.+\/$/', $request->getRequestUri())) {
             return \Redirect::to(rtrim($request->getRequestUri(), '/'), 301);

@@ -39,9 +39,13 @@ class SiteController extends BaseController
                 'openGraphImage' => '',
                 'title' => '',
                 'url_prefix' => $this->urlPrefix,
-                '__domain_name' => request()->getHost(),
+                '__domain_name' => request()?->getHost(),
                 '__tabs' => $tabs,
-                '__revision' => $revision
+                '__revision' => $revision,
+               /* '__canonical_url' => '',
+                '__en_link' => '',
+                '__ru_link' => '',
+                '__prefix' => $this->urlPrefix*/
             ]);
         }
         return parent::callAction($method, $parameters);
