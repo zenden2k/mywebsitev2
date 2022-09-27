@@ -17,7 +17,7 @@
         {!! $staticPageBlock->content !!}
         @endforeach
     @else
-        <a href="{{$__prefix}}/{{$staticPage->alias}}">{{__('<<< Back to page')}}</a>
+        <a href="{{$__prefix}}/{{$staticPage->alias}}">{{__('<<< Back to the page')}}</a>
     @endif
         @if($staticPage->showComments)
             @include('subviews.comments')
