@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 
 class DownloadController extends Controller
 {
@@ -26,7 +26,7 @@ class DownloadController extends Controller
         }
 
         $arr = [
-            'ip' => sprintf('%u',ip2long($_SERVER['REMOTE_ADDR'])),
+            'ip' => sprintf('%u',ip2long(Request::ip())),
             'downloaded_at' => date('Y-m-d H:i:s'),
             'download_id' => $downloadId
         ];
