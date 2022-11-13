@@ -676,12 +676,21 @@ nav {
 
 }*/
 
-a.open-panel, a.close-panel {
+button.open-panel, button.close-panel {
     display: none;
 }
 
-a.open-panel img {
+button.open-panel {
+    background: url(/images/menu_button_48x48.png) no-repeat;
     width: 48px;
+    height: 48px;
+    border: 0;
+    margin: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 55em) {
@@ -730,8 +739,8 @@ a.open-panel img {
 
     }
     /* Reveal open/close buttons */
-    a.open-panel, a.close-panel {
-        display: inline;
+    button.open-panel, button.close-panel {
+        display: inline-block;
     }
 
     .close-panel {

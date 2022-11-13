@@ -9,7 +9,7 @@
     @if($metaKeywords)
         <meta name="Keywords" content="{{ $metaKeywords }}" />
     @endif
-    <meta property="og:title" content="{{$title?:__('messages.site_title')}}" />
+    <meta property="og:title" content="{{$title?$title.' - ':''}}{{__('messages.site_title')}}" />
     @if($metaDescription)
         <meta property="og:description" content="{{ $metaDescription }}" />
     @endif
@@ -35,7 +35,7 @@
     </div>
 </header>
 <div class="page-wrapper" id="page_wrapper">
-        <a href="#" class="open-panel"><img alt="" src="/images/menu-bar.png"></a>
+    <button class="open-panel" title="{{__('messages.show_menu')}}"></button>
         <nav id="navbar">
             @foreach($__tabs as $tab)
             <div class="tab @if ((!empty($staticPage) && ( $staticPage->tabId == $tab->id )) || ($currentTab && $currentTab==$tab->alias)) active @endif"  >
