@@ -16,7 +16,6 @@ ul           { margin-top: 00; margin-bottom: 0 }
 
 .hr           { color: #333333; font-family:sans-serif; font-size:14pt; font-variant:small-caps; text-align:center; font-weight:bold  }
 
-h2           { font-family: Verdana; font-size: 10pt; font-weight: bold; text-align: center }
 .commentForm {
     border-style: solid;
     background-color:  #DDDDDC;
@@ -601,10 +600,6 @@ body {
 .download-button-version {
     font-size: 12px;
     margin-top: 5px;
-}
-
-h1 {
-    font-size: 1.4em;
 }
 
 /* This rule is read by Galleria to define the gallery height: */
