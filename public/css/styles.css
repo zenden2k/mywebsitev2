@@ -168,6 +168,11 @@ header  .wrapper2 {
     margin-bottom: 10px;
     clear: both;
 }
+
+.privacy-policy-link {
+    font-weight: bold;
+    font-size: 12px;
+}
 body {
     margin: 0px;
     /*font-family: Tahoma;*/
@@ -775,5 +780,7 @@ button.open-panel {
         -o-transition: -o-transform 500ms ease;
         transition: transform 500ms ease;
     }
+
+
 }
 
