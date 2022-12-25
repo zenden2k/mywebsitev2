@@ -18,7 +18,7 @@
     <meta property="og:image" content="{{ $openGraphImage }}" />
     @endif
     <link rel="stylesheet" type="text/css" href="{{asset('css/styles.css')}}?v={{$__revision}}" />
-    <link id="favicon" rel="shortcut icon" href="/images/favicon.ico?v=2" type="image/x-icon" />
+    <link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link href="{{asset('js/prettify/prettify.css')}}" rel="stylesheet" type="text/css" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
