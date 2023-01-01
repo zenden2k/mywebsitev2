@@ -47,10 +47,10 @@ if (!function_exists('getallheaders')) {
 		$name = $_GET["package"];
 		echo "zenden.ws: package not found\r\n";
 		echo "Package name: ".$name;
-		die("\r\nError :( Sorry!");	
+		die("\r\nError :( Sorry!");
 	}
-	
-	
+
+
 	if(preg_match('/^[0-9A-Za-z_]+$/',$name))
 	{
         /*if ( (strpos($version, '1.2.5') !== FALSE || strpos($version, '1.2.6.3771') !== FALSE ) && $name == 'iu_core') {
@@ -58,10 +58,10 @@ if (!function_exists('getallheaders')) {
         } else if ( strpos($version, '1.3.1') === 0  && $name == 'iu_core') {
             $filename ='iu_core_beta.xml';
         }else */
-        if ( strpos($version, '1.3.2') !== FALSE && $name != 'iu_ffmpeg') {
+        /*if ( strpos($version, '1.3.2') !== FALSE && $name != 'iu_ffmpeg') {
             $name = $name .'_beta';
-        }
-        else if ( strpos($version, '1.3.3') !== FALSE && $name != 'iu_ffmpeg') {
+        }*/
+        if ( strpos($version, 'nightly') !== FALSE && $name != 'iu_ffmpeg') {
             $name = $name .'_nightly';
         }
 
