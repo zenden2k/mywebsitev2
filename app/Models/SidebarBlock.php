@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\SidebarBlock
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SidebarBlock extends Model
 {
-    use HasFactory, Translatable;
+    use HasFactory, Translatable, SoftDeletes;
     protected $table = 'sidebarblocks';
 
     public $timestamps = false;

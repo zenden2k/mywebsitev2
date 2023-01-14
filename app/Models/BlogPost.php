@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Helpers\LocaleHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class BlogPost extends Model
 {
-    use HasFactory, HasSlug, Translatable;
+    use HasFactory, HasSlug, Translatable, SoftDeletes;
 
     protected $table = 'blog_posts';
 
