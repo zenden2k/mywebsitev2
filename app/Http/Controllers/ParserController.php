@@ -230,4 +230,27 @@ class ParserController extends Controller
         $result_text .= '</table>';
         return $result_text;
     }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->isMethod('OPTIONS')) {
+            return response('', 200)->header("Access-Control-Allow-Methods", "POST, OPTIONS");
+        }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            if (!in_array(strtolower($file->extension()), ["gif", "jpg", "png"])) {
+                abort(400);
+            }
+            $filePath = $file->store('', 'public_uploads');
+
+            if ($filePath !== false) {
+                return [
+                    'location' => '/uploads/' . $filePath
+                ];
+            }
+        }
+        abort(500);
+    }
 }

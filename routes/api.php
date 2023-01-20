@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:sanctum', 'isAdmin'], 'namespace' => 'App\H
     Route::apiResource('blogcomment', 'BlogCommentController');
     Route::get('download/options', 'DownloadsController@options');
     Route::apiResource('download', 'DownloadsController');
+    Route::post('upload-image', [\App\Http\Controllers\ParserController::class, 'uploadImage']);
 });
 
 //Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');

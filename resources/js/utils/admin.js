@@ -15,6 +15,7 @@ const editorOptions = {
             bullist numlist outdent indent image code | removeformat | help',
         relative_urls : false,
         remove_script_host : true,
+        images_upload_url: "/api/upload-image"
         //document_base_url: '/'
     }}
 }
