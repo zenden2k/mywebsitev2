@@ -8,8 +8,8 @@ class DownloadController extends Controller
 {
     public function index(string $filename)
     {
-        $file_path = public_path() .'/downloads/' . $filename.'.txt';
-        if ( !file_exists($file_path) ) {
+        $file_path = public_path() . '/downloads/' . $filename . '.txt';
+        if (!file_exists($file_path)) {
             abort(404);
         }
 
@@ -20,13 +20,13 @@ class DownloadController extends Controller
         ]);
         $downloadId = \DB::getPdo()->lastInsertId();
         if (!$downloadId) {
-            $row = \DB::table('downloads')->where('url','=', $url)->first();
+            $row = \DB::table('downloads')->where('url', '=', $url)->first();
 
             $downloadId = $row->id;
         }
 
         $arr = [
-            'ip' => sprintf('%u',ip2long(Request::ip())),
+            'ip' => sprintf('%u', ip2long(Request::ip())),
             'downloaded_at' => date('Y-m-d H:i:s'),
             'download_id' => $downloadId
         ];

@@ -30,7 +30,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Tab extends Model
 {
-    use HasFactory, Translatable, SoftDeletes;
+    use HasFactory;
+    use Translatable;
+    use SoftDeletes;
 
     public $timestamps = false;
     protected $fillable = [
@@ -41,5 +43,4 @@ class Tab extends Model
         'alias',
         'active'
     ];
-
 }

@@ -9,7 +9,6 @@ use App\Models\BlogComment;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
-
 class BlogCommentController extends BaseController
 {
     /**

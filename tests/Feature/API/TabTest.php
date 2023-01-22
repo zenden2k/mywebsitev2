@@ -40,9 +40,7 @@ class TabTest extends TestCase
                             'url' => 'string',
                             'orderNumber' => 'integer'
                         ])
-                        ->etc()
-                    )
-                ->etc()
-        );
+                        ->etc())
+                ->etc());
     }
 }

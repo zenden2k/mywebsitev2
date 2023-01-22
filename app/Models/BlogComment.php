@@ -33,5 +33,4 @@ class BlogComment extends Model
     {
         return $this->belongsTo(BlogPost::class, 'blog_post_id');
     }
-
 }

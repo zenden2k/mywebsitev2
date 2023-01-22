@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MenuItem extends Model
 {
-    use HasFactory, Translatable, SoftDeletes;
+    use HasFactory;
+    use Translatable;
+    use SoftDeletes;
+
     protected $table = 'menuitems';
     public $timestamps = false;
 
@@ -33,11 +36,13 @@ class MenuItem extends Model
         return $this->belongsTo(Tab::class, 'tab_id');
     }
 
-    public function isExternalUrl() {
+    public function isExternalUrl()
+    {
         return empty($this->target_page_id);
     }
 
-    public function url() {
+    public function url()
+    {
         if (!empty($this->targetPage)) {
             return $this->targetPage->alias;
         }

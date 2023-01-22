@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogCategory extends Model
 {
-    use HasFactory, Translatable, SoftDeletes;
+    use HasFactory;
+    use Translatable;
+    use SoftDeletes;
+
     protected $table = 'blog_categories';
     public $timestamps = false;
 

@@ -21,54 +21,60 @@ class StaticPageController extends SiteController
             abort(404);
         }
 
-        if ( $page->alias === 'imageuploader_downloads' || $page->alias === 'imageuploader'  ) {
-            $iu_latest_link = file_get_contents(public_path().'/downloads/image-uploader-latest.txt');
+        if ($page->alias === 'imageuploader_downloads' || $page->alias === 'imageuploader') {
+            $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest.txt');
             $matches = null;
-            if ( preg_match('/image-uploader-(.+)-build-(\d+)/i',$iu_latest_link, $matches) ) {
+            if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
                 // var_dump($matches);
                 $version = $matches[1];
                 $build = $matches[2];
-                $page->text_ru = str_replace(array('{version}','{build}'),array($version, $build),$page->text_ru);
-                $page->text_en = str_replace(array('{version}','{build}'),array($version, $build),$page->text_en);
+                $page->text_ru = str_replace(array('{version}','{build}'), array($version, $build), $page->text_ru);
+                $page->text_en = str_replace(array('{version}','{build}'), array($version, $build), $page->text_en);
             }
 
-            $iu_latest_link = file_get_contents(public_path().'/downloads/image-uploader-latest-beta.txt');
+            $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest-beta.txt');
             $matches = null;
-            if ( preg_match('/image-uploader-(.+)-build-(\d+)/i',$iu_latest_link, $matches) ) {
+            if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
                 // var_dump($matches);
                 $version = $matches[1];
                 $build = $matches[2];
-                $page->text_ru = str_replace(array('{beta_version}','{beta_build}'),array($version, $build),$page->text_ru);
-                $page->text_en = str_replace(array('{version}','{build}'),array($version, $build),$page->text_en);
+                $page->text_ru = str_replace(
+                    array('{beta_version}','{beta_build}'),
+                    array($version, $build),
+                    $page->text_ru
+                );
+                $page->text_en = str_replace(array('{version}','{build}'), array($version, $build), $page->text_en);
             }
         }
 
         $pageBlocks = $page->blocks()->orderBy('orderNumber')->get();
         $sidebarBlocks = $page->sidebarBlocks->all();
-        $defaultSidebarBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'] )->get()->all();
+        $defaultSidebarBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'])->get()->all();
 
         $bottomPageBlocks = [];
         $leftPageBlocks = [];
 
-        foreach ( $pageBlocks as $block ) {
-            if ( $block->showInSidebar ) {
+        foreach ($pageBlocks as $block) {
+            if ($block->showInSidebar) {
                 $leftPageBlocks[] = $block;
             } else {
-                if ( $block->alias === 'imageuploader-downloads' ) {
-                    $iu_latest_link = file_get_contents(public_path().'/downloads/image-uploader-latest.txt');
+                if ($block->alias === 'imageuploader-downloads') {
+                    $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest.txt');
                     $matches = null;
-                    if ( preg_match('/image-uploader-(.+)-build-(\d+)/i',$iu_latest_link, $matches) ) {
+                    if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
                         // var_dump($matches);
                         $version = $matches[1];
                         $build = $matches[2];
-                        $block->content = str_replace(array('{version}','{build}'),array($version, $build),$block->content);
+                        $block->content = str_replace(array('{version}','{build}'),
+                            array($version, $build), $block->content
+                        );
                     }
                 }
                 $bottomPageBlocks[] = $block;
             }
         }
 
-        $leftPageBlocks = array_merge( $sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks );
+        $leftPageBlocks = array_merge($sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks);
 
         $lang = LocaleHelper::getCurrentLanguage();
 
@@ -76,7 +82,7 @@ class StaticPageController extends SiteController
             $menuItems = MenuItem::with('targetPage')
                 ->where('tab_id', '=', $page->tabId)
                 ->where('status', '=', 1)
-                ->where('title_'.$lang,'!=','')
+                ->where('title_' . $lang, '!=', '')
                 ->orderBy('order_number')
                 ->get()->all();
         } else {
@@ -111,10 +117,15 @@ class StaticPageController extends SiteController
             'bottomPageBlocks' => $bottomPageBlocks,
             'menuItems' => $menuItems,
             'currentPageId' => $page->id,
-            'menuTitle' => $page->tab ? $page->tab->title: '',
+            'menuTitle' => $page->tab ? $page->tab->title : '',
             'currentTab' => '',
             'comments' => $comments,
-            'title' => $pageNumber ? __("messages.comments_title", ['pagename' => $page->title, 'page' => $pageNumber]) : $page->title,
+            'title' => $pageNumber ? __(
+                "messages.comments_title",
+                [
+                    'pagename' => $page->title, 'page' => $pageNumber
+                ]
+            ) : $page->title,
             'metaKeywords' => $page->meta_keywords,
             'metaDescription' => $page->meta_description,
             'openGraphImage' => $page->open_graph_image

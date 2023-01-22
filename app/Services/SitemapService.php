@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\BlogPost;
 use App\Models\Page;
@@ -15,8 +13,8 @@ class SitemapService
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $urlset = $dom->createElement('urlset');
-        $urlset->setAttribute('xmlns','http://www.sitemaps.org/schemas/sitemap/0.9');
-        $urlset->setAttribute('xmlns:xhtml','http://www.w3.org/1999/xhtml');
+        $urlset->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+        $urlset->setAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
 
         $pages = Page::get();
 
@@ -26,7 +24,7 @@ class SitemapService
             $url = $dom->createElement('url');
 
             $ruUrl = url('ru/' .  $page->alias);
-            $enUrl = url ( $page->alias);
+            $enUrl = url($page->alias);
             // Элемент <loc> - URL статьи.
             $loc = $dom->createElement('loc');
             $text = $dom->createTextNode(
@@ -66,16 +64,16 @@ class SitemapService
 
         $posts_orm = BlogPost::with('category');
 
-        $posts = $posts_orm->where('status','=','1')->orderBy('created_at','DESC')->get();
+        $posts = $posts_orm->where('status', '=', '1')->orderBy('created_at', 'DESC')->get();
 
         foreach ($posts as $post) {
             $date = strtotime($post->created_at);
 
             $url = $dom->createElement('url');
 
-            $ruUrl = $post->content_ru ? $post->getUrl(true, 'ru'): null;
+            $ruUrl = $post->content_ru ? $post->getUrl(true, 'ru') : null;
 
-            $enUrl = $post->content_en ? $post->getUrl(true, 'en'): null;
+            $enUrl = $post->content_en ? $post->getUrl(true, 'en') : null;
 
 
             if (!$ruUrl && !$enUrl) {
@@ -85,7 +83,7 @@ class SitemapService
             // Элемент <loc> - URL статьи.
             $loc = $dom->createElement('loc');
             $text = $dom->createTextNode(
-                htmlentities($ruUrl ? $ruUrl: $enUrl, ENT_QUOTES)
+                htmlentities($ruUrl ? $ruUrl : $enUrl, ENT_QUOTES)
             );
             $loc->appendChild($text);
             $url->appendChild($loc);

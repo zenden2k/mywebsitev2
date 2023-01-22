@@ -9,7 +9,6 @@ use App\Models\Comment;
 use App\Models\Page;
 use Illuminate\Http\Request;
 
-
 class CommentController extends BaseController
 {
     /**

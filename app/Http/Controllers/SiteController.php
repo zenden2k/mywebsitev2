@@ -12,7 +12,9 @@ use View;
 
 class SiteController extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
     protected string $urlPrefix;
 
@@ -21,18 +23,18 @@ class SiteController extends BaseController
         if ($method !== 'rss') {
             $tabs = Tab::where('active', '=', 1)->orderBy('orderNumber')->get();
 
-            $revision = @file_get_contents( base_path().'/revision' );
-            if ( $revision === false ) {
+            $revision = @file_get_contents(base_path() . '/revision');
+            if ($revision === false) {
                 $revision = 1;
             } else {
-                $revision = trim( $revision );
+                $revision = trim($revision);
             }
 
             $lang = LocaleHelper::getCurrentLanguage();
 
             $this->urlPrefix = $lang === 'en' ? '' : '/ru';
 
-            View::share ([
+            View::share([
                 '__lang' => $lang,
                 'metaDescription' => '',
                 'metaKeywords' => '',
@@ -49,6 +51,5 @@ class SiteController extends BaseController
             ]);
         }
         return parent::callAction($method, $parameters);
-
     }
 }

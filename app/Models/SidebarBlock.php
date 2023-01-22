@@ -28,7 +28,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SidebarBlock extends Model
 {
-    use HasFactory, Translatable, SoftDeletes;
+    use HasFactory;
+    use Translatable;
+    use SoftDeletes;
+
     protected $table = 'sidebarblocks';
 
     public $timestamps = false;

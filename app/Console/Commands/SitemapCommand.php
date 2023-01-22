@@ -38,10 +38,9 @@ class SitemapCommand extends Command
      */
     public function handle()
     {
-        if (SitemapService::generate()){
+        if (SitemapService::generate()) {
             return Command::SUCCESS;
         }
         return Command::FAILURE;
-
     }
 }

@@ -47,7 +47,7 @@ class PageController extends BaseController
     public function store(EditPageRequest $request)
     {
         $page = null;
-        DB::transaction(function() use ($request, &$page) {
+        DB::transaction(function () use ($request, &$page) {
             $page = new Page($request->validated());
             $page->save();
             $blocks = $request->post('blocks');
@@ -62,7 +62,6 @@ class PageController extends BaseController
                 }
                 $page->sidebarBlocks()->sync($blockIds);
             }
-
         });
 
         return $this->sendResponse([
@@ -91,7 +90,7 @@ class PageController extends BaseController
      */
     public function update(EditPageRequest $request, Page $page)
     {
-        DB::transaction(function() use ($page, $request) {
+        DB::transaction(function () use ($page, $request) {
             $page->update($request->validated());
             $blocks = $request->post('blocks');
             if ($blocks !== null) {

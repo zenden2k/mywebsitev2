@@ -22,7 +22,7 @@ class DownloadsController extends BaseController
     {
         $query = \DB::table('downloads')
             ->selectRaw('downloads.id, url, COUNT(*) as cnt')
-            ->leftJoin('downloads_stats', 'downloads.id','=','download_id')
+            ->leftJoin('downloads_stats', 'downloads.id', '=', 'download_id')
             ->groupBy('downloads.id')
             ->orderBy('downloads.id');
 
@@ -36,18 +36,20 @@ class DownloadsController extends BaseController
     public function show(Download $download)
     {
         $days = [];
-        for($i = 30; $i >=0; $i--) {
+        for ($i = 30; $i >= 0; $i--) {
             $days[] = date("Y-m-d", strtotime('-' . $i . ' days'));
         }
         $res = \DB::select(
             'SELECT date(downloaded_at) as d, count(*) as cnt FROM downloads_stats
-             WHERE `download_id`=:id and `downloaded_at` >= NOW() - INTERVAL 30 DAY group by d ', [
+             WHERE `download_id`=:id and `downloaded_at` >= NOW() - INTERVAL 30 DAY group by d ',
+            [
                  ':id' => $download->id
-        ]);
+            ]
+        );
         $res = \Arr::pluck($res, 'cnt', 'd');
         $stats = [];
-        foreach( $days as $day) {
-            $stats[$day] = isset($res[$day])? (int)$res[$day] : 0;
+        foreach ($days as $day) {
+            $stats[$day] = isset($res[$day]) ? (int)$res[$day] : 0;
         }
 
         $data = [

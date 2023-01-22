@@ -7,7 +7,6 @@ use App\Models\BlogCategory;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
-
 class BlogCategoryController extends BaseController
 {
     /**

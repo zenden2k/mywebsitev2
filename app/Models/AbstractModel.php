@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Models;
-
-
 
 use App\Helpers\ArrayHelper;
 use Illuminate\Database\Eloquent\Model;

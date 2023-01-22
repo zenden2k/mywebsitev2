@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Helpers;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -27,7 +26,8 @@ class ArrayHelper
         );
     }
 
-    public static function coalesce() {
+    public static function coalesce()
+    {
         $ar = array_filter(func_get_args());
         return array_shift($ar);
     }

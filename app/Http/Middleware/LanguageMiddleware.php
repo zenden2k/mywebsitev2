@@ -49,14 +49,14 @@ class LanguageMiddleware
         \App::setLocale($lang);
 
         if ($lang !== 'en') {
-            $prefix = '/'.$lang;
+            $prefix = '/' . $lang;
         } else {
             $prefix = '';
         }
         $data = [
             '__prefix' => $prefix,
             '__lang' => $lang,
-            '__canonical_url' =>  'https://' . $hostName .'/'.$request->path(),
+            '__canonical_url' =>  'https://' . $hostName . '/' . $request->path(),
             '__domain_name' => $hostName,
             '__ru_link' => $this->generateCurrentPageUrlForLang($request, 'ru'),
             '__en_link' => $this->generateCurrentPageUrlForLang($request, 'en')
@@ -66,9 +66,13 @@ class LanguageMiddleware
         /** @var Response $res */
         $res = $next($request);
 
-        if ( $res->getStatusCode() != 404 && $detectedLang != $lang && $detectedLang === 'ru'
-            && strpos($referer, $hostName . '/') === false &&
-            (!$cookieLang || $cookieLang != $lang)
+        if (
+            $res->getStatusCode() != 404
+            && $detectedLang != $lang
+            && $detectedLang === 'ru'
+            && strpos($referer, $hostName . '/') === false
+            && (!$cookieLang
+            || $cookieLang != $lang)
         ) {
             return redirect($this->generateCurrentPageUrlForLang($request, $detectedLang));
         }
@@ -76,22 +80,23 @@ class LanguageMiddleware
     }
 
 
-    private function generateCurrentPageUrlForLang(Request $request, string $lang): string {
+    private function generateCurrentPageUrlForLang(Request $request, string $lang): string
+    {
         $path = $request->getRequestUri();
         if ($path[0] !== '/') {
-            $path = '/'.$path;
+            $path = '/' . $path;
         }
         $languages = ['ru', 'en'];
         foreach ($languages as $item) {
-            $path = preg_replace('|^/'.$item.'/|', '/', $path);
-            $path = preg_replace('|^/'.$item.'$|', '/', $path);
+            $path = preg_replace('|^/' . $item . '/|', '/', $path);
+            $path = preg_replace('|^/' . $item . '$|', '/', $path);
         }
 
         if ($lang !== 'en') {
-            if ($path === '/'){
-                $path = '/'.$lang;
+            if ($path === '/') {
+                $path = '/' . $lang;
             } else {
-                $path = '/'.$lang.$path;
+                $path = '/' . $lang . $path;
             }
         }
         return $path;

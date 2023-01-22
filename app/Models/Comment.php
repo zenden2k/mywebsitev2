@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
     //const CREATED_AT = 'createdAt';
     //const UPDATED_AT = n;

@@ -9,7 +9,6 @@ use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
-
 class BlogPostController extends BaseController
 {
     /**

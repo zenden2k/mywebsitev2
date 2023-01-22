@@ -8,7 +8,6 @@ use App\Models\Page;
 use App\Models\Tab;
 use Illuminate\Http\Request;
 
-
 class MenuItemController extends BaseController
 {
     /**

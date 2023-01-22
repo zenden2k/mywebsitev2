@@ -54,10 +54,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Page extends AbstractModel
 {
-    use HasFactory, SoftDeletes, Translatable;
+    use HasFactory;
+    use SoftDeletes;
+    use Translatable;
 
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'modifiedAt';
+    public const CREATED_AT = 'createdAt';
+    public const UPDATED_AT = 'modifiedAt';
 
     protected $fillable = [
         'title_ru',
@@ -114,5 +116,4 @@ class Page extends AbstractModel
         $this->blocks()->delete();
         $this->blocks()->saveMany($blockObjects);
     }
-
 }

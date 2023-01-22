@@ -11,7 +11,10 @@ use Spatie\Sluggable\SlugOptions;
 
 class BlogPost extends Model
 {
-    use HasFactory, HasSlug, Translatable, SoftDeletes;
+    use HasFactory;
+    use HasSlug;
+    use Translatable;
+    use SoftDeletes;
 
     protected $table = 'blog_posts';
 
@@ -54,7 +57,7 @@ class BlogPost extends Model
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('title_ru')
@@ -63,13 +66,15 @@ class BlogPost extends Model
             ->doNotGenerateSlugsOnUpdate();
     }
 
-    public function getUrl($with_host=true, $lang = null): string {
+    public function getUrl($with_host = true, $lang = null): string
+    {
         if ($lang === null) {
             $lang = LocaleHelper::getCurrentLanguage();
         }
-        $url = ($lang === 'ru' ? '/ru' : '').'/blog/'.date("Y/m/d", strtotime($this->created_at)).'/'.$this->alias . '-'.$this->id;
-        if ( $with_host ) {
-            return url($url).((substr( $this->alias ,-1) == '-')?'/':'');
+        $url = ($lang === 'ru' ? '/ru' : '') . '/blog/' . date("Y/m/d", strtotime($this->created_at))
+            . '/' . $this->alias . '-' . $this->id;
+        if ($with_host) {
+            return url($url) . ((substr($this->alias, -1) == '-') ? '/' : '');
         } else {
             return $url;
         }

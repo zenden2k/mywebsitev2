@@ -34,6 +34,6 @@ class PageResource extends JsonResource
             'tabId' => $this->tabId,
             'comments_count' => $this->comments_count ?? null,
             'sidebarBlocks' => $this->sidebarBlocks->sortBy('id')->all(),
-    ];
+        ];
     }
 }
