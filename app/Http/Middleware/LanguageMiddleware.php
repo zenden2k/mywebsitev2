@@ -48,6 +48,11 @@ class LanguageMiddleware
 
         \App::setLocale($lang);
 
+        if ($lang === 'ru') {
+            setlocale(LC_ALL, 'ru_RU.utf8');
+        }
+        \Carbon\Carbon::setLocale(config('app.locale'));
+
         if ($lang !== 'en') {
             $prefix = '/' . $lang;
         } else {

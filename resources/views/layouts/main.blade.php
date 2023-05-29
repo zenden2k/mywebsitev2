@@ -73,7 +73,6 @@
                 @endforeach
             </aside>
             <main id="content" >
-                <div class="abner-under2" ></div>
                 @yield('content')
 
             </main>

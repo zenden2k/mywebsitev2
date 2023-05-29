@@ -42,9 +42,7 @@ class BlogController extends SiteController
         $archives = [];
         $lang_ins = $lang === 'en' ? 'and `content_en`!="" ' : '';
         $months = \DB::select('SELECT COUNT(id) as cnt,CONCAT(YEAR(created_at),"-",MONTH(created_at)) as mon
-                    from blog_posts where `status`=1 ' . $lang_ins . ' group by mon order by mon');
-
-        setlocale(LC_ALL, 'ru_RU.utf-8');
+                    from blog_posts where `status`=1 ' . $lang_ins . ' group by mon order by mon desc');
 
         if (!empty($months)) {
             foreach ($months as $month_arr) {
@@ -52,17 +50,17 @@ class BlogController extends SiteController
                 $time = strtotime($month_str . '-01');
                 list($year,$month) = explode('-', $month_str);
                 $archives[] = array(
-                    'title' => /*date("F Y",$time)*/strftime('%B %Y', $time),
+                    'title' => LocaleHelper::getMonthName($time) . date(' Y', $time),
                     'month' => "$year/$month",
                     'url' => $this->urlPrefix . "/blog/$year/$month",
                     'count' => $month_arr->cnt
                 );
             }
         } else {
-            $time = strtotime(date("01.m.y"));
+            $time = strtotime(date("y-m-01"));
             for ($i = 0; $i < 12; $i++) {
                 $archives[] = array(
-                    'title' => date("F Y", $time),
+                    'title' => LocaleHelper::getMonthName($time) . date(" Y", $time),
                     'url' => $this->urlPrefix . '/blog/' . date("Y/m", $time),
                     'month' =>  date("Y/m", $time),
                     'count' => 0
@@ -71,14 +69,12 @@ class BlogController extends SiteController
             }
         }
 
-        $res = setlocale(LC_ALL, 'ru_RU.utf-8');
-
         $leftPageBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'])->get()->all();
 
         return [
             '__blog_categories' => $categories,
             '__categories_post_count' => $categories_post_count,
-            'archives' => array_reverse($archives),
+            'archives' => $archives,
             'currentTab' => 'blog',
             'leftPageBlocks' => $leftPageBlocks
         ];

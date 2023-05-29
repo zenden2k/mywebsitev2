@@ -65,8 +65,10 @@ class StaticPageController extends SiteController
                         // var_dump($matches);
                         $version = $matches[1];
                         $build = $matches[2];
-                        $block->content = str_replace(array('{version}','{build}'),
-                            array($version, $build), $block->content
+                        $block->content = str_replace(
+                            array('{version}','{build}'),
+                            array($version, $build),
+                            $block->content
                         );
                     }
                 }
@@ -107,7 +109,7 @@ class StaticPageController extends SiteController
             $comment->save();
         }
 
-        $comments = $page->comments()->orderBy('createdAt', 'desc')->paginate(10);
+        $comments = $page->showComments ? $page->comments()->orderBy('createdAt', 'desc')->paginate(10) : [];
 
         $pageNumber = (int)$request->get('page');
         return view('static_page', [

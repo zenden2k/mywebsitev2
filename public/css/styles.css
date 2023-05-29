@@ -300,9 +300,6 @@ body {
     /*grid-column: 1/1;*/
 }
 
-.abner {
-    padding-top: 260px!important;
-}
 
 #row_wrapper {
     /*display: table;*/
@@ -314,9 +311,6 @@ body {
     padding: 15px;
     vertical-align: top;
     flex-grow: 1;
-}
-.abner-under {
-    width:60px; height:250px;display: block;float: left;
 }
 
 .sidebar_block {

@@ -92,7 +92,7 @@ $(function() {
         Galleria.run('#galleria');
     }
 
-    function checkAd() {
+    /*function checkAd() {
         var abner = $('.adsbygoogle');
         if (abner.length == 0 || abner.is(':hidden')) {
             $('.abner-under').hide();
@@ -101,7 +101,7 @@ $(function() {
     }
     checkAd();
     setTimeout(checkAd, 1000);
-    //}, 100);
+    //}, 100);*/
 
     $(".open-panel").click(function(){
 
