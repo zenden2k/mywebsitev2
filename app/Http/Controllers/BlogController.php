@@ -33,7 +33,8 @@ class BlogController extends SiteController
         if ($lang === 'en') {
             $db_query->where('content_en', '!=', '');
         }
-        $db_query->where('status', '=', 1);
+        $db_query->where('status', '=', 1)
+            ->whereNull('deleted_at');
         $categories_post_count = $db_query->groupBy('category_id')->get()->all();
         $categories_post_count = \Arr::pluck($categories_post_count, 'cnt', 'category_id');
 
@@ -42,7 +43,7 @@ class BlogController extends SiteController
         $archives = [];
         $lang_ins = $lang === 'en' ? 'and `content_en`!="" ' : '';
         $months = \DB::select('SELECT COUNT(id) as cnt,CONCAT(YEAR(created_at),"-",MONTH(created_at)) as mon
-                    from blog_posts where `status`=1 ' . $lang_ins . ' group by mon order by mon desc');
+                    from blog_posts where `status`=1 ' . $lang_ins . ' and deleted_at is null group by mon order by mon desc');
 
         if (!empty($months)) {
             foreach ($months as $month_arr) {
