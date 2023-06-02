@@ -115,5 +115,51 @@ $(function() {
 
     });
 
+    $('a').each(function(index, elem) {
+        const $elem = $(elem);
+        const url = $elem.attr('href');
+        if (!url || (!url.startsWith("/files/") && !url.startsWith("/downloads/"))) {
+            return true;
+        }
+
+        $( '<div class="sha256-label">sha256</div>' ).click(function (e) {
+            e.stopPropagation();
+            let sha256Url = '';
+            const $label = $(e.target);
+            const downloadSha256 = function($elem, url) {
+                $.get(url, function(data) {
+                    const $popup = $( '<div class="sha256-popup"></div>' ).html("<p class='sha256-popup-p'>" + data + "</p>").click(function(e) {
+                        e.stopPropagation();
+                    }).dblclick(function(e) {
+                        e.stopPropagation();
+                    });
+
+                    $label.append($popup);
+                });
+            };
+            let $existingPopup = $label.find('.sha256-popup');
+            if ($existingPopup.length) {
+                $existingPopup.show();
+                return;
+            }
+            if (url.startsWith("/files/")) {
+                sha256Url = url + ".sha256";
+                downloadSha256($elem, sha256Url);
+            } else if (url.startsWith("/downloads/")) {
+                const downloadUrl = url + ".txt";
+                $.get(downloadUrl, function(data) {
+                    if (data.startsWith("/files/")) {
+                        downloadSha256($elem, data+ ".sha256");
+                    }
+                });
+            }
+
+        }).insertAfter($elem);
+    });
+
+    $(window).click(function(e) {
+        $('.sha256-popup').hide();
+    });
+
 
 });

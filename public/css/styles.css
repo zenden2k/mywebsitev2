@@ -773,3 +773,34 @@ button.open-panel {
 
 }
 
+.sha256-label {
+    display: inline-block;
+    background-color: #d9d9d9;
+    border-radius: 3px;
+    padding: 2px 4px 2px 4px;
+    color: #898888;
+    margin-left: 7px;
+
+    cursor: pointer;
+    font-size: 10px;
+    position: relative;
+}
+
+.sha256-popup {
+    z-index: 100;
+    cursor: text;
+    position: absolute;
+    top: 20px;
+    left: -140px;
+    border-radius: 3px;
+    padding: 2px 4px 2px 4px;
+    background-color: #c2c2c2;
+    box-shadow: 5px 5px 12px #8b8b8b;
+    font-weight: normal;
+    color: #000000;
+}
+
+.sha256-popup-p {
+    padding: 0;
+    margin: 0;
+}
