@@ -784,6 +784,7 @@ button.open-panel {
     cursor: pointer;
     font-size: 10px;
     position: relative;
+    user-select: none;
 }
 
 .sha256-popup {
@@ -798,6 +799,7 @@ button.open-panel {
     box-shadow: 5px 5px 12px #8b8b8b;
     font-weight: normal;
     color: #000000;
+    user-select: text;
 }
 
 .sha256-popup-p {

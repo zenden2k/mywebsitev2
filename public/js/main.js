@@ -130,8 +130,6 @@ $(function() {
                 $.get(url, function(data) {
                     const $popup = $( '<div class="sha256-popup"></div>' ).html("<p class='sha256-popup-p'>" + data + "</p>").click(function(e) {
                         e.stopPropagation();
-                    }).dblclick(function(e) {
-                        e.stopPropagation();
                     });
 
                     $label.append($popup);
