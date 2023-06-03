@@ -116,56 +116,77 @@ $(function() {
     });
 
     const closeAllPopups = function() {
-        $('.sha256-popup').css({visibility: "hidden"});
+        $('.sha256').removeClass('sha256_open');
     };
     const fixPopupPosition = function ($popup) {
         if ($popup.offset().left < 0) {
             $popup.offset({left: 0})
         }
     }
+    const showPopup = function($parent, data, error = false) {
+        const $existingPopup = $parent.find(".sha256__popup");
+        let $popup = null;
+        if (!$existingPopup.length) {
+            $popup = $( '<div class="sha256__popup"><p class="sha256__paragraph"></p></div>').click(function(e) {
+                e.stopPropagation();
+            });
+            $parent.append($popup);
+        } else {
+            $popup = $existingPopup;
+
+        }
+        $popup.find('.sha256__paragraph').html(data);
+        fixPopupPosition($popup);
+        $parent.addClass('sha256_open');
+        $parent.toggleClass('sha256_error', error);
+    }
+
     $('a').each(function(index, elem) {
         const $elem = $(elem);
         const url = $elem.attr('href');
-        if (!url || (!url.startsWith("/files/") && !url.startsWith("/downloads/"))) {
+        const filesDirectory = "/files/";
+        const downloadsDirectory = "/downloads/";
+        if (!url || (!url.startsWith(filesDirectory) && !url.startsWith(downloadsDirectory))) {
             return true;
         }
 
-        $( '<div class="sha256-container"></div>' ).append($('<span class="sha256-label">sha256</span>').click(function (e) {
+        $( '<div class="sha256"></div>' ).append($('<span class="sha256__label">sha256</span>').click(function (e) {
             e.stopPropagation();
 
-            const $container = $(e.target).closest('.sha256-container');
-            const downloadSha256 = function($elem, url) {
-                $.get(url, function(data) {
-                    const $popup = $( '<div class="sha256-popup"></div>' ).text(/*"<p class='sha256-popup-p'>" + */data /*"</p>"*/).click(function(e) {
-                        e.stopPropagation();
-                    });
+            const $container = $(e.target).closest('.sha256');
 
-                    $container.append($popup);
-                    fixPopupPosition($popup);
-                });
+            const ajaxErrorFunction = function(jqXHR, textStatus, errorThrown) {
+                showPopup($container, "An AJAX error occured: " + textStatus +
+                    "<br>Error: " + errorThrown + "<br>Status: " + jqXHR.status, true);
             };
 
-            let $existingPopup = $container.find('.sha256-popup');
-            const isVisible =  $existingPopup.length  && $existingPopup.css('visibility')!=='hidden';
-            $('.sha256-popup').css({visibility: "hidden"});
+            const downloadSha256 = function($elem, url) {
+                $.get(url, function(data) {
+                    showPopup($container, data);
+                }).error(ajaxErrorFunction);
+            };
 
-            if ($existingPopup.length) {
+            let $existingPopup = $container.find('.sha256__popup');
+            const isVisible =  $existingPopup.length  && $container.hasClass('sha256_open');
+            closeAllPopups();
+
+            if ($existingPopup.length && !$container.hasClass('sha256_error')) {
                 if (!isVisible) {
                     fixPopupPosition($existingPopup);
-                    $existingPopup.css({visibility: "visible"});
+                    $container.addClass('sha256_open');
                 }
                 return;
             }
-            if (url.startsWith("/files/")) {
+            if (url.startsWith(filesDirectory)) {
                 let sha256Url = url + ".sha256";
                 downloadSha256($elem, sha256Url);
-            } else if (url.startsWith("/downloads/")) {
+            } else if (url.startsWith(downloadsDirectory)) {
                 const downloadUrl = url + ".txt";
                 $.get(downloadUrl, function(data) {
-                    if (data.startsWith("/files/")) {
+                    if (data.startsWith(filesDirectory)) {
                         downloadSha256($elem, data + ".sha256");
                     }
-                });
+                }).error(ajaxErrorFunction);
             }
 
         })).insertAfter($elem);

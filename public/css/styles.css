@@ -773,46 +773,56 @@ button.open-panel {
 
 }
 
-.sha256-container {
+.sha256 {
     display: inline-block;
     position: relative;
+    margin-left: 7px;
 }
 
-.sha256-label {
+.sha256__label {
     display:inline-block;
     background-color: #d9d9d9;
     border-radius: 3px;
     padding: 2px 4px 2px 4px;
     color: #898888;
-    margin-left: 7px;
 
     cursor: pointer;
     font-size: 10px;
     user-select: none;
 }
 
-.sha256-label:hover {
+.sha256__label:hover {
     background-color: #b3b2b2;
     color: #eae9e9;
 }
 
-.sha256-popup {
+.sha256__popup {
     z-index: 100;
     cursor: text;
     position: absolute;
     top: 20px;
-    left: -140px;
+    left: 0;
     border-radius: 3px;
-    padding: 2px 4px 2px 4px;
-    background-color: #c2c2c2;
-    box-shadow: 5px 5px 12px #8b8b8b;
+    padding: 4px 6px 4px 6px;
+    background-color: #d2d0d0;
+    box-shadow: 5px 5px 12px #aaaaaa;
     font-weight: normal;
     color: #000000;
-    user-select: text;
+    /*user-select: text;*/
     font-size: 10px;
+    visibility: hidden;
+    min-width: 150px;
 }
 
-.sha256-popup-p {
+.sha256__paragraph {
     padding: 0;
     margin: 0;
+}
+
+.sha256_open .sha256__popup {
+    visibility: visible;
+}
+
+.sha256_error .sha256__popup {
+    color: #c43636;
 }
