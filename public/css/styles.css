@@ -810,8 +810,15 @@ button.open-panel {
     color: #000000;
     /*user-select: text;*/
     font-size: 10px;
-    visibility: hidden;
+    display: none;
     min-width: 150px;
+    text-align: left;
+}
+
+@media only screen and (max-width: 55em) {
+    .sha256__popup {
+        left: -150px;
+    }
 }
 
 .sha256__paragraph {
@@ -820,13 +827,18 @@ button.open-panel {
 }
 
 .sha256_open .sha256__popup {
-    visibility: visible;
+    display: block;
 }
 
 .sha256_error .sha256__popup {
     color: #c43636;
 }
 
+.sha256__hash-file-link {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: none;
+}
 .screenshot-with-shadow {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }

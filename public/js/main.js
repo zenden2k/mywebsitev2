@@ -119,11 +119,17 @@ $(function() {
         $('.sha256').removeClass('sha256_open');
     };
     const fixPopupPosition = function ($popup) {
+        /*const rect = $popup[0].getBoundingClientRect();
+        console.log(rect, window.innerWidth );
+        const docWidth = window.innerWidth;
+        if (rect.right > docWidth) {
+            $popup.offset({left: docWidth - rect.width});
+        }*/
         if ($popup.offset().left < 0) {
             $popup.offset({left: 0})
         }
     }
-    const showPopup = function($parent, data, error = false) {
+    const showPopup = function($parent, data, hashFileUrl = '', error = false) {
         const $existingPopup = $parent.find(".sha256__popup");
         let $popup = null;
         if (!$existingPopup.length) {
@@ -135,9 +141,12 @@ $(function() {
             $popup = $existingPopup;
 
         }
+        if (!error) {
+            data += '<a class="sha256__hash-file-link" href="' + hashFileUrl + '" target="_blank">Get hash file</a>';
+        }
         $popup.find('.sha256__paragraph').html(data);
-        fixPopupPosition($popup);
         $parent.addClass('sha256_open');
+        fixPopupPosition($popup);
         $parent.toggleClass('sha256_error', error);
     }
 
@@ -162,7 +171,7 @@ $(function() {
 
             const downloadSha256 = function($elem, url) {
                 $.get(url, function(data) {
-                    showPopup($container, data);
+                    showPopup($container, data, url);
                 }).error(ajaxErrorFunction);
             };
 
