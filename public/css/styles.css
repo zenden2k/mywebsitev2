@@ -773,8 +773,13 @@ button.open-panel {
 
 }
 
-.sha256-label {
+.sha256-container {
     display: inline-block;
+    position: relative;
+}
+
+.sha256-label {
+    display:inline-block;
     background-color: #d9d9d9;
     border-radius: 3px;
     padding: 2px 4px 2px 4px;
@@ -783,8 +788,12 @@ button.open-panel {
 
     cursor: pointer;
     font-size: 10px;
-    position: relative;
     user-select: none;
+}
+
+.sha256-label:hover {
+    background-color: #b3b2b2;
+    color: #eae9e9;
 }
 
 .sha256-popup {
@@ -800,6 +809,7 @@ button.open-panel {
     font-weight: normal;
     color: #000000;
     user-select: text;
+    font-size: 10px;
 }
 
 .sha256-popup-p {
