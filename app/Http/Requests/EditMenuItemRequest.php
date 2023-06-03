@@ -24,8 +24,8 @@ class EditMenuItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'title_ru' => 'required|string|max:255',
-            'title_en' => 'required|string|max:255',
+            'title_ru' => 'string|max:255',
+            'title_en' => 'string|max:255',
             'url_ru' => 'nullable|string',
             'url_en' => 'nullable|string',
             'target_page_id' => 'exists:\App\Models\Page,id',
