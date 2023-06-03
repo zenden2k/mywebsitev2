@@ -826,3 +826,7 @@ button.open-panel {
 .sha256_error .sha256__popup {
     color: #c43636;
 }
+
+.screenshot-with-shadow {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
