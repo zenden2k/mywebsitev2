@@ -47,36 +47,6 @@ class StaticPageController extends SiteController
             }
         }
 
-        $pageBlocks = $page->blocks()->orderBy('orderNumber')->get();
-        $sidebarBlocks = $page->sidebarBlocks->all();
-        $defaultSidebarBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'])->get()->all();
-
-        $bottomPageBlocks = [];
-        $leftPageBlocks = [];
-
-        foreach ($pageBlocks as $block) {
-            if ($block->showInSidebar) {
-                $leftPageBlocks[] = $block;
-            } else {
-                if ($block->alias === 'imageuploader-downloads') {
-                    $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest.txt');
-                    $matches = null;
-                    if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
-                        // var_dump($matches);
-                        $version = $matches[1];
-                        $build = $matches[2];
-                        $block->content = str_replace(
-                            array('{version}','{build}'),
-                            array($version, $build),
-                            $block->content
-                        );
-                    }
-                }
-                $bottomPageBlocks[] = $block;
-            }
-        }
-
-        $leftPageBlocks = array_merge($sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks);
 
         $lang = LocaleHelper::getCurrentLanguage();
 
@@ -110,7 +80,7 @@ class StaticPageController extends SiteController
         }
 
         $comments = $page->showComments ? $page->comments()->orderBy('createdAt', 'desc')->paginate(10) : [];
-
+        [$leftPageBlocks, $bottomPageBlocks] = $this->getBlocks($page);
         $pageNumber = (int)$request->get('page');
         return view('static_page', [
             'staticPage' => $page,
@@ -132,5 +102,39 @@ class StaticPageController extends SiteController
             'metaDescription' => $page->meta_description,
             'openGraphImage' => $page->open_graph_image
         ]);
+    }
+
+    protected function getBlocks(Page $page): array {
+        $pageBlocks = $page->blocks()->orderBy('orderNumber')->get();
+        $sidebarBlocks = $page->sidebarBlocks->all();
+        $defaultSidebarBlocks = SidebarBlock::whereIn('alias', ['myprograms','links'])->get()->all();
+
+        $bottomPageBlocks = [];
+        $leftPageBlocks = [];
+
+        foreach ($pageBlocks as $block) {
+            if ($block->showInSidebar) {
+                $leftPageBlocks[] = $block;
+            } else {
+                if ($block->alias === 'imageuploader-downloads') {
+                    $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest.txt');
+                    $matches = null;
+                    if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
+                        // var_dump($matches);
+                        $version = $matches[1];
+                        $build = $matches[2];
+                        $block->content = str_replace(
+                            array('{version}','{build}'),
+                            array($version, $build),
+                            $block->content
+                        );
+                    }
+                }
+                $bottomPageBlocks[] = $block;
+            }
+        }
+
+        $leftPageBlocks = array_merge($sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks);
+        return [$leftPageBlocks,$bottomPageBlocks];
     }
 }

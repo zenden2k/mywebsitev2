@@ -130,6 +130,7 @@ $(function() {
         }
     }
     const showPopup = function($parent, data, hashFileUrl = '', error = false) {
+        console.log("hashFileUrl=",hashFileUrl);
         const $existingPopup = $parent.find(".sha256__popup");
         let $popup = null;
         if (!$existingPopup.length) {
@@ -141,7 +142,7 @@ $(function() {
             $popup = $existingPopup;
 
         }
-        if (!error) {
+        if (!error && hashFileUrl) {
             data += '<a class="sha256__hash-file-link" href="' + hashFileUrl + '" target="_blank">Get hash file</a>';
         }
         $popup.find('.sha256__paragraph').html(data);
@@ -156,6 +157,10 @@ $(function() {
         const filesDirectory = "/files/";
         const downloadsDirectory = "/downloads/";
         if (!url || (!url.startsWith(filesDirectory) && !url.startsWith(downloadsDirectory))) {
+            return true;
+        }
+
+        if ($elem.next().hasClass('sha256')) {
             return true;
         }
 
@@ -186,6 +191,11 @@ $(function() {
                 }
                 return;
             }
+
+            if ($elem.data('hash')) {
+                showPopup($container, $elem.data('hash'), $elem.data('hash-file'));
+                return;
+            }
             if (url.startsWith(filesDirectory)) {
                 let sha256Url = url + ".sha256";
                 downloadSha256($elem, sha256Url);
@@ -205,5 +215,20 @@ $(function() {
        closeAllPopups();
     });
 
+    $('.builds-hamburger__item-caption').click(function() {
+        $this = $(this);
+        $container = $(this).closest('.builds-hamburger__item');
+        if (!$container.hasClass('builds-hamburger__item_open')) {
+            $siblings = $container.siblings('.builds-hamburger__item');
+            $siblings.removeClass('builds-hamburger__item_open');
+            $container.addClass('builds-hamburger__item_open');
+            $this.next().slideDown();
+            $siblings.children('.builds-hamburger__item-container').slideUp();
+        } else {
+            $container.removeClass('builds-hamburger__item_open');
+            //$container.children('.builds-hamburger__item-container').slideDown();
+            $this.next().slideUp();
+        }
+    });
 
 });

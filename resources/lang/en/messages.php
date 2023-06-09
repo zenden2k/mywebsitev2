@@ -5,4 +5,7 @@ return [
     'comments_title' => 'Comments on the post ":pagename"',
     'site_title' => 'Sergey Svistunov\'s blog',
     'show_menu' => 'Show menu',
+    'years_ago' => ':count year ago|:count years ago',
+    'months_ago' =>  ':count month ago|:count months ago',
+    'days_ago' =>  ':count day ago|:count days ago',
 ];

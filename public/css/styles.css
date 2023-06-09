@@ -842,3 +842,66 @@ button.open-panel {
 .screenshot-with-shadow {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+.builds-hamburger {
+    list-style-type: none;
+}
+.builds-hamburger__item {
+    list-style-type: none;
+    margin-top:4px;
+    background-color: #e0dede;
+    border-radius: 3px;
+    border: 1px solid #979797;
+}
+
+.builds-hamburger__item_open {
+
+}
+
+.builds-hamburger_active {
+
+}
+.builds-hamburger {
+    padding: 10px;
+
+}
+
+.builds-hamburger__item-container {
+    margin: 10px;
+    display: none;
+    list-style-position: inside;
+    list-style-type: none;
+    padding: 0;
+}
+.builds-hamburger__item-caption{
+    border-radius: 3px;
+    background-color: #c6c5c5;
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #383737;
+}
+
+.builds-hamburger__item-caption:hover {
+    background-color: #dcd9d9;
+}
+.builds-hamburger__item-caption_first-level{
+    color: #0b3871;
+}
+
+.builds-hamburger__files-list {
+    list-style-type: none;
+    padding: 10px;
+}
+.builds-hamburger__files-list-item{
+    padding: 3px;
+}
+
+.builds-hamburger__new-label {
+    color: forestgreen;
+}
+
+.builds-hamburger__time-ago-label {
+    color: #717070;
+}
