@@ -906,3 +906,12 @@ button.open-panel {
 .builds-hamburger__time-ago-label {
     color: #717070;
 }
+
+.sidebar-menu {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar-menu__item {
+    margin-bottom: 2px;
+}

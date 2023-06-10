@@ -56,9 +56,11 @@
                     <div class="sidebar_block_header"><span></span><div>{{ $menuTitle }}</div></div>
                     <div class="sidebar_block_content">
                         <p>
+                            <ul class="sidebar-menu">
                             @foreach($menuItems as $menuItem)
-                            <a href="@if(!$menuItem->isExternalUrl()){{$__prefix}}/@endif{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif" @if($currentPageId == $menuItem->target_page_id)aria-current="page" @endif>{{ $menuItem->title }}</a> <br/>
+                                <li class="sidebar-menu__item"><a href="@if(!$menuItem->isExternalUrl()){{$__prefix}}/@endif{{$menuItem->url()}}" @if($menuItem->isExternalUrl())target="_blank" @endif class="@if($currentPageId == $menuItem->target_page_id)active @endif" @if($currentPageId == $menuItem->target_page_id)aria-current="page" @endif>{{ $menuItem->title }}</a></li>
                             @endforeach
+                            </ul>
                         </p>
                     </div>
                 </div>

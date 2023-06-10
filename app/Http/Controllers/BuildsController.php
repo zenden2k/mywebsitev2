@@ -77,7 +77,5 @@ class BuildsController extends StaticPageController
         ];
 
         return view('builds', $data);
-
     }
-
 }
