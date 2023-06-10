@@ -22,7 +22,7 @@ class MenuItem extends Model
         'url_en',
         'target_page_id',
         'tab_id',
-        'orderNumber',
+        'order_number',
         'status'
     ];
 

@@ -48,18 +48,7 @@ class StaticPageController extends SiteController
         }
 
 
-        $lang = LocaleHelper::getCurrentLanguage();
 
-        if ($page->tabId) {
-            $menuItems = MenuItem::with('targetPage')
-                ->where('tab_id', '=', $page->tabId)
-                ->where('status', '=', 1)
-                ->where('title_' . $lang, '!=', '')
-                ->orderBy('order_number')
-                ->get()->all();
-        } else {
-            $menuItems = [];
-        }
 
 
         if ($request->isMethod('POST') && $page->showComments) {
@@ -78,11 +67,16 @@ class StaticPageController extends SiteController
             $comment->pageId = $page->id;
             $comment->save();
         }
+        return view('static_page', $this->getCommonData($request, $page));
+    }
+
+    protected function getCommonData(Request $request, Page $page): array {
+        $menuItems = $this->getMenuItems($page);
 
         $comments = $page->showComments ? $page->comments()->orderBy('createdAt', 'desc')->paginate(10) : [];
         [$leftPageBlocks, $bottomPageBlocks] = $this->getBlocks($page);
         $pageNumber = (int)$request->get('page');
-        return view('static_page', [
+        return [
             'staticPage' => $page,
             'showPage' => $pageNumber == 0,
             'leftPageBlocks' => $leftPageBlocks,
@@ -101,7 +95,7 @@ class StaticPageController extends SiteController
             'metaKeywords' => $page->meta_keywords,
             'metaDescription' => $page->meta_description,
             'openGraphImage' => $page->open_graph_image
-        ]);
+        ];
     }
 
     protected function getBlocks(Page $page): array {
@@ -136,5 +130,20 @@ class StaticPageController extends SiteController
 
         $leftPageBlocks = array_merge($sidebarBlocks, $leftPageBlocks, $defaultSidebarBlocks);
         return [$leftPageBlocks,$bottomPageBlocks];
+    }
+
+    protected function getMenuItems(Page $page): array {
+        if ($page->tabId) {
+            $lang = LocaleHelper::getCurrentLanguage();
+            $menuItems = MenuItem::with('targetPage')
+                ->where('tab_id', '=', $page->tabId)
+                ->where('status', '=', 1)
+                ->where('title_' . $lang, '!=', '')
+                ->orderBy('order_number')
+                ->get()->all();
+        } else {
+            $menuItems = [];
+        }
+        return $menuItems;
     }
 }

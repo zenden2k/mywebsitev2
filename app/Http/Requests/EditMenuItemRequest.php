@@ -30,7 +30,7 @@ class EditMenuItemRequest extends FormRequest
             'url_en' => 'nullable|string',
             'target_page_id' => 'exists:\App\Models\Page,id',
             'tab_id' => 'required|exists:\App\Models\Tab,id',
-            'orderNumber' => 'int',
+            'order_number' => 'int',
             'status' => 'boolean'
         ];
     }

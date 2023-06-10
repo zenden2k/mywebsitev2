@@ -4,12 +4,9 @@
     <article>
         <h1>{{$title}}</h1>
         <ul class="builds-hamburger">
-
             @forelse($builds as $build)
-
-
                 <li class="builds-hamburger__item">
-                    <span class="builds-hamburger__item-caption .builds-hamburger__item-caption_first-level">Build {{$build['build_number']}} ({{$build['date']}}) <span class="builds-hamburger__time-ago-label">{{$build['time_ago']}}</span> @if ($loop->first)<span class="builds-hamburger__new-label">*{{__('LATEST BUILD')}}*</span>  @endif</span>
+                    <span class="builds-hamburger__item-caption builds-hamburger__item-caption_first-level">{{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="builds-hamburger__time-ago-label">{{$build['time_ago']}}</span></span> @if ($loop->first)<span class="builds-hamburger__new-label">*{{__('LATEST BUILD')}}*</span>  @endif</span>
                     <ul class="builds-hamburger__item-container">
                         @foreach($build['subproducts'] as $osName => $subproducts)
                             <li  class="builds-hamburger__item">
@@ -31,15 +28,28 @@
                                             </li>
 
                                             @endforeach
-                                            <li>
-                                                Git commit: <a href="{{$build['commit_url']}}" target="_blank">{{$build['commit_hash_short']}}</a>
-                                            </li>
+{{--                                            <li>--}}
+{{--                                                Git commit: <a href="{{$build['commit_url']}}" target="_blank">{{$build['commit_hash_short']}}</a>--}}
+{{--                                            </li>--}}
                                         </ul>
                                     </li>
                                     @endforeach
                                 </ul>
                             </li>
                         @endforeach
+                        @if (!empty($build['commits']))
+                        <p>
+                        Commits:
+                            <ul>
+                                @foreach($build['commits'] as $commit)
+                                    <li>
+                                        <span title="{{ $commit['datetime']}}">[{{ $commit['date']}}]</span> {{ $commit['commit_message']}} <a href="{{ $commit['commit_url']}}" target="_blank">{{ $commit['commit_hash_short']}}</a>
+                                    </li>
+                                @endforeach
+
+                            </ul>
+                        </p>
+                            @endif
                     </ul>
                 </li>
             @empty

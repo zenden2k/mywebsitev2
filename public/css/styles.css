@@ -900,6 +900,7 @@ button.open-panel {
 
 .builds-hamburger__new-label {
     color: forestgreen;
+    display: none;
 }
 
 .builds-hamburger__time-ago-label {

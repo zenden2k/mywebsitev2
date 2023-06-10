@@ -39,7 +39,7 @@ class LocaleHelper
         return $n%10==1&&$n%100!=11?$variants[0]:($n%10>=2&&$n%10<=4&&($n%100<10||$n%100>=20)?$variants[1]:$variants[2]);
     }
 
-    public static function pluralize(string $key, int $n) {
+    public static function pluralize(string $key, int $n): string {
         if (str_starts_with(\App::getLocale(), 'ru')) {
             $str = __($key);
             $variants = explode('|', $str);
@@ -49,9 +49,13 @@ class LocaleHelper
         }
     }
 
-    public static function timeAgo($datetime,$ago = '') {
-        $interval = date_create('now')->diff($datetime);
+    public static function timeAgo(\DateTime $datetime, $ago = ''): string {
+        $now = date_create('now');
+        $interval = $now->diff($datetime);
 
+        if ($now->modify('-1 day')->format('Y-m-d') === $datetime->format('Y-m-d')) {
+            return __("yesterday");
+        }
         if ($interval->y >= 1) {
             return self::pluralize('messages.years_ago',$interval->y) .$ago;
         }
@@ -61,11 +65,8 @@ class LocaleHelper
         if ($interval->d >= 1) {
             return self::pluralize('messages.days_ago',$interval->d).$ago;
         }
-        return __("today");
-        /*if ($interval->h >= 1) {return $interval->h.' часов';}
-        if ($interval->i >= 1) {return $interval->i.' минут';}
-        return $interval->s.' секунд';*/
 
+        return __("today");
     }
 
 }

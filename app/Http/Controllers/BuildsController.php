@@ -19,7 +19,7 @@ class BuildsController extends StaticPageController
         foreach (new \DirectoryIterator($allBuildsDir) as $fileInfo) {
             if($fileInfo->isDot()) continue;
 
-            if (!str_contains($fileInfo->getFilename(), 'git')) {
+            if (!str_contains($fileInfo->getFilename(), 'nightly')) {
                 continue;
             }
             $buildDir = $allBuildsDir . $fileInfo->getFilename().'/';
@@ -41,8 +41,21 @@ class BuildsController extends StaticPageController
                     $build[$key] = $val;
                 }
             }
+            unset($val);
+            $build['commits'] = $jsonData['commits'] ?? [];
+            foreach ($build['commits'] as &$commit) {
+                $commit['commit_url'] = "https://github.com/zenden2k/image-uploader/commit/" . $commit['commit_hash'];
+                $commit['commit_hash_short'] = substr($commit['commit_hash'], 0, 8);
+                $d = new \DateTime($commit['date']);
+                $commit['datetime'] = $d->format('Y-m-d H:i:s');
+                $commit['date'] = $d->format('Y-m-d');
+            }
+            unset($commit);
             $build['commit_url'] = "https://github.com/zenden2k/image-uploader/commit/" . $build["commit_hash"];
-            $build['time_ago'] = LocaleHelper::timeAgo(new \DateTime($build['date']));
+            $buildDate = new \DateTime($build['date']);
+            $build['date'] = $buildDate->format('Y-m-d');
+            $build['datetime'] = $buildDate->format('Y-m-d H:i:s');
+            $build['time_ago'] = LocaleHelper::timeAgo($buildDate);
             $build['commit_hash_short'] = substr($build['commit_hash'], 0, 8);
             unset($val);
             foreach ($jsonData['files'] as $buildFile) {
@@ -58,14 +71,12 @@ class BuildsController extends StaticPageController
 
         $page = Page::where('alias', '=', 'imageuploader_nightly')->first();
 
-        [$leftPageBlocks, $bottomPageBlocks] = $this->getBlocks($page);
-        $data = [
+       // [$leftPageBlocks, $bottomPageBlocks] = $this->getBlocks($page);
+        $data =   $this->getCommonData($request, $page);
+        $data += [
             'builds' => $builds,
-            'currentTab' => 'imageuploader',
-            'leftPageBlocks' => $leftPageBlocks,
-            'bottomPageBlocks' => $bottomPageBlocks,
-            'title' => __('Zenden2k Image Uploader Nightly Builds'),
-
+            //'currentTab' => 'imageuploader',
+            //'title' => __('Zenden2k Image Uploader Nightly Builds'),
         ];
 
         return view('builds', $data);
