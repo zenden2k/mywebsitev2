@@ -71,12 +71,9 @@ class BuildsController extends StaticPageController
 
         $page = Page::where('alias', '=', 'imageuploader_nightly')->first();
 
-       // [$leftPageBlocks, $bottomPageBlocks] = $this->getBlocks($page);
         $data =   $this->getCommonData($request, $page);
         $data += [
             'builds' => $builds,
-            //'currentTab' => 'imageuploader',
-            //'title' => __('Zenden2k Image Uploader Nightly Builds'),
         ];
 
         return view('builds', $data);
