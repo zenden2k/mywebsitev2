@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileHelper;
 use App\Helpers\LocaleHelper;
 use App\Models\Page;
 use Illuminate\Http\Request;
@@ -61,7 +62,9 @@ class BuildsController extends StaticPageController
             foreach ($jsonData['files'] as $buildFile) {
                 $buildFile['download_url'] = self::PACKAGES_REL_PATH . $fileInfo->getFilename() .'/'.$buildFile['path'];
                 $buildFile['hash_file_url'] = $buildFile['download_url'] . ".sha256";
+                $buildFile['size_readable'] = !empty($buildFile['size'])? FileHelper::humanFilesize($buildFile['size']): '';
                 $build['subproducts'][$buildFile['os']][$buildFile['subproduct']][$buildFile['arch']][] = $buildFile;
+
             }
             $builds[] = $build;
         }

@@ -915,3 +915,8 @@ button.open-panel {
 .sidebar-menu__item {
     margin-bottom: 2px;
 }
+
+.builds-hamburger__file-size {
+    font-size: 10px;
+    color: #717070;
+}

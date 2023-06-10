@@ -22,7 +22,7 @@
                                                 <span class="builds-hamburger__archs-title">{{$archName}}:</span>
                                                 <ul class="builds-hamburger__files-list">
                                                     @foreach($files as $file)
-                                                        <li class="builds-hamburger__files-list-item"><a href="{{$file['download_url']}}" data-hash="{{$file['sha256']}} *{{$file['filename']}}" data-hash-file="{{{$file['hash_file_url']}}}">{{$file['name']}} for {{$osName}} ({{!empty($file['arch_alt']) ? $file['arch_alt'] :$archName }})</a>
+                                                        <li class="builds-hamburger__files-list-item"><a href="{{$file['download_url']}}" data-hash="{{$file['sha256']}} *{{$file['filename']}}" data-hash-file="{{{$file['hash_file_url']}}}">{{$file['name']}} for {{$osName}} ({{!empty($file['arch_alt']) ? $file['arch_alt'] :$archName }})</a> <span class="builds-hamburger__file-size">{{$file['size_readable']}}</span>
                                                         </li>
                                                     @endforeach
                                                 </ul>
