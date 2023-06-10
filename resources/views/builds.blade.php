@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+    @if($showPage)
     <article>
         <h1>{{$title}}</h1>
         <ul class="builds-hamburger">
@@ -57,4 +58,20 @@
             @endforelse
         </ul>
     </article>
+    @foreach($bottomPageBlocks as $staticPageBlock)
+        <div class="page_block_header">
+            <span>{{ $staticPageBlock->title }}</span>
+            <div class="page_block_header_shadow"></div>
+        </div>
+        @if(!empty($staticPageBlock->alias))
+            <div id="{{ $staticPageBlock->alias }}"></div>
+        @endif
+        {!! $staticPageBlock->content !!}
+    @endforeach
+    @else
+        <a href="{{$__prefix}}/{{$staticPage->alias}}">{{__('<<< Back to the page')}}</a>
+    @endif
+    @if($staticPage->showComments)
+        @include('subviews.comments')
+    @endif
 @endsection
