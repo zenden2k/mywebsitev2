@@ -1,3 +1,11 @@
+if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+        value: function(search, rawPos) {
+            var pos = rawPos > 0 ? rawPos|0 : 0;
+            return this.substring(pos, pos + search.length) === search;
+        }
+    });
+}
 var docCookies = {
     getItem: function (sKey) {
         return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
@@ -92,27 +100,12 @@ $(function() {
         Galleria.run('#galleria');
     }
 
-    /*function checkAd() {
-        var abner = $('.adsbygoogle');
-        if (abner.length == 0 || abner.is(':hidden')) {
-            $('.abner-under').hide();
-            $('#sidebar').removeClass('abner'); //remove padding
-        }
-    }
-    checkAd();
-    setTimeout(checkAd, 1000);
-    //}, 100);*/
-
     $(".open-panel").click(function(){
-
         $("html").toggleClass("openNav");
-
     });
 
     $(".close-panel, #content").click(function(){
-
         $("html").removeClass("openNav");
-
     });
 
     const closeAllPopups = function() {
@@ -128,8 +121,11 @@ $(function() {
         if ($popup.offset().left < 0) {
             $popup.offset({left: 0})
         }
-    }
-    const showPopup = function($parent, data, hashFileUrl = '', error = false) {
+    };
+    const showPopup = function($parent, data, hashFileUrl, error) {
+        hashFileUrl = hashFileUrl === undefined ? '' : hashFileUrl;
+        error = error === undefined ? false : error;
+
         const $existingPopup = $parent.find(".sha256__popup");
         let $popup = null;
         if (!$existingPopup.length) {
@@ -215,11 +211,10 @@ $(function() {
     });
 
     $('.builds-hamburger__item-caption').click(function() {
-        $this = $(this);
-        $container = $(this).closest('.builds-hamburger__item');
+        const $this = $(this);
+        const $container = $(this).closest('.builds-hamburger__item');
         if (!$container.hasClass('builds-hamburger__item_open')) {
             const isFirstLevel = $this.hasClass('builds-hamburger__item-caption_first-level');
-            console.log("isFirstLevel", isFirstLevel)
             if (isFirstLevel) {
                 $siblings = $container.siblings('.builds-hamburger__item');
                 $siblings.removeClass('builds-hamburger__item_open');

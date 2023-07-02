@@ -47,10 +47,6 @@ class StaticPageController extends SiteController
             }
         }
 
-
-
-
-
         if ($request->isMethod('POST') && $page->showComments) {
             if ($request->post('name') != '' || $request->post('checkB') !== 'checkA') {
                 return abort(400);

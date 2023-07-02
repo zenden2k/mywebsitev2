@@ -13,7 +13,6 @@ class BuildsController extends StaticPageController
 
     public function index(Request $request)
     {
-
         $allBuildsDir = public_path() . self::PACKAGES_REL_PATH;
         $builds = [
         ];
@@ -74,7 +73,7 @@ class BuildsController extends StaticPageController
 
         $page = Page::where('alias', '=', 'imageuploader_nightly')->first();
 
-        $data =   $this->getCommonData($request, $page);
+        $data = $this->getCommonData($request, $page);
         $data += [
             'builds' => $builds,
         ];
