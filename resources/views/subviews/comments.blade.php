@@ -3,19 +3,18 @@
     <div class="page_block_header_shadow"></div>
 </div>
 
-<div class="commentForm" id="commentForm">
+<div class="comment-form" id="commentForm">
     {{__('Write your comment')}}
     <form action="#commentForm" method="POST">
         @csrf
-{{--        <input type="hidden" value="{%$csrf_token%}" name="token"/>--}}
-        <table width="100%">
+        <table class="comment-form__table">
             <tr class="saveMe"><td>{{__('Name')}}:</td><td style="padding-left: 20px"><input type="text" name="name" value="" /></td></tr>
-            <tr><td>{{__('Name')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" style="min-width: 200px" /></td></tr>
-            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" style="min-width: 200px" /></td></tr>
+            <tr><td>{{__('Name')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" style="min-width: 300px" /></td></tr>
+            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" style="min-width: 300px" /></td></tr>
             <tr><td></td><td style="padding-left: 20px">({{__('your e-mail will not be published')}})</td></tr>
             <tr><td colspan="2"><input type="hidden" name="checkB" id="checkB" value="become" />
                     <textarea name="text" rows="8"  style="width: 100%">{{old('text')}}</textarea></td></tr>
-            <tr><td colspan="2"><input type="submit" value="{{__('Send')}}" /></td> </tr>
+            <tr><td colspan="2"><input class="comment-form__submit" type="submit" value="{{__('Send')}}" /></td> </tr>
         </table>
         @if ($errors->any())
         <ul class="errors">

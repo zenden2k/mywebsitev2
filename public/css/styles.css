@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700&subset=latin,cyrillic);
 
 <!--
-.Normal      { margin:10 20; text-align: justify; font-size: 8.25pt; color: #333333; }
+/*.Normal      { margin:10 20; text-align: justify; font-size: 8.25pt; color: #333333; }*/
 
 a{
 color: #0066FF;text-decoration:underline
@@ -12,11 +12,11 @@ a:visited   { color: #0066FF; }
 a:hover {text-decoration:underline; color:#FF0000}
 
 li           { margin: 0 }
-ul           { margin-top: 00; margin-bottom: 0 }
+ul           { margin-top: 0; margin-bottom: 0 }
 
 .hr           { color: #333333; font-family:sans-serif; font-size:14pt; font-variant:small-caps; text-align:center; font-weight:bold  }
 
-.commentForm {
+.comment-form {
     border-style: solid;
     background-color:  #DDDDDC;
     border-color:  #ADADAB;
@@ -29,8 +29,21 @@ ul           { margin-top: 00; margin-bottom: 0 }
     max-width: 600px;
 }
 
-.commentForm td {
+.comment-form td {
    padding: 4px;
+}
+
+.comment-form__submit {
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.comment-form__submit:hover {
+    border: 1px solid #8c8d90;
+}
+
+.comment-form__table {
+    width: 100%;
 }
 
 ul.errors {
