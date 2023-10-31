@@ -868,7 +868,6 @@ button.open-panel {
 }
 
 .builds-hamburger__item_open {
-
 }
 
 .builds-hamburger_active {
@@ -876,7 +875,6 @@ button.open-panel {
 }
 .builds-hamburger {
     padding: 10px;
-
 }
 
 .builds-hamburger__item-container {
@@ -885,6 +883,10 @@ button.open-panel {
     list-style-position: inside;
     list-style-type: none;
     padding: 0;
+}
+
+.builds-hamburger__item-container_open {
+    display: block;
 }
 .builds-hamburger__item-caption{
     border-radius: 3px;
@@ -901,6 +903,10 @@ button.open-panel {
 }
 .builds-hamburger__item-caption_first-level{
     color: #0b3871;
+}
+
+.builds-hamburger__item_inline {
+    display: inline-block;
 }
 
 .builds-hamburger__files-list {

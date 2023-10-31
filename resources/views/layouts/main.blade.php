@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/styles.css')}}?v={{$__revision}}" />
     <link rel="icon" href="/favicon.ico" />
     <link href="{{asset('css/prism.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/fontawesome/css/fontawesome.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/fontawesome/css/brands.css')}}" rel="stylesheet">
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__en_link}}" hreflang="en" />
     <link rel="alternate" href="https://{{ $__domain_name }}{{$__ru_link}}" hreflang="ru" />
     <title>@if($title){{ $title }} - {{__('messages.site_title')}} @else {{__('messages.site_title')}} @endif</title>
