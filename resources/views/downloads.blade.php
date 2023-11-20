@@ -4,14 +4,16 @@
     @if($showPage)
     <article>
         <h1>{{$title}}</h1>
+        <ul class="builds-hamburger">
             @forelse($builds as $build)
-                    <h2>{{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="">{{$build['time_ago']}}</span></span></span></h2>
+
                         @foreach($build['subproducts'] as  $productName => $subproducts)
-                            <div>
-                                <span href="#" class="builds-hamburger__item-caption">{{$productName}}</span>
-                                <ul class="builds-hamburger__item-container">
+                        <li class="builds-hamburger__item builds-hamburger__item_open">
+
+                                <span href="#" class="builds-hamburger__item-caption">{{$productName}}    <span class="builds-hamburger__build-title">{{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="">{{$build['time_ago']}}</span></span></span></span>
+                                <ul class="builds-hamburger__item-container builds-hamburger__item-container_open">
                                     @foreach($subproducts as $osName => $product)
-                                    <li class="builds-hamburger__item builds-hamburger__item_inline">
+                                    <li class="builds-hamburger__item builds-hamburger__item_inline builds-hamburger__item_open">
                                         <span href="#" class="builds-hamburger__item-caption"><i class="fa-brands fa-{{strtolower($osName)}}"></i> {{$osName}}</span>
                                         <ul class="builds-hamburger__item-container builds-hamburger__item-container_open">
                                             @foreach($product as $archName => $files)
@@ -30,13 +32,13 @@
                                     </li>
                                     @endforeach
                                 </ul>
-                            </div>
+                        </li>
                         @endforeach
 
             @empty
                 <h2>{{__('No releases found')}}</h2>
             @endforelse
-
+        </ul>
     </article>
     @foreach($bottomPageBlocks as $staticPageBlock)
         <div class="page_block_header">

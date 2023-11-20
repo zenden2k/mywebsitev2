@@ -907,6 +907,7 @@ button.open-panel {
 
 .builds-hamburger__item_inline {
     display: inline-block;
+    vertical-align:top;
 }
 
 .builds-hamburger__files-list {
@@ -938,6 +939,11 @@ button.open-panel {
 .builds-hamburger__file-size {
     font-size: 10px;
     color: #717070;
+}
+
+.builds-hamburger__build-title {
+    padding: 10px;
+    font-weight: normal;
 }
 
 pre[class*=language-]:after, pre[class*=language-]:before {
