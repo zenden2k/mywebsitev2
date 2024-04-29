@@ -50,6 +50,17 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect('/home');
+        return redirect('/');
+    }
+
+    protected function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/login');
     }
 }

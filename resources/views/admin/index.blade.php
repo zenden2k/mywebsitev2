@@ -98,7 +98,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <router-link to="/vt" class="brand-link">
 
-                <img src="/vendor/adminlte/dist/img/AdminLTELogo.png"
+                <img src="/images/icon.png"
                      alt="AdminLTE"
                      class="brand-image img-circle elevation-3"
                      style="opacity:.8">

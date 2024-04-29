@@ -44,6 +44,9 @@ return [
     | considered expired. If this value is null, personal access tokens do
     | not expire. This won't tweak the lifetime of first-party sessions.
     |
+    | Use SESSION_LIFETIME .env variable to set the lifetime of first-party
+    | sessions (for SPA)
+    |
     */
 
     'expiration' => null,
