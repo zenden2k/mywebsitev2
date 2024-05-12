@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::group(['middleware' => ['auth:sanctum', 'isAdmin'], 'namespace' => 'App\Http\Controllers\Api'/*, 'prefix' => 'api'*/], function() {
+Route::group(['middleware' => ['auth:sanctum'/*, 'isAdmin'*/], 'namespace' => 'App\Http\Controllers\Api'/*, 'prefix' => 'api'*/], function() {
     Route::get('page/options', 'PageController@options');
     Route::apiResource('page', 'PageController');
     Route::get('comment/options', 'CommentController@options');

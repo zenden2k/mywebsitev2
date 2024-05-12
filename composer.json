@@ -8,7 +8,10 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.3",
+        "ext-dom": "*",
+        "ext-simplexml": "*",
+        "ext-zip": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -17,10 +20,8 @@
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
-        "spatie/laravel-sluggable": "^3.4",
-      "ext-dom": "*",
-      "ext-simplexml": "*",
-        "ext-zip": "*"
+        "matomo/device-detector": "^6.3",
+        "spatie/laravel-sluggable": "^3.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

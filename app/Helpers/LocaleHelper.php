@@ -27,6 +27,15 @@ class LocaleHelper
         return $lang;
     }
 
+    public static function getUrlPrefix(): string
+    {
+        $prefix = self::getCurrentLanguage();
+        if ($prefix === 'en') {
+            return '';
+        }
+        return '/'.$prefix;
+    }
+
     public static function getMonthName(int $time): string
     {
         if (str_starts_with(\App::getLocale(), 'ru')) {

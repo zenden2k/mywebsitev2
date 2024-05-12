@@ -10,7 +10,7 @@ class BuildsController extends StaticPageController
 {
     public function index(Request $request)
     {
-        $builds = PackageDownload::getBuilds('nightly');
+        $builds = PackageDownload::getBuilds(PackageDownload::NIGHTLY);
 
         $page = Page::where('alias', '=', 'imageuploader_nightly')->first();
 
@@ -24,7 +24,7 @@ class BuildsController extends StaticPageController
 
     public function downloads(Request $request)
     {
-        $builds = PackageDownload::getBuilds('release');
+        $builds = array_slice(PackageDownload::getBuilds(PackageDownload::RELEASE),0, 1);
 
         $page = Page::where('alias', '=', 'imageuploader_downloads')->first();
 

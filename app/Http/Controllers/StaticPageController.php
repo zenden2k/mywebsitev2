@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\LocaleHelper;
 use App\Models\Comment;
 use App\Models\MenuItem;
+use App\Models\PackageDownload;
 use App\Models\Page;
 use App\Models\SidebarBlock;
 use Illuminate\Http\Request;
@@ -22,17 +23,68 @@ class StaticPageController extends SiteController
         }
 
         if ($page->alias === 'imageuploader_downloads' || $page->alias === 'imageuploader') {
-            $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest.txt');
-            $matches = null;
-            if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
-                // var_dump($matches);
-                $version = $matches[1];
-                $build = $matches[2];
-                $page->text_ru = str_replace(array('{version}','{build}'), array($version, $build), $page->text_ru);
-                $page->text_en = str_replace(array('{version}','{build}'), array($version, $build), $page->text_en);
+            $iuLatestRelease = PackageDownload::getCompatibleBuild('Image Uploader (GUI)');
+            $iuLatestLink = $iuLatestRelease['download_url']??'';
+            $build = $iuLatestRelease['build_number']??'';
+            $version = $iuLatestRelease['version_clean']??'';
+            $supportedOs = $iuLatestRelease['supported_os']??'';
+            $target_os = $iuLatestRelease['os']??'';
+
+            $downloadButtonText = $iuLatestRelease? __("messages.download_button_for", ['os' => $target_os]): __("messages.download_button");
+            $versionString = $iuLatestRelease ? __('messages.app_version',
+                [
+                    'version' => $version,
+                    'build' => $build,
+                    'supported_os' => $supportedOs
+                ]): '';
+
+            $downloadButtonTitle = $iuLatestRelease ? __('messages.download_button_title',
+                [
+                    'product_name' => 'Image Uploader',
+                    'version' => $version,
+                    'build' => $build,
+                    'supported_os' => $supportedOs,
+                    'package_type' => 'Installer'
+                ]): '';
+
+            $replace = array('{version}',
+                '{build}',
+                '/downloads/image-uploader-latest',
+                '{supported_os}',
+                '{target_os}',
+                '{download_button_text}',
+                '{download_button_title}',
+                '{version_string}'
+            );
+            if (!$iuLatestRelease) {
+                $iuLatestLink = LocaleHelper::getUrlPrefix() . '/imageuploader_downloads';
             }
 
-            $iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest-beta.txt');
+            $page->text_ru = str_replace(
+                    $replace,
+                    array(
+                        $version,
+                        $build,
+                        $iuLatestLink,
+                        $supportedOs,
+                        $target_os,
+                        $downloadButtonText,
+                        $downloadButtonTitle,
+                        $versionString
+                    ), $page->text_ru
+                );
+                $page->text_en = str_replace($replace,
+                    array($version,
+                        $build,
+                        $iuLatestLink,
+                        $supportedOs,
+                        $target_os,
+                        $downloadButtonText,
+                        $downloadButtonTitle,
+                        $versionString), $page->text_en);
+           // }
+
+            /*$iu_latest_link = file_get_contents(public_path() . '/downloads/image-uploader-latest-beta.txt');
             $matches = null;
             if (preg_match('/image-uploader-(.+)-build-(\d+)/i', $iu_latest_link, $matches)) {
                 // var_dump($matches);
@@ -44,7 +96,7 @@ class StaticPageController extends SiteController
                     $page->text_ru
                 );
                 $page->text_en = str_replace(array('{version}','{build}'), array($version, $build), $page->text_en);
-            }
+            }*/
         }
 
         if ($request->isMethod('POST') && $page->showComments) {
