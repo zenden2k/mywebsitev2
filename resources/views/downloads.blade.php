@@ -10,7 +10,7 @@
                         @foreach($build['subproducts'] as  $productName => $subproducts)
                         <li class="builds-hamburger__item builds-hamburger__item_open">
 
-                                <span href="#" class="builds-hamburger__item-caption">{{$productName}}    <span class="builds-hamburger__build-title">{{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="">{{$build['time_ago']}}</span></span></span></span>
+                                <span href="#" class="builds-hamburger__item-caption">{{$productName}}    <span class="builds-hamburger__build-title">v{{$build['version']}} {{{mb_strtolower(__('messages.build'))}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="">{{$build['time_ago']}}</span></span></span></span>
                                 <ul class="builds-hamburger__item-container builds-hamburger__item-container_open">
                                     @foreach($subproducts as $osName => $product)
                                     <li class="builds-hamburger__item builds-hamburger__item_inline builds-hamburger__item_open">
