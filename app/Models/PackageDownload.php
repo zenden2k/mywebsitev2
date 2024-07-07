@@ -11,15 +11,15 @@ use DeviceDetector\ClientHints;
 
 class PackageDownload
 {
-    public const NIGHTLY = 1;
-    public const RELEASE = 2;
+    public const int NIGHTLY = 1;
+    public const int RELEASE = 2;
 
     protected const REL_PATH = [
         self::NIGHTLY => '/files/ImageUploader/Packages/',
         self::RELEASE => '/files/ImageUploader/Releases/'
     ];
 
-    protected const COMMIT_URL = 'https://github.com/zenden2k/image-uploader/commit/';
+    protected const string COMMIT_URL = 'https://github.com/zenden2k/image-uploader/commit/';
 
     public static function getBuilds(int $type = self::NIGHTLY, string $os = '', string $arch = ''): array
     {
@@ -70,7 +70,7 @@ class PackageDownload
             $build['datetime'] = $buildDate->format('Y-m-d H:i:s');
             $build['time_ago'] = LocaleHelper::timeAgo($buildDate);
             $build['commit_hash_short'] = substr($build['commit_hash'], 0, 8);
-            unset($val);
+
             foreach ($jsonData['files'] as $buildFile) {
                 $buildFile['download_url'] = $relPath . $fileInfo->getFilename() . '/' . $buildFile['path'];
                 $buildFile['hash_file_url'] = $buildFile['download_url'] . ".sha256";
@@ -117,7 +117,7 @@ class PackageDownload
             $platform = 'armv8';
         }
         $builds = self::getBuilds(self::RELEASE, $os['name'], $platform);
-        return current($builds);
+        return $builds? current($builds): [];
     }
 
 
