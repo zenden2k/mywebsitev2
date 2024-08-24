@@ -112,6 +112,9 @@ class PackageDownload
     public static function getBuildForPlatform(\DeviceDetector\DeviceDetector $dd): array
     {
         $os = $dd->getOs();
+        if (!is_array($os)) {
+            return [];
+        }
         $platform = $os['platform'];
         if(!strcasecmp($platform, 'arm')) {
             $platform = 'armv8';
