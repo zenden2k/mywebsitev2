@@ -28,7 +28,7 @@ class EditMenuItemRequest extends FormRequest
             'title_en' => 'string|max:255',
             'url_ru' => 'nullable|string',
             'url_en' => 'nullable|string',
-            'target_page_id' => 'exists:\App\Models\Page,id',
+            'target_page_id' => 'nullable|exists:\App\Models\Page,id',
             'tab_id' => 'required|exists:\App\Models\Tab,id',
             'order_number' => 'int',
             'status' => 'boolean'
