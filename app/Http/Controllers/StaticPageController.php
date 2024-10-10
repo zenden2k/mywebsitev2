@@ -23,7 +23,8 @@ class StaticPageController extends SiteController
         }
 
         if ($page->alias === 'imageuploader_downloads' || $page->alias === 'imageuploader') {
-            $iuLatestRelease = PackageDownload::getCompatibleBuild('Image Uploader (GUI)');
+            $userAgent = $request->userAgent() ?? '';
+            $iuLatestRelease = PackageDownload::getCompatibleBuild('Image Uploader (GUI)', $userAgent);
             $iuLatestLink = $iuLatestRelease['download_url']??'';
             $build = $iuLatestRelease['build_number']??'';
             $version = $iuLatestRelease['version_clean']??'';

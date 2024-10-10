@@ -32,7 +32,8 @@ class PackageDownload
         foreach (new \DirectoryIterator($allBuildsDir) as $fileInfo) {
             if ($fileInfo->isDot()) continue;
 
-            if ($type === self::NIGHTLY && !str_contains($fileInfo->getFilename(), 'nightly')) {
+            if (($type === self::NIGHTLY && !str_contains($fileInfo->getFilename(), 'nightly'))
+                || str_contains($fileInfo->getFilename(), 'SKIP')) {
                 continue;
             }
             $buildDir = $allBuildsDir . $fileInfo->getFilename() . '/';
@@ -100,9 +101,8 @@ class PackageDownload
         return $builds;
     }
 
-    public static function getBuildForCurrentPlatform(): array
+    public static function getBuildForCurrentPlatform(string $userAgent): array
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT']; // change this to the useragent you want to parse
         $clientHints = ClientHints::factory($_SERVER);
         $dd = new DeviceDetector($userAgent, $clientHints);
         $dd->parse();
@@ -124,9 +124,9 @@ class PackageDownload
     }
 
 
-    public static function getCompatibleBuild(string $subproductName, string $packageType = 'installer'): ?array
+    public static function getCompatibleBuild(string $subproductName, string $userAgent, string $packageType = 'installer'): ?array
     {
-        $build = self::getBuildForCurrentPlatform();
+        $build = self::getBuildForCurrentPlatform($userAgent);
         if (empty($build['subproducts'])) {
             return null;
         }

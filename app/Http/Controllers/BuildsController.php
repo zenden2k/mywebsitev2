@@ -17,6 +17,7 @@ class BuildsController extends StaticPageController
         $data = $this->getCommonData($request, $page);
         $data += [
             'builds' => $builds,
+            'showVersion' => false
         ];
 
         return view('builds', $data);
@@ -34,5 +35,22 @@ class BuildsController extends StaticPageController
         ];
 
         return view('downloads', $data);
+    }
+
+    public function oldVersions(Request $request)
+    {
+        $arr = PackageDownload::getBuilds(PackageDownload::RELEASE);
+        $builds = array_slice($arr,1);
+
+        $page = Page::where('alias', '=', 'imageuploader_old_versions')->first();
+
+        $data = $this->getCommonData($request, $page);
+        $data += [
+            'builds' => $builds,
+            'showVersion' => true,
+            'oldVersions' => true
+        ];
+
+        return view('builds', $data);
     }
 }

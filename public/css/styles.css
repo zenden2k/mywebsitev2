@@ -949,3 +949,7 @@ button.open-panel {
 pre[class*=language-]:after, pre[class*=language-]:before {
     box-shadow: none!important;
 }
+
+.centered {
+    text-align: center;
+}

@@ -3,11 +3,11 @@
 @section('content')
     @if($showPage)
     <article>
-        <h1>{{$title}}</h1>
+        <h1 @if(isset($oldVersions))class="centered"@endif>{{$title}}</h1>
         <ul class="builds-hamburger">
             @forelse($builds as $build)
                 <li class="builds-hamburger__item">
-                    <span class="builds-hamburger__item-caption builds-hamburger__item-caption_first-level">{{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="builds-hamburger__time-ago-label">{{$build['time_ago']}}</span></span> @if ($loop->first)<span class="builds-hamburger__new-label">*{{__('LATEST BUILD')}}*</span>  @endif</span>
+                    <span class="builds-hamburger__item-caption builds-hamburger__item-caption_first-level">@if($showVersion) v{{$build['version']}}@endif {{{__('messages.build')}}} {{$build['build_number']}} <span title="{{$build['datetime']}}">({{$build['date']}}) <span class="builds-hamburger__time-ago-label">{{$build['time_ago']}}</span></span> @if ($loop->first)<span class="builds-hamburger__new-label">*{{__('LATEST BUILD')}}*</span>  @endif</span>
                     <ul class="builds-hamburger__item-container">
                         @foreach($build['subproducts'] as $osName => $subproducts)
                             <li  class="builds-hamburger__item">
@@ -54,9 +54,12 @@
                     </ul>
                 </li>
             @empty
+                @if(!$oldVersions)
                 <h2>{{__('No builds found')}}</h2>
+                @endif
             @endforelse
         </ul>
+        {!! $staticPage->text !!}
     </article>
     @foreach($bottomPageBlocks as $staticPageBlock)
         <div class="page_block_header">
