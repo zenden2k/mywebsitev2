@@ -141,8 +141,8 @@ class StaticPageController extends SiteController
                     'pagename' => $page->title, 'page' => $pageNumber
                 ]
             ) : $page->title,
-            'metaKeywords' => $page->meta_keywords,
-            'metaDescription' => $page->meta_description,
+            'metaKeywords' =>  $pageNumber == 0 ? $page->meta_keywords: '',
+            'metaDescription' => $pageNumber == 0 ? $page->meta_description: '',
             'openGraphImage' => $page->open_graph_image
         ];
     }
