@@ -8,10 +8,10 @@
     <form action="#commentForm" method="POST">
         @csrf
         <table class="comment-form__table">
-            <tr class="saveMe"><td>{{__('Name')}}:</td><td style="padding-left: 20px"><input type="text" name="name" value="" /></td></tr>
-            <tr><td>{{__('Name')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" style="min-width: 300px" /></td></tr>
-            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" style="min-width: 300px" /></td></tr>
-            <tr><td></td><td style="padding-left: 20px">({{__('your e-mail will not be published')}})</td></tr>
+            <tr class="saveMe"><td>{{__('Nickname')}}:</td><td style="padding-left: 20px"><input type="text" name="name" value="" /></td></tr>
+            <tr><td>{{__('Nickname')}}*:</td><td style="padding-left: 20px"><input type="text" name="eman" value="{{old('eman')}}" style="min-width: 300px" /></td></tr>
+{{--            <tr><td>E-mail:</td><td style="padding-left: 20px"><input type="text" name="email" value="{{old('email')}}" style="min-width: 300px" /></td></tr>--}}
+{{--            <tr><td></td><td style="padding-left: 20px">({{__('your e-mail will not be published')}})</td></tr>--}}
             <tr><td colspan="2"><input type="hidden" name="checkB" id="checkB" value="become" />
                     <textarea name="text" rows="8"  style="width: 100%">{{old('text')}}</textarea></td></tr>
             <tr><td colspan="2"><input class="comment-form__submit" type="submit" value="{{__('Send')}}" /></td> </tr>

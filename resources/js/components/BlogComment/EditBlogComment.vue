@@ -37,8 +37,8 @@
                                                     </select>
                                                 </div>
                                             <div class="form-group">
-                                                <label>Name</label>
-                                                <input type="text" class="form-control" v-model="item.name">
+                                                <label>Nickname</label>
+                                                <input type="text" class="form-control" v-model="item.nickname">
                                             </div>
                                                 <div class="form-group">
                                                     <label>Email</label>

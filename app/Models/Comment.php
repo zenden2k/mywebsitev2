@@ -16,10 +16,17 @@ class Comment extends Model
         'text',
         'email',
         'answer',
-        'name',
+//        'name',
+        'nickname',
         'pageId'
     ];
 
+    protected $maps = [
+        'name' => 'nickname'
+    ];
+
+    protected $appends = ['nickname'];
+    protected $hidden = ['name'];
     public static function boot()
     {
         parent::boot();
@@ -32,5 +39,15 @@ class Comment extends Model
     public function page()
     {
         return $this->belongsTo(Page::class, 'pageId');
+    }
+
+    public function getNicknameAttribute()
+    {
+        return $this->attributes['name'];
+    }
+
+    public function setNicknameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
     }
 }

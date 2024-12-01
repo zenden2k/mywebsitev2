@@ -14,11 +14,17 @@ class BlogComment extends Model
     protected $fillable = [
         'blog_post_id',
         'name',
+        'nickname',
         'email',
         'text',
         'answer'
     ];
 
+    protected $maps = [
+        'name' => 'nickname'
+    ];
+
+    protected $appends = ['nickname'];
 
     public static function boot()
     {
@@ -32,5 +38,15 @@ class BlogComment extends Model
     public function post()
     {
         return $this->belongsTo(BlogPost::class, 'blog_post_id');
+    }
+
+    public function getNicknameAttribute()
+    {
+        return $this->attributes['name'];
+    }
+
+    public function setNicknameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
     }
 }

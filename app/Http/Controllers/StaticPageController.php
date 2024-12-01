@@ -106,11 +106,11 @@ class StaticPageController extends SiteController
             }
             $validated = $request->validate([
                 'eman' => 'required|max:255',
-                'email' => 'email',
+//                'email' => 'email',
                 'text' => 'required|max:2000'
             ]);
 
-            $validated['name'] = $validated['eman'];
+            $validated['nickname'] = $validated['eman'];
 
             $comment = new Comment($validated);
             $comment->pageId = $page->id;

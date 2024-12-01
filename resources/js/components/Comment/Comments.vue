@@ -35,7 +35,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Page</th>
-                                        <th>Name</th>
+                                        <th>Nickname</th>
                                         <th>Email</th>
                                         <th>IP</th>
                                         <th>Text</th>
@@ -47,7 +47,7 @@
                                     <tr v-for="item in laravelData.data" :key="item.id">
                                         <td>{{ item.id }}</td>
                                         <td>{{ item.page.title_ru }}</td>
-                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.nickname }}</td>
                                         <td>{{ item.email }}</td>
                                         <td>{{ item.ip }}</td>
                                         <td>{{ item.text | truncate(60) }}</td>

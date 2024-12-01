@@ -24,8 +24,8 @@ class EditCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email:rfc,dns',
-            'name' => 'required|max:255',
+            'email' => 'nullable|email:rfc,dns',
+            'nickname' => 'required|max:255',
             'text' => 'required|string',
             'answer' => 'nullable',
             'pageId' => 'required|exists:\App\Models\Page,id'

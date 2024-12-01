@@ -152,11 +152,11 @@ class BlogController extends SiteController
             }
             $validated = $request->validate([
                 'eman' => 'required|max:255',
-                'email' => 'email',
+//                'email' => 'email',
                 'text' => 'required|max:2000'
             ]);
 
-            $validated['name'] = $validated['eman'];
+            $validated['nickname'] = $validated['eman'];
 
             $comment = new BlogComment($validated);
             $comment->blog_post_id = $postId;

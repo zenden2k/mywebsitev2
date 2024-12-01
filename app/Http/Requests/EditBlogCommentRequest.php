@@ -24,8 +24,8 @@ class EditBlogCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email:rfc,dns',
-            'name' => 'required|max:255',
+            'email' => 'nullable|email:rfc,dns',
+            'nickname' => 'required|max:255',
             'text' => 'required|string',
             'answer' => 'nullable',
             'blog_post_id' => 'required|exists:\App\Models\BlogPost,id'

@@ -148,6 +148,6 @@ return [
     */
 
     'attributes'           => [
-        'eman'                  => 'name'
+        'eman'                  => 'nickname'
     ],
 ];
