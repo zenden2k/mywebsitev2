@@ -161,7 +161,7 @@ header  .wrapper2 {
 
     width: auto !important;
     margin: 0px auto 0px auto;
-    max-width: 1154px;
+    max-width: 1040px;
 }
 
 #header .wrapper2 .languages {
@@ -640,7 +640,7 @@ nav {
 }
 .page-wrapper {
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1040px;
     width: 100%;
     /*display: flex;*/
     /*grid-template-columns: minmax(25%,75%) minmax(75%,25%);*/
