@@ -92,9 +92,7 @@ class ParserController extends Controller
 
     public function updateServerList(Request $request)
     {
-        $hash = \Hash::make($request->post('password'));
-
-        if (\Hash::check($hash, '$2y$10$.juBxRgp1YEp2OXxQsAIeuqw5DZTH5hUrlQhXkms83gioPrgGMgGm')) {
+        if (!\Hash::check($request->post('password'), config('app.iu_serverlist_password_hash'))) {
                return [
                    'message' => "Invalid password",
                    'success' => false
@@ -184,9 +182,9 @@ class ParserController extends Controller
         $success = false;
         if ($page) {
             $page->text_ru =  preg_replace('/\<!--table--\>(.+?)\<!--\/table--\>/ius', '<!--table-->' . $result_text . '<!--/table-->', $page->text_ru);
-            $page->text_ru =  preg_replace('/список обновлен [0-9\.]+/ius', "список обновлен " . date("d.m.Y"), $page->text_ru);
+            $page->text_ru =  preg_replace('/обновлен [0-9\.]+/ius', "обновлен " . date("d.m.Y"), $page->text_ru);
             $page->text_en =  preg_replace('/\<!--table--\>(.+?)\<!--\/table--\>/ius', '<!--table-->' . $result_text . '<!--/table-->', $page->text_en);
-            $page->text_en =  preg_replace('/list updated [0-9\.]+/ius', "list updated " . date("d.m.Y"), $page->text_en);
+            $page->text_en =  preg_replace('/updated [0-9\.\-]+/ius', "updated " . date("Y-m-d"), $page->text_en);
             // echo $page->text;
             $page->save();
             $success = true;

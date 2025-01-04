@@ -123,6 +123,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'iu_serverlist_password_hash' => env('IU_SERVERLIST_PASSWORD_HASH'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
