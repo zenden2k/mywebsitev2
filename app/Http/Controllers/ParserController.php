@@ -172,7 +172,7 @@ class ParserController extends Controller
         usort($servers, function ($a, $b) {
             return strcasecmp($a['Name'], $b['Name']);
         });
-        $result_text  = '<table style="width:80%"><tr><td style="vertical-align: top;"><h3 style="text-align: center">Image hostings</h3>';
+        $result_text  = '<table><tr><td style="vertical-align: top;"><h3 style="text-align: center">Image hostings</h3>';
         $result_text .= $this->generateTable($servers, 'image');
         $result_text .= '</td><td style="vertical-align: top;"><h3 style="text-align: center">File hostings</h3>' . $this->generateTable($servers, 'file');
         $result_text .= '</td><td style="vertical-align: top;"><h3 style="text-align: center">URL shorteners</h3>' . $this->generateTable($servers, 'urlshortening');
@@ -209,7 +209,7 @@ class ParserController extends Controller
             $result_text .= "<tr  class='" . ($i % 2 ? 'odd' : 'even') . "'><td class='nonCopyable'>";
 
             if (file_exists($icons_dir . strtolower($server_name) . '.ico')) {
-                $result_text .= "<img src='/images/servericons/" . strtolower($server_name) . ".ico' align='middle' width='16' height='16'>&nbsp;&nbsp;&nbsp;&nbsp;";
+                $result_text .= "<img src='/images/servericons/" . strtolower($server_name) . ".ico' align='middle' width='16' height='16' alt=\"" . htmlspecialchars($server_name) . " logo\">";
             }
             $result_text .= "</td><td>" . $server_name . "</td>";
             $autorization = ($server['Authorize'] ? 'Yes' : '&nbsp;-');
