@@ -90,6 +90,23 @@ class ParserController extends Controller
         return $res;
     }
 
+    private static function getServerTypes(\SimpleXMLElement $server): array {
+        $server_type = [];
+
+        if (!empty($server['Type'])) {
+            $server_type[(string)$server['Type']] = (string)$server['Type'];
+        } else if (!empty($server['Types'])) {
+            $tokens = explode(' ', $server['Types']);
+            foreach ($tokens as $token) {
+                $server_type[$token] = $token;
+            }
+        } else if (!empty($server['FileHost'])) {
+            $server_type['file'] = 'file';
+        } else {
+            $server_type['image'] = 'image';
+        }
+        return $server_type;
+    }
     public function updateServerList(Request $request)
     {
         if (!\Hash::check($request->post('password'), config('app.iu_serverlist_password_hash'))) {
@@ -133,17 +150,12 @@ class ParserController extends Controller
 
         foreach ($xml->Server as $server) {
             $server_name = (string)$server['Name'];
-            $server_type = 'image';
-            if (!empty($server['FileHost'])) {
-                $server_type = 'file';
-            }
-            if (!empty($server['Type'])) {
-                $server_type = $server['Type'];
-            }
+
             $servers[$server_name] = array(
                 'Name'         => (string)$server['Name'],
                 'Authorize' => !empty($server['Authorize']) ? $server['Authorize'] : 0,
-                'Type' => (string)$server_type
+                'Type' => self::getServerTypes($server),
+                'Url' => $server['WebsiteUrl']??''
             );
         }
         foreach ($xml->Server2 as $server) {
@@ -151,22 +163,18 @@ class ParserController extends Controller
             $servers[$server_name] = array(
                 'Name'         => (string)$server['Name'],
                 'Authorize' => !empty($server['Authorize']) ? $server['Authorize'] : 0,
-                'Type' => (string)$server['Type']
+                'Type' => self::getServerTypes($server),
+                'Url' => $server['WebsiteUrl']??''
             );
         }
         foreach ($xml->Server3 as $server) {
             $server_name = (string)$server['Name'];
-            $server_type = 'image';
-            if (!empty($server['FileHost'])) {
-                $server_type = 'file';
-            }
-            if (!empty($server['Type'])) {
-                $server_type = $server['Type'];
-            }
+
             $servers[$server_name] = array(
                 'Name'         => (string)$server['Name'],
                 'Authorize' => !empty($server['Authorize']) ? $server['Authorize'] : 0,
-                'Type' => $server_type
+                'Type' => self::getServerTypes($server),
+                'Url' => $server['WebsiteUrl']??''
             );
         }
         usort($servers, function ($a, $b) {
@@ -201,7 +209,7 @@ class ParserController extends Controller
         $i = 0;
         $icons_dir = public_path() . "/images/servericons/";
         foreach ($servers as $server) {
-            if ($server['Type'] != $type) {
+            if (!isset($server['Type'][$type])) {
                 continue;
             }
 
@@ -209,9 +217,9 @@ class ParserController extends Controller
             $result_text .= "<tr  class='" . ($i % 2 ? 'odd' : 'even') . "'><td class='nonCopyable'>";
 
             if (file_exists($icons_dir . strtolower($server_name) . '.ico')) {
-                $result_text .= "<img src='/images/servericons/" . strtolower($server_name) . ".ico' align='middle' width='16' height='16' alt=\"" . htmlspecialchars($server_name) . " logo\">";
+                $result_text .= "<a href='{$server['Url']}' target='_blank' rel='noopener noreferrer'><img src='/images/servericons/" . strtolower($server_name) . ".ico' align='middle' width='16' height='16' alt=\"" . htmlspecialchars($server_name) . " logo\"></a>";
             }
-            $result_text .= "</td><td>" . $server_name . "</td>";
+            $result_text .= "</td><td><a href='{$server['Url']}' target='_blank' rel='noopener noreferrer'>" . $server_name . "</a></td>";
             $autorization = ($server['Authorize'] ? 'Yes' : '&nbsp;-');
             if ($server['Authorize'] == 2) {
                 $autorization .= ' (required)';

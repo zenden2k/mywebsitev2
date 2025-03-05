@@ -406,6 +406,14 @@ body {
     padding: 3px 5px 3px 5px;
 }
 
+.server-list a {
+    text-decoration: none;
+    color: #3c5273;
+}
+.server-list a:hover {
+    color: #FF0000;
+}
+
 /**
  * Social icons
  */
