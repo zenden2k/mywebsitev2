@@ -324,6 +324,7 @@ body {
     padding: 15px;
     vertical-align: top;
     flex-grow: 1;
+    max-width: 768px;
 }
 
 .sidebar_block {
