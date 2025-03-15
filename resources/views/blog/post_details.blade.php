@@ -19,7 +19,7 @@
                 <div class="b-item-footer-border"></div>
                 <p class="b-item-details">{{__('Published')}} {{$post->created_at->format('Y-m-d')}}</p>
                 <script src="https://yastatic.net/share2/share.js"></script>
-                <div class="ya-share2" data-curtain data-shape="round" data-services="vkontakte,facebook,telegram,twitter,viber"></div>
+                <div class="ya-share2" data-curtain data-lang="{{ $__lang }}" data-services="messenger,vkontakte,telegram,twitter,whatsapp"></div>
                 <div class="clearfix"></div>
             </div>
             @endif
