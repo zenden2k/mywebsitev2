@@ -109,6 +109,7 @@ class ParserController extends Controller
     }
     public function updateServerList(Request $request)
     {
+        $builtInScripts = ['ftp', 'sftp', 'webdav', 'directory'];
         if (!\Hash::check($request->post('password'), config('app.iu_serverlist_password_hash'))) {
                return [
                    'message' => "Invalid password",
@@ -151,6 +152,11 @@ class ParserController extends Controller
         foreach ($xml->Server as $server) {
             $server_name = (string)$server['Name'];
 
+            if (isset($server['Plugin']) && in_array($server['Plugin'], $builtInScripts)) {
+                // Skip servers added by user
+                continue;
+            }
+
             $servers[$server_name] = array(
                 'Name'         => (string)$server['Name'],
                 'Authorize' => !empty($server['Authorize']) ? $server['Authorize'] : 0,
@@ -158,6 +164,7 @@ class ParserController extends Controller
                 'Url' => $server['WebsiteUrl']??''
             );
         }
+        // Server2 and Server2 tags became obsolete
         foreach ($xml->Server2 as $server) {
             $server_name = (string)$server['Name'];
             $servers[$server_name] = array(
