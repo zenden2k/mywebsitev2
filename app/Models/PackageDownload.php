@@ -115,11 +115,11 @@ class PackageDownload
         if (!is_array($os)) {
             return [];
         }
-        $platform = $os['platform'];
+        $platform = $os['platform']??'';
         if(!strcasecmp($platform, 'arm')) {
             $platform = 'armv8';
         }
-        $builds = self::getBuilds(self::RELEASE, $os['name'], $platform);
+        $builds = self::getBuilds(self::RELEASE, $os['name']??'', $platform);
         return $builds? current($builds): [];
     }
 
