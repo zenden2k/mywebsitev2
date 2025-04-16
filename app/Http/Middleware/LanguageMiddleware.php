@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Util;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,8 +18,6 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $path = $request->path();
-
         // Redirect to an URI without last slash
         if (preg_match('/.+\/$/', $request->getRequestUri())) {
             return \Redirect::to(rtrim($request->getRequestUri(), '/'), 301);
@@ -73,6 +72,7 @@ class LanguageMiddleware
 
         if (
             $res->getStatusCode() != 404
+            && !Util::isBot($request->userAgent())
             && $detectedLang != $lang
             && $detectedLang === 'ru'
             && strpos($referer, $hostName . '/') === false
