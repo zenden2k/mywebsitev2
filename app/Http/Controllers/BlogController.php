@@ -100,11 +100,13 @@ class BlogController extends SiteController
         if ($this->selectedMonth) {
             $title = __("Blog posts in") . ' ' . $this->selectedMonth;
         }
+        $pagination = $postsOrm->orderBy('id', 'desc')->paginate(6);
+        $page = $pagination->currentPage();
         $data = [
             'current_category_alias' => $this->currentCategoryAlias,
-            'title' => $title,
+            'title' => ($title && $page > 1) ? $title . __('messages.page_number', ['page' => $page]) : $title,
             'selected_month' => $this->selectedMonth,
-            'posts' => $postsOrm->orderBy('id', 'desc')->paginate(6)
+            'posts' => $pagination
         ];
         $data = array_merge($this->getCommonViewData(), $data);
         return view('blog.post_list', $data);
