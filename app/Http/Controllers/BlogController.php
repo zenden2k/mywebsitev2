@@ -88,7 +88,7 @@ class BlogController extends SiteController
         $postsOrm->where('status', '=', '1');
 
         $this->postFilter($request, $postsOrm);
-        $title = '';
+        $title = __('Blog posts');
         if ($this->currentCategoryAlias) {
             $category = BlogCategory::where('alias', '=', $this->currentCategoryAlias)->first();
             if ($category) {
@@ -102,9 +102,19 @@ class BlogController extends SiteController
         }
         $pagination = $postsOrm->orderBy('id', 'desc')->paginate(6);
         $page = $pagination->currentPage();
+
+        if ($page > 1) {
+            $pageNumberFormatted = __('messages.page_number', ['page' => $page]);
+            if (!$title) {
+                $title = Str::ucfirst($pageNumberFormatted);
+            } else {
+                $title = sprintf("%s (%s)", $title, $pageNumberFormatted);
+            }
+        }
+
         $data = [
             'current_category_alias' => $this->currentCategoryAlias,
-            'title' => ($title && $page > 1) ? $title . __('messages.page_number', ['page' => $page]) : $title,
+            'title' => $title,
             'selected_month' => $this->selectedMonth,
             'posts' => $pagination
         ];

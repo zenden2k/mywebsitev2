@@ -13,5 +13,5 @@ return [
     'download_button' => 'Download',
     'download_button_title' => ':product_name v:version build :build (:package_type)',
     'app_version' => 'Version :version.:build for :supported_os',
-    'page_number' => ' (page :page)'
+    'page_number' => 'page :page'
 ];
