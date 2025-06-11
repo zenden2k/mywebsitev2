@@ -82,7 +82,7 @@
             </main>
         </div>
 </div>
-    <footer id="footer">{{ __("messages.footer", [ "year" => date('Y') ]) }} <a class="privacy-policy-link" href="{{ $__prefix }}/privacy-policy">Privacy Policy</a></footer>
+    <footer id="footer">{{ __("messages.footer", [ "year" => date('Y') ]) }} <a class="privacy-policy-link" href="{{ $__prefix }}/privacy-policy">{{__("messages.privacy_policy")}}</a></footer>
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/galleria/galleria.min.js')}}"></script>
